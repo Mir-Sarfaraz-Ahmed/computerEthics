@@ -97,19 +97,7 @@ export const App: React.FC = () => {
       setCurrentState('s3intro');
       playSlideWhoosh();
     } else if (currentState === 's3intro') {
-      setCurrentState('s3aopen');
-      playChimePositive();
-    } else if (currentState === 's3aopen') {
-      setCurrentState('s3adone');
-      playSlideWhoosh();
-    } else if (currentState === 's3adone') {
-      setCurrentState('s3bopen');
-      playChimeWarning();
-    } else if (currentState === 's3bopen') {
-      setCurrentState('s3bothdone');
-      playSlideWhoosh();
-    } else if (currentState === 's3bothdone') {
-      // Launch paper plane transition
+      // Launch paper plane transition directly to Chapter 04!
       setIsPlaneAnimating(true);
       setCurrentState('s3plane');
       playPaperPlaneSound();
@@ -141,14 +129,6 @@ export const App: React.FC = () => {
     if (currentState === 's4def') {
       setCurrentState('s4title');
     } else if (currentState === 's4title') {
-      setCurrentState('s3bothdone');
-    } else if (currentState === 's3bothdone') {
-      setCurrentState('s3bopen');
-    } else if (currentState === 's3bopen') {
-      setCurrentState('s3adone');
-    } else if (currentState === 's3adone') {
-      setCurrentState('s3aopen');
-    } else if (currentState === 's3aopen') {
       setCurrentState('s3intro');
     } else if (currentState === 's3intro') {
       setCurrentState('s2scene3');
@@ -190,7 +170,7 @@ export const App: React.FC = () => {
         e.preventDefault();
         e.stopPropagation();
         if (currentState === 's4def' || currentState === 's4title') {
-          setCurrentState('s3bothdone');
+          setCurrentState('s3intro');
         } else if (currentState.startsWith('s3')) {
           setCurrentState('s2scene3');
         } else if (currentState.startsWith('s2')) {
@@ -258,7 +238,7 @@ export const App: React.FC = () => {
       {/* Slide 4: Definition */}
       <Slide4Definition
         currentState={currentState}
-        onBack={() => setCurrentState('s3bothdone')}
+        onBack={() => setCurrentState('s3intro')}
         onForward={navigateForward}
       />
 

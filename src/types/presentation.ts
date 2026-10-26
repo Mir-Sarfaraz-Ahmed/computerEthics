@@ -7,10 +7,6 @@ export type PresentationState =
   | 's2scene2'
   | 's2scene3'
   | 's3intro'
-  | 's3aopen'
-  | 's3adone'
-  | 's3bopen'
-  | 's3bothdone'
   | 's3plane'
   | 's4title'
   | 's4def';

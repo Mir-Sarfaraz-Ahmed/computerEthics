@@ -57,14 +57,41 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
 
   return (
     <section
-      className={`cinematic-slide paths-slide ${isS3 ? 'active' : ''}`}
+      className={`cinematic-slide paths-slide ${isS3 ? 'active' : ''} ${
+        isDetailOpen ? 'detail-active' : ''
+      }`}
       id="paths-slide"
       aria-hidden={!isS3}
       onClick={handleSlideClick}
     >
-      <div className="paths-bg" aria-hidden="true"></div>
-      <div className="slide-vignette" aria-hidden="true"></div>
+      {/* Full-bleed cinematic background covering the whole screen */}
+      <div className="slide-backdrop-wrap">
+        <div
+          className="slide-backdrop paths-fullscreen-bg"
+          style={{ backgroundImage: `url('/assets/paths_split_screen.jpg')` }}
+        ></div>
 
+        {/* Left Half Scrim (Path A) when dull/explored */}
+        <div
+          className={`paths-half-scrim paths-scrim-left ${
+            (isADone || isBothDone) && !isDetailOpen ? 'active' : ''
+          }`}
+          aria-hidden="true"
+        ></div>
+
+        {/* Right Half Scrim (Path B) when dull/explored */}
+        <div
+          className={`paths-half-scrim paths-scrim-right ${
+            isBothDone && !isDetailOpen ? 'active' : ''
+          }`}
+          aria-hidden="true"
+        ></div>
+
+        {/* Cinematic dark vignette */}
+        <div className="slide-vignette" aria-hidden="true"></div>
+      </div>
+
+      {/* Floating Glass Header Bar */}
       <div className="slide-floating-nav">
         <button
           className="slide-nav-back"
@@ -109,58 +136,32 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
         </div>
       </div>
 
-      <div
-        className={`paths-center ${isDetailOpen ? 'hidden-for-detail' : ''}`}
-        id="paths-center"
-      >
-
-        <div className="split-poster-container" id="split-poster-container">
-          {/* Main Visual Artwork from user */}
-          <img
-            src="/assets/paths_split_screen.jpg"
-            alt="Two Paths. One Choice. Official Store vs Cracked"
-            className="split-poster-img"
-          />
-
-          {/* Left Side: Path A (Official) */}
+      {/* Interactive Full-Screen Split Click Zones (No extra button outlines, clean click targets) */}
+      {!isDetailOpen && (
+        <div className="paths-split-click-zones" aria-hidden="true">
           <div
-            className={`split-side-overlay split-left ${
-              isADone || isBothDone ? 'used-dull' : ''
+            className={`paths-click-zone paths-click-left ${
+              isIntro ? 'clickable' : ''
             }`}
             onClick={(e) => {
               e.stopPropagation();
               if (isIntro) onForward();
             }}
             title={isIntro ? 'Click to explore Path A: Official Store' : undefined}
-          >
-            {(isADone || isBothDone) && (
-              <div className="split-dull-scrim" aria-hidden="true"></div>
-            )}
-            {isIntro && (
-              <div className="button-hotspot hotspot-legal" aria-label="Choose Legal"></div>
-            )}
-          </div>
+          ></div>
 
-          {/* Right Side: Path B (Cracked) */}
           <div
-            className={`split-side-overlay split-right ${
-              isADone ? 'ready-pulse' : ''
-            } ${isBothDone ? 'used-dull' : ''}`}
+            className={`paths-click-zone paths-click-right ${
+              isADone ? 'clickable' : ''
+            }`}
             onClick={(e) => {
               e.stopPropagation();
               if (isADone) onForward();
             }}
             title={isADone ? 'Click to explore Path B: Cracked Version' : undefined}
-          >
-            {isBothDone && (
-              <div className="split-dull-scrim" aria-hidden="true"></div>
-            )}
-            {isADone && (
-              <div className="button-hotspot hotspot-risk" aria-label="Choose Risk"></div>
-            )}
-          </div>
+          ></div>
         </div>
-      </div>
+      )}
 
       {/* PATH A DEEP DIVE DISCUSSION */}
       <div

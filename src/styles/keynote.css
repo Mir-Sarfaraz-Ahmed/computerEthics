@@ -1231,131 +1231,81 @@ body.theme-light .ambient-grain {
 }
 
 /* ============================================================ */
-/* SLIDE 3: CINEMATIC SPLIT POSTER (TWO PATHS. ONE CHOICE)       */
+/* SLIDE 3: CINEMATIC FULL-BLEED BACKGROUND (TWO PATHS. ONE CHOICE) */
 /* ============================================================ */
 
-.split-poster-container {
-  position: relative;
-  width: 92vw;
-  max-width: 1100px;
-  aspect-ratio: 1024 / 481;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 
-    0 24px 64px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: #000;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+.paths-fullscreen-bg {
+  position: absolute;
+  inset: -15px;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: brightness(0.95) contrast(1.05);
+  transform: scale(1.02);
+  transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.split-poster-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-  -webkit-user-drag: none;
+/* Subtle background blur and dimming when deep-dive discussions are active */
+.paths-slide.detail-active .paths-fullscreen-bg {
+  filter: brightness(0.24) blur(14px) contrast(1.1);
+  transform: scale(1.06);
 }
 
-/* Left & Right Interactive Overlays */
-.split-side-overlay {
+/* Half Scrims for Left (Path A) & Right (Path B) when covered/dull */
+.paths-half-scrim {
   position: absolute;
   top: 0;
   bottom: 0;
-  cursor: pointer;
-  z-index: 5;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  align-items: flex-end;
-  padding: 3.5% 6%;
+  width: 50%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(5, 7, 14, 0.72);
+  backdrop-filter: grayscale(0.96) brightness(0.38) contrast(0.85);
+  -webkit-backdrop-filter: grayscale(0.96) brightness(0.38) contrast(0.85);
 }
 
-.split-left {
+.paths-scrim-left {
   left: 0;
-  width: 50%;
-  justify-content: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.split-right {
+.paths-scrim-right {
   right: 0;
-  width: 50%;
-  justify-content: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Hover highlights for active state */
-.split-left:not(.used-dull):hover {
-  background: radial-gradient(circle at 50% 85%, rgba(34, 197, 94, 0.12) 0%, transparent 70%);
+.paths-half-scrim.active {
+  opacity: 1;
 }
 
-.split-right.ready-pulse:hover {
-  background: radial-gradient(circle at 50% 85%, rgba(239, 68, 68, 0.16) 0%, transparent 70%);
-}
-
-/* Faded/dull scrim for covered paths */
-.split-side-overlay.used-dull {
-  cursor: default;
+/* Interactive Split Click Zones covering the screen */
+.paths-split-click-zones {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
   pointer-events: none;
 }
 
-.split-dull-scrim {
-  position: absolute;
-  inset: 0;
-  background: rgba(5, 7, 14, 0.72);
-  backdrop-filter: grayscale(0.9) brightness(0.42) contrast(0.85);
-  -webkit-backdrop-filter: grayscale(0.9) brightness(0.42) contrast(0.85);
-  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 6;
+.paths-click-zone {
+  width: 50%;
+  height: 100%;
+  transition: background 0.4s ease;
 }
 
-/* Glowing Button Hotspots matching the printed artwork buttons */
-.button-hotspot {
-  position: absolute;
-  bottom: 8.5%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  height: 48px;
-  border-radius: 999px;
+.paths-click-zone.clickable {
   pointer-events: auto;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10;
 }
 
-.hotspot-legal {
-  border: 1.5px solid rgba(34, 197, 94, 0.6);
-  box-shadow: 0 0 16px rgba(34, 197, 94, 0.3), inset 0 0 10px rgba(34, 197, 94, 0.2);
+.paths-click-left.clickable:hover {
+  background: radial-gradient(circle at 45% 78%, rgba(34, 197, 94, 0.08) 0%, transparent 65%);
 }
 
-.hotspot-legal:hover {
-  border-color: #4ade80;
-  box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), inset 0 0 16px rgba(34, 197, 94, 0.4);
-  transform: translateX(-50%) scale(1.02);
-}
-
-.hotspot-risk {
-  border: 1.5px solid rgba(239, 68, 68, 0.6);
-  box-shadow: 0 0 16px rgba(239, 68, 68, 0.3), inset 0 0 10px rgba(239, 68, 68, 0.2);
-}
-
-.hotspot-risk:hover,
-.split-right.ready-pulse .hotspot-risk {
-  animation: pulseHotspotRisk 1.8s infinite alternate ease-in-out;
-}
-
-@keyframes pulseHotspotRisk {
-  0% {
-    transform: translateX(-50%) scale(1);
-    box-shadow: 0 0 16px rgba(239, 68, 68, 0.4), inset 0 0 8px rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.65);
-  }
-  100% {
-    transform: translateX(-50%) scale(1.03);
-    box-shadow: 0 0 36px rgba(239, 68, 68, 0.85), inset 0 0 16px rgba(239, 68, 68, 0.5);
-    border-color: #ef4444;
-  }
+.paths-click-right.clickable:hover {
+  background: radial-gradient(circle at 55% 78%, rgba(239, 68, 68, 0.1) 0%, transparent 65%);
 }
 
 .paths-cards-row {

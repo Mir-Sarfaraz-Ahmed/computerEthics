@@ -97,7 +97,7 @@ export const App: React.FC = () => {
       setCurrentState('s3intro');
       playSlideWhoosh();
     } else if (currentState === 's3intro') {
-      // Launch paper plane transition directly to Chapter 04!
+      // Launch paper plane transition after Chapter 03 into Chapter 04!
       setIsPlaneAnimating(true);
       setCurrentState('s3plane');
       playPaperPlaneSound();
@@ -230,10 +230,26 @@ export const App: React.FC = () => {
         currentState={currentState}
         onBack={() => setCurrentState('s2scene3')}
         onForward={navigateForward}
+        onSelectState={(nextState) => {
+          if (nextState === 's3plane') {
+            setIsPlaneAnimating(true);
+            setCurrentState('s3plane');
+            playPaperPlaneSound();
+            setTimeout(() => {
+              setCurrentState('s4title');
+              playSlideWhoosh();
+            }, 1400);
+            setTimeout(() => {
+              setIsPlaneAnimating(false);
+            }, 2100);
+            return;
+          }
+          setCurrentState(nextState);
+        }}
       />
 
       {/* Paper Plane Overlay */}
-      <PaperPlaneOverlay isActive={isPlaneAnimating || currentState === 's3plane'} />
+      <PaperPlaneOverlay isActive={isPlaneAnimating || currentState === 's2plane' || currentState === 's3plane'} />
 
       {/* Slide 4: Definition */}
       <Slide4Definition

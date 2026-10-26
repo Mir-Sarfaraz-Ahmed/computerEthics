@@ -77,10 +77,10 @@ export const MacHeader: React.FC<MacHeaderProps> = ({
         <button
           className="action-pill-btn"
           id="btn-replay-hello"
-          title="Replay"
+          title="Replay Sarfaraz Intro"
           onClick={onReplayHello}
         >
-          <span>Replay Hello</span>
+          <span>Replay Intro</span>
         </button>
 
         <button

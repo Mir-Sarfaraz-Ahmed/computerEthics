@@ -12,14 +12,12 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
   onBack,
   onForward,
 }) => {
-  const isS2 = currentState === 's2scene1' || currentState === 's2scene2' || currentState === 's2scene3';
-  const isScene2Or3 = currentState === 's2scene2' || currentState === 's2scene3';
-  const isScene3 = currentState === 's2scene3';
+  const isS2 = currentState === 's2scene1' || currentState === 's2scene2' || currentState === 's2scene3' || currentState === 's2plane';
+  const isScene2 = currentState === 's2scene2';
+  const isScene3 = currentState === 's2scene3' || currentState === 's2plane';
 
+  const parallaxWrapRef = useRef<HTMLDivElement>(null);
   const parallaxRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
-  const bgBlankRef = useRef<HTMLDivElement>(null);
-  const bgLeftRef = useRef<HTMLDivElement>(null);
-  const bgBothRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isS2) return;
@@ -37,15 +35,8 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
       p.x += (p.tx - p.x) * 0.06;
       p.y += (p.ty - p.y) * 0.06;
 
-      const transformStr = `scale(1.04) translate3d(${p.x * 0.8}px, ${p.y * 0.8}px, 0)`;
-      if (bgBlankRef.current && bgBlankRef.current.classList.contains('active')) {
-        bgBlankRef.current.style.transform = transformStr;
-      }
-      if (bgLeftRef.current && bgLeftRef.current.classList.contains('active')) {
-        bgLeftRef.current.style.transform = transformStr;
-      }
-      if (bgBothRef.current && bgBothRef.current.classList.contains('active')) {
-        bgBothRef.current.style.transform = transformStr;
+      if (parallaxWrapRef.current) {
+        parallaxWrapRef.current.style.transform = `scale(1.04) translate3d(${p.x * 0.8}px, ${p.y * 0.8}px, 0)`;
       }
 
       animId = requestAnimationFrame(renderParallax);
@@ -61,16 +52,19 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
 
   let actionText = 'Scene 1: Blank Screen -- press Space / Right Arrow to power on';
   let activeDotIndex = 0;
-  if (currentState === 's2scene2') {
+  if (isScene2) {
     actionText = 'Scene 2: Official Store (₹1,999) -- press Space / Right Arrow';
     activeDotIndex = 1;
-  } else if (currentState === 's2scene3') {
+  } else if (isScene3) {
     actionText = 'Scene 3: The Crossroads -- press Space / Right Arrow for Choice';
     activeDotIndex = 2;
   }
 
   const handleSlideClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest('button') || (e.target as HTMLElement).closest('#btn-slide2-hint')) {
+    if (
+      (e.target as HTMLElement).closest('button') ||
+      (e.target as HTMLElement).closest('#btn-slide2-hint')
+    ) {
       return;
     }
     onForward();
@@ -84,26 +78,35 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
       onClick={handleSlideClick}
     >
       <div className="slide-backdrop-wrap">
-        <div
-          ref={bgBlankRef}
-          className={`slide-backdrop dilemma-backdrop ${isS2 ? 'active' : ''}`}
-          id="slide2-bg-blank"
-          style={{ backgroundImage: `url('/assets/scene1_blank.png')` }}
-        />
-        <div
-          ref={bgLeftRef}
-          className={`slide-backdrop dilemma-backdrop ${isScene2Or3 ? 'active' : ''}`}
-          id="slide2-bg-left"
-          style={{ backgroundImage: `url('/assets/scene2_left.png')` }}
-        />
-        <div
-          ref={bgBothRef}
-          className={`slide-backdrop dilemma-backdrop ${isScene3 ? 'active' : ''}`}
-          id="slide2-bg-both"
-          style={{ backgroundImage: `url('/assets/scene3_both.jpg')` }}
-        />
+        <div ref={parallaxWrapRef} className="dilemma-parallax-container">
+          {/* Base: Scene 1 with blank laptop screen */}
+          <div
+            className={`slide-backdrop dilemma-backdrop ${isS2 ? 'active' : ''}`}
+            id="slide2-bg-blank"
+            style={{ backgroundImage: `url('/assets/scene1_blank.png')` }}
+          />
+
+          {/* Layer 2: Scene 2 with Official Store on left screen */}
+          <div
+            className={`slide-backdrop dilemma-backdrop ${isScene2 || isScene3 ? 'active' : ''}`}
+            id="slide2-bg-left"
+            style={{ backgroundImage: `url('/assets/scene2_left.png')` }}
+          />
+
+          {/* Layer 3: Scene 3 with both official and cracked stores */}
+          <div
+            className={`slide-backdrop dilemma-backdrop ${isScene3 ? 'active' : ''}`}
+            id="slide2-bg-both"
+            style={{ backgroundImage: `url('/assets/scene3_both.jpg')` }}
+          />
+        </div>
+
         <div className="slide2-lamp-glow" aria-hidden="true"></div>
-        <div className={`slide2-screen-glow ${isScene2Or3 ? 'active' : ''}`} id="slide2-screen-glow" aria-hidden="true"></div>
+        <div
+          className={`slide2-screen-glow ${isScene2 || isScene3 ? 'active' : ''}`}
+          id="slide2-screen-glow"
+          aria-hidden="true"
+        ></div>
         <div className="slide-vignette" aria-hidden="true"></div>
       </div>
 
@@ -142,6 +145,16 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
           <span className={`step-dot ${activeDotIndex === 1 ? 'active' : ''}`} id="slide2-dot-2"></span>
           <span className={`step-dot ${activeDotIndex === 2 ? 'active' : ''}`} id="slide2-dot-3"></span>
         </div>
+      </div>
+
+      {/* Chapter 2 Keynote Headline */}
+      <div className={`dilemma-header-wrap ${isS2 ? 'visible' : ''}`}>
+        <h2 className="dilemma-headline">
+          <span>You've probably</span>
+          <span className="dilemma-line-2">
+            <span className="glow-amber-phrase">seen this</span> before.
+          </span>
+        </h2>
       </div>
 
       <div className="slide-footer-hint" id="slide2-footer-hint">

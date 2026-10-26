@@ -5,20 +5,19 @@ interface Slide3PathsProps {
   currentState: PresentationState;
   onBack: () => void;
   onForward: () => void;
+  onSelectState?: (state: PresentationState) => void;
 }
 
 export const Slide3Paths: React.FC<Slide3PathsProps> = ({
   currentState,
   onBack,
   onForward,
+  onSelectState,
 }) => {
-  const isS3 = currentState === 's3intro' || currentState === 's3plane';
+  const isS3 = currentState === 's3intro';
 
   const handleSlideClick = (e: React.MouseEvent) => {
-    if (
-      (e.target as HTMLElement).closest('button') ||
-      (e.target as HTMLElement).closest('#btn-slide3-hint')
-    ) {
+    if ((e.target as HTMLElement).closest('button')) {
       return;
     }
     onForward();
@@ -31,18 +30,14 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
       aria-hidden={!isS3}
       onClick={handleSlideClick}
     >
-      {/* Full-bleed cinematic background covering the whole screen */}
-      <div className="slide-backdrop-wrap">
-        <div
-          className="slide-backdrop paths-fullscreen-bg"
-          style={{ backgroundImage: `url('/assets/paths_split_screen.jpg')` }}
-        ></div>
+      {/* Full-bleed split screen background image */}
+      <div
+        className="paths-fullscreen-bg"
+        style={{ backgroundImage: `url('/assets/paths_split_screen.jpg')` }}
+        aria-hidden="true"
+      />
+      <div className="slide-vignette" aria-hidden="true"></div>
 
-        {/* Cinematic dark vignette */}
-        <div className="slide-vignette" aria-hidden="true"></div>
-      </div>
-
-      {/* Floating Glass Header Bar */}
       <div className="slide-floating-nav">
         <button
           className="slide-nav-back"
@@ -75,9 +70,12 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
           ></span>
           <span>CHAPTER 03 / THE CHOICE</span>
         </div>
+
+        <div className="slide-step-indicator" id="slide3-step-indicator">
+          <span className="step-dot active" id="slide3-dot-1"></span>
+        </div>
       </div>
 
-      {/* Footer Navigation Hint */}
       <div className="slide-footer-hint" id="slide3-footer-hint">
         <div
           className="hint-badge"
@@ -91,7 +89,7 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
         >
           <span className="kbd-key">Space</span>
           <span className="hint-text" id="slide3-action-text">
-            Proceed to Chapter 04
+            Two paths. One choice — press Space for Chapter 04
           </span>
           <span className="hint-arrow">→</span>
         </div>

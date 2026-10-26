@@ -1230,6 +1230,134 @@ body.theme-light .ambient-grain {
   white-space: nowrap;
 }
 
+/* ============================================================ */
+/* SLIDE 3: CINEMATIC SPLIT POSTER (TWO PATHS. ONE CHOICE)       */
+/* ============================================================ */
+
+.split-poster-container {
+  position: relative;
+  width: 92vw;
+  max-width: 1100px;
+  aspect-ratio: 1024 / 481;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 
+    0 24px 64px rgba(0, 0, 0, 0.8),
+    0 0 50px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #000;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+}
+
+.split-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Left & Right Interactive Overlays */
+.split-side-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: flex-end;
+  padding: 3.5% 6%;
+}
+
+.split-left {
+  left: 0;
+  width: 50%;
+  justify-content: center;
+}
+
+.split-right {
+  right: 0;
+  width: 50%;
+  justify-content: center;
+}
+
+/* Hover highlights for active state */
+.split-left:not(.used-dull):hover {
+  background: radial-gradient(circle at 50% 85%, rgba(34, 197, 94, 0.12) 0%, transparent 70%);
+}
+
+.split-right.ready-pulse:hover {
+  background: radial-gradient(circle at 50% 85%, rgba(239, 68, 68, 0.16) 0%, transparent 70%);
+}
+
+/* Faded/dull scrim for covered paths */
+.split-side-overlay.used-dull {
+  cursor: default;
+  pointer-events: none;
+}
+
+.split-dull-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 14, 0.72);
+  backdrop-filter: grayscale(0.9) brightness(0.42) contrast(0.85);
+  -webkit-backdrop-filter: grayscale(0.9) brightness(0.42) contrast(0.85);
+  transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 6;
+}
+
+/* Glowing Button Hotspots matching the printed artwork buttons */
+.button-hotspot {
+  position: absolute;
+  bottom: 8.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 48px;
+  border-radius: 999px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+.hotspot-legal {
+  border: 1.5px solid rgba(34, 197, 94, 0.6);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.3), inset 0 0 10px rgba(34, 197, 94, 0.2);
+}
+
+.hotspot-legal:hover {
+  border-color: #4ade80;
+  box-shadow: 0 0 32px rgba(34, 197, 94, 0.7), inset 0 0 16px rgba(34, 197, 94, 0.4);
+  transform: translateX(-50%) scale(1.02);
+}
+
+.hotspot-risk {
+  border: 1.5px solid rgba(239, 68, 68, 0.6);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.3), inset 0 0 10px rgba(239, 68, 68, 0.2);
+}
+
+.hotspot-risk:hover,
+.split-right.ready-pulse .hotspot-risk {
+  animation: pulseHotspotRisk 1.8s infinite alternate ease-in-out;
+}
+
+@keyframes pulseHotspotRisk {
+  0% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.4), inset 0 0 8px rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.65);
+  }
+  100% {
+    transform: translateX(-50%) scale(1.03);
+    box-shadow: 0 0 36px rgba(239, 68, 68, 0.85), inset 0 0 16px rgba(239, 68, 68, 0.5);
+    border-color: #ef4444;
+  }
+}
+
 .paths-cards-row {
   display: flex;
   align-items: stretch;

@@ -113,97 +113,51 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
         className={`paths-center ${isDetailOpen ? 'hidden-for-detail' : ''}`}
         id="paths-center"
       >
-        <div
-          className={`paths-chapter-label ${isS3 ? 'visible' : ''}`}
-          id="paths-chapter-label"
-        >
-          <span className="paths-label-line"></span>
-          <span className="paths-label-text">TWO PATHS. ONE CHOICE.</span>
-          <span className="paths-label-line"></span>
-        </div>
 
-        <div className="paths-cards-row" id="paths-cards-row">
+        <div className="split-poster-container" id="split-poster-container">
+          {/* Main Visual Artwork from user */}
+          <img
+            src="/assets/paths_split_screen.jpg"
+            alt="Two Paths. One Choice. Official Store vs Cracked"
+            className="split-poster-img"
+          />
+
+          {/* Left Side: Path A (Official) */}
           <div
-            className={`path-card path-a-card ${isS3 ? 'visible' : ''} ${
-              isADone || isBothDone ? 'used' : ''
+            className={`split-side-overlay split-left ${
+              isADone || isBothDone ? 'used-dull' : ''
             }`}
-            id="path-a-card"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isIntro) onForward();
+            }}
+            title={isIntro ? 'Click to explore Path A: Official Store' : undefined}
           >
-            <div className="path-card-inner">
-              <div className="path-badge path-badge-a">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                OFFICIAL STORE
-              </div>
-              <h3 className="path-title">
-                The Ethical
-                <br />
-                Contract
-              </h3>
-              <ul className="path-facts">
-                <li>Zero malware / 100% clean files</li>
-                <li>Funds 1,000+ developers and artists</li>
-                <li>Official multiplayer and cloud saves</li>
-              </ul>
-              <div className="path-verdict path-verdict-a">PATH A — LEGAL</div>
-            </div>
-            <div className="path-active-ring path-a-ring"></div>
+            {(isADone || isBothDone) && (
+              <div className="split-dull-scrim" aria-hidden="true"></div>
+            )}
+            {isIntro && (
+              <div className="button-hotspot hotspot-legal" aria-label="Choose Legal"></div>
+            )}
           </div>
 
+          {/* Right Side: Path B (Cracked) */}
           <div
-            className={`paths-vs-divider ${isS3 ? 'visible' : ''}`}
-            id="paths-vs-divider"
-          >
-            VS
-          </div>
-
-          <div
-            className={`path-card path-b-card ${isS3 ? 'visible' : ''} ${
+            className={`split-side-overlay split-right ${
               isADone ? 'ready-pulse' : ''
-            } ${isBothDone ? 'used' : ''}`}
-            id="path-b-card"
+            } ${isBothDone ? 'used-dull' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (isADone) onForward();
+            }}
+            title={isADone ? 'Click to explore Path B: Cracked Version' : undefined}
           >
-            <div className="path-card-inner">
-              <div className="path-badge path-badge-b">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                  <line x1="12" y1="9" x2="12" y2="13" />
-                  <line x1="12" y1="17" x2="12.01" y2="17" />
-                </svg>
-                GETINTOPC — CRACKED
-              </div>
-              <h3 className="path-title">
-                The Free
-                <br />
-                Illusion
-              </h3>
-              <ul className="path-facts">
-                <li>43% of cracks bundle crypto-miners</li>
-                <li>Requires turning off Windows Defender</li>
-                <li>Zero payment for 5 years of human labor</li>
-              </ul>
-              <div className="path-verdict path-verdict-b">PATH B — RISK</div>
-            </div>
-            <div className="path-active-ring path-b-ring"></div>
+            {isBothDone && (
+              <div className="split-dull-scrim" aria-hidden="true"></div>
+            )}
+            {isADone && (
+              <div className="button-hotspot hotspot-risk" aria-label="Choose Risk"></div>
+            )}
           </div>
         </div>
       </div>

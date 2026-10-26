@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PresentationState } from '../types/presentation';
+import { playChimePositive, playChimeWarning } from '../audio/soundEffects';
 
 interface Slide3PathsProps {
   currentState: PresentationState;
@@ -15,11 +16,55 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
   onSelectState,
 }) => {
   const isS3 = currentState === 's3intro';
+  const mediaWrapRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
+
+  useEffect(() => {
+    if (!isS3) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      parallaxRef.current.tx = (e.clientX / window.innerWidth - 0.5) * 12;
+      parallaxRef.current.ty = (e.clientY / window.innerHeight - 0.5) * 8;
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    let animId: number;
+    const render = () => {
+      const p = parallaxRef.current;
+      p.x += (p.tx - p.x) * 0.05;
+      p.y += (p.ty - p.y) * 0.05;
+
+      if (mediaWrapRef.current) {
+        mediaWrapRef.current.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+      }
+      animId = requestAnimationFrame(render);
+    };
+
+    animId = requestAnimationFrame(render);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [isS3]);
 
   const handleSlideClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('button')) {
       return;
     }
+    onForward();
+  };
+
+  const handleChooseLegal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    playChimePositive();
+    onForward();
+  };
+
+  const handleChooseRisk = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    playChimeWarning();
     onForward();
   };
 
@@ -30,14 +75,15 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
       aria-hidden={!isS3}
       onClick={handleSlideClick}
     >
-      {/* Full-bleed split screen background image */}
+      {/* Saturated ambient aura expanding into letterbox space */}
       <div
-        className="paths-fullscreen-bg"
+        className="paths-ambient-blur-bg"
         style={{ backgroundImage: `url('/assets/paths_split_screen.jpg')` }}
         aria-hidden="true"
       />
       <div className="slide-vignette" aria-hidden="true"></div>
 
+      {/* Floating Mac Keynote Header */}
       <div className="slide-floating-nav">
         <button
           className="slide-nav-back"
@@ -76,6 +122,35 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
         </div>
       </div>
 
+      {/* Responsive Theatrical Stage Frame (unclipped, fits all viewports) */}
+      <div className="paths-stage-frame">
+        <div ref={mediaWrapRef} className="paths-stage-media-wrap">
+          <img
+            src="/assets/paths_split_screen.jpg"
+            alt="Two Paths. One Choice. The Ethical Contract vs The Free Illusion"
+            className="paths-stage-image"
+          />
+
+          {/* Interactive button hotspots mapped over graphic */}
+          <button
+            type="button"
+            className="paths-hotspot-btn paths-hotspot-legal"
+            title="Choose Legal (Path A)"
+            aria-label="Choose Legal"
+            onClick={handleChooseLegal}
+          />
+
+          <button
+            type="button"
+            className="paths-hotspot-btn paths-hotspot-risk"
+            title="Choose Risk (Path B)"
+            aria-label="Choose Risk"
+            onClick={handleChooseRisk}
+          />
+        </div>
+      </div>
+
+      {/* Bottom Keynote Presenter Hint */}
       <div className="slide-footer-hint" id="slide3-footer-hint">
         <div
           className="hint-badge"

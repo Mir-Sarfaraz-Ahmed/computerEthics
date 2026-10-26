@@ -78,8 +78,8 @@ export const Slide4Definition: React.FC<Slide4DefinitionProps> = ({
           }
           const op = p.op * (0.7 + Math.sin(t * p.ps + p.ph) * 0.3);
           ctx.beginPath();
-          ctx.fillStyle = `rgba(52, 211, 153, ${op})`;
-          ctx.shadowColor = '#34d399';
+          ctx.fillStyle = `rgba(56, 189, 248, ${op})`;
+          ctx.shadowColor = '#38bdf8';
           ctx.shadowBlur = 8;
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
           ctx.fill();
@@ -153,7 +153,7 @@ export const Slide4Definition: React.FC<Slide4DefinitionProps> = ({
         <div className="slide-chapter-tag">
           <span
             className="slide-tag-dot"
-            style={{ background: '#34d399', boxShadow: '0 0 8px #34d399' }}
+            style={{ background: '#38bdf8', boxShadow: '0 0 8px #38bdf8' }}
           ></span>
           <span>CHAPTER 04 / DEFINITION</span>
         </div>

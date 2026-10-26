@@ -60,13 +60,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const STATES={HELLO:'hello',COVER:'cover',SLIDE1_SCENE:'s1scene',SLIDE1_QUESTION:'s1q',SLIDE2_SCENE1:'s2scene1',SLIDE2_SCENE2:'s2scene2',SLIDE2_SCENE3:'s2scene3',SLIDE3_INTRO:'s3intro',SLIDE3_PATH_A_OPEN:'s3aopen',SLIDE3_PATH_A_DONE:'s3adone',SLIDE3_PATH_B_OPEN:'s3bopen',SLIDE3_BOTH_DONE:'s3bothdone',SLIDE3_PLANE:'s3plane',SLIDE4_TITLE:'s4title',SLIDE4_DEFINITION:'s4def'};
   let currentState=STATES.HELLO, isHelloAnimating=false, helloTimeoutId=null, isPlaneAnimating=false, currentTheme='dark';
 
+  // Slide activation helper
+  function showSlide(slideElem){
+    [presentationStage, cinematicSlide, dilemmaSlide, pathsSlide, ethicsSlide].forEach(s => {
+      if(s){
+        if(s === slideElem){
+          s.classList.add('active');
+          s.classList.remove('exited');
+        } else {
+          s.classList.remove('active');
+        }
+      }
+    });
+  }
+
   // Hello sequence
   function runAppleHelloSequence() {
     if(helloTimeoutId){clearTimeout(helloTimeoutId);helloTimeoutId=null;}
     isHelloAnimating=true; currentState=STATES.HELLO;
-    [dilemmaSlide,pathsSlide,ethicsSlide,cinematicSlide].forEach(s=>{if(s)s.classList.remove('active');});
+    showSlide(null);
     if(slideContentCenter)slideContentCenter.classList.remove('revealed');
-    if(presentationStage)presentationStage.classList.remove('active','exited');
     helloScreen.classList.add('no-transition');
     helloScreen.classList.remove('dismissed','animating');
     const p1=document.getElementById('hello-path-1'),p2=document.getElementById('hello-path-2');
@@ -75,61 +88,92 @@ document.addEventListener('DOMContentLoaded', () => {
     helloScreen.classList.remove('no-transition');
     if(p1)p1.style.animation=''; if(p2)p2.style.animation='';
     setTimeout(()=>{helloScreen.classList.add('animating');playAppleChime();},100);
-    helloTimeoutId=setTimeout(()=>{helloScreen.classList.add('dismissed');presentationStage.classList.add('active');isHelloAnimating=false;currentState=STATES.COVER;},4200);
+    helloTimeoutId=setTimeout(()=>{
+      dismissHelloInstantly();
+    },4200);
   }
+
+  function dismissHelloInstantly(){
+    if(helloTimeoutId){clearTimeout(helloTimeoutId);helloTimeoutId=null;}
+    helloScreen.classList.remove('animating');
+    helloScreen.classList.add('dismissed');
+    showSlide(presentationStage);
+    isHelloAnimating=false;
+    currentState=STATES.COVER;
+  }
+
   runAppleHelloSequence();
+  if(helloScreen)helloScreen.addEventListener('click',()=>dismissHelloInstantly());
   if(btnReplayHello)btnReplayHello.addEventListener('click',e=>{e.stopPropagation();runAppleHelloSequence();});
 
   // Navigation functions
-  function goToCover(){currentState=STATES.COVER;[dilemmaSlide,pathsSlide,ethicsSlide,cinematicSlide].forEach(s=>{if(s)s.classList.remove('active');});if(slideContentCenter)slideContentCenter.classList.remove('revealed');if(presentationStage){presentationStage.classList.remove('exited');presentationStage.classList.add('active');}}
-  function goToSlide1Scene(){currentState=STATES.SLIDE1_SCENE;if(btnEnter){btnEnter.style.transform='scale(0.96)';setTimeout(()=>{btnEnter.style.transform='';},160);}if(presentationStage){presentationStage.classList.remove('active');presentationStage.classList.add('exited');}[dilemmaSlide,pathsSlide,ethicsSlide].forEach(s=>{if(s)s.classList.remove('active');});if(cinematicSlide)cinematicSlide.classList.add('active');if(slideContentCenter)slideContentCenter.classList.remove('revealed');if(stepDot1)stepDot1.classList.add('active');if(stepDot2)stepDot2.classList.remove('active');if(slideActionText)slideActionText.textContent='Click anywhere or press Space to reveal question';requestAnimationFrame(()=>playSlideWhoosh());}
-  function revealSlide1Question(){currentState=STATES.SLIDE1_QUESTION;if(slideContentCenter)slideContentCenter.classList.add('revealed');if(stepDot1)stepDot1.classList.remove('active');if(stepDot2)stepDot2.classList.add('active');if(slideActionText)slideActionText.textContent='Press Space for Slide 02';requestAnimationFrame(()=>playQuestionRevealChord());}
+  function goToCover(){
+    currentState=STATES.COVER;
+    showSlide(presentationStage);
+    if(slideContentCenter)slideContentCenter.classList.remove('revealed');
+  }
+
+  function goToSlide1Scene(){
+    currentState=STATES.SLIDE1_SCENE;
+    if(btnEnter){btnEnter.style.transform='scale(0.96)';setTimeout(()=>{btnEnter.style.transform='';},160);}
+    showSlide(cinematicSlide);
+    if(slideContentCenter)slideContentCenter.classList.remove('revealed');
+    if(stepDot1)stepDot1.classList.add('active');
+    if(stepDot2)stepDot2.classList.remove('active');
+    if(slideActionText)slideActionText.textContent='Click anywhere or press Space to reveal question';
+    requestAnimationFrame(()=>playSlideWhoosh());
+  }
+
+  function goToSlide1Question(){
+    currentState=STATES.SLIDE1_QUESTION;
+    showSlide(cinematicSlide);
+    if(slideContentCenter)slideContentCenter.classList.add('revealed');
+    if(stepDot1)stepDot1.classList.remove('active');
+    if(stepDot2)stepDot2.classList.add('active');
+    if(slideActionText)slideActionText.textContent='Press Space for Slide 02';
+  }
+
+  function revealSlide1Question(){
+    goToSlide1Question();
+    requestAnimationFrame(()=>playQuestionRevealChord());
+  }
+
   function updateDots(dots,i){dots.forEach((d,j)=>{if(d){if(j===i)d.classList.add('active');else d.classList.remove('active');}});}
+
   function goToSlide2Scene1(){
     currentState=STATES.SLIDE2_SCENE1;
-    if(cinematicSlide)cinematicSlide.classList.remove('active');
-    if(pathsSlide)pathsSlide.classList.remove('active');
-    if(dilemmaSlide)dilemmaSlide.classList.add('active');
+    showSlide(dilemmaSlide);
     if(slide2BgBlank)slide2BgBlank.classList.add('active');
     if(slide2BgLeft)slide2BgLeft.classList.remove('active');
     if(slide2BgBoth)slide2BgBoth.classList.remove('active');
     if(slide2ScreenGlow)slide2ScreenGlow.classList.remove('active');
     updateDots(slide2Dots,0);
-    if(slide2ActionText)slide2ActionText.textContent='Scene 1: Blank Screen -- click to power on display';
+    if(slide2ActionText)slide2ActionText.textContent='Scene 1: Blank Screen -- press Space / Right Arrow to power on';
     requestAnimationFrame(()=>playSlideWhoosh());
   }
+
   function goToSlide2Scene2(){
     currentState=STATES.SLIDE2_SCENE2;
+    showSlide(dilemmaSlide);
     if(slide2BgBlank)slide2BgBlank.classList.add('active');
     if(slide2BgLeft)slide2BgLeft.classList.add('active');
     if(slide2BgBoth)slide2BgBoth.classList.remove('active');
     if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');
     updateDots(slide2Dots,1);
-    if(slide2ActionText)slide2ActionText.textContent='Scene 2: Official Store (₹1,999) -- click to reveal alternative';
+    if(slide2ActionText)slide2ActionText.textContent='Scene 2: Official Store (₹1,999) -- press Space / Right Arrow';
     requestAnimationFrame(()=>playChimePositive());
   }
+
   function goToSlide2Scene3(){
     currentState=STATES.SLIDE2_SCENE3;
+    showSlide(dilemmaSlide);
     if(slide2BgBlank)slide2BgBlank.classList.add('active');
     if(slide2BgLeft)slide2BgLeft.classList.add('active');
     if(slide2BgBoth)slide2BgBoth.classList.add('active');
     if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');
     updateDots(slide2Dots,2);
-    if(slide2ActionText)slide2ActionText.textContent='Scene 3: The Crossroads -- click for Two Paths analysis';
+    if(slide2ActionText)slide2ActionText.textContent='Scene 3: The Crossroads -- press Space / Right Arrow for Choice';
     requestAnimationFrame(()=>playChimePositive());
-  }
-  function nextSlide2(){
-    if(currentState===STATES.SLIDE2_SCENE1)goToSlide2Scene2();
-    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene3();
-    else if(currentState===STATES.SLIDE2_SCENE3)goToSlide3Intro();
-  }
-  function prevSlide2(){
-    if(currentState===STATES.SLIDE2_SCENE3)goToSlide2Scene2();
-    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene1();
-    else if(currentState===STATES.SLIDE2_SCENE1){
-      if(dilemmaSlide)dilemmaSlide.classList.remove('active');
-      revealSlide1Question();
-    }
   }
 
   // Slide 3 — Path A/B
@@ -144,30 +188,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function goToSlide3Intro(){
     currentState=STATES.SLIDE3_INTRO;
-    if(dilemmaSlide)dilemmaSlide.classList.remove('active');
-    if(ethicsSlide)ethicsSlide.classList.remove('active');
-    if(pathsSlide)pathsSlide.classList.add('active');
+    showSlide(pathsSlide);
     resetPaths();
     setTimeout(()=>{if(pathsChapterLabel)pathsChapterLabel.classList.add('visible');},100);
     setTimeout(()=>{if(pathACard)pathACard.classList.add('visible');if(pathsVsDivider)pathsVsDivider.classList.add('visible');},300);
     setTimeout(()=>{if(pathBCard)pathBCard.classList.add('visible');},480);
     updateDots(slide3Dots,0);
-    if(slide3ActionText)slide3ActionText.textContent='Two paths -- click to open Path A first';
+    if(slide3ActionText)slide3ActionText.textContent='Two paths -- press Space / Right Arrow to open Path A';
     requestAnimationFrame(()=>playSlideWhoosh());
   }
 
   function goToSlide3AOpen(){
     currentState=STATES.SLIDE3_PATH_A_OPEN;
+    showSlide(pathsSlide);
     if(pathsCenter)pathsCenter.classList.add('hidden-for-detail');
     if(pathBDetail)pathBDetail.classList.remove('visible');
     setTimeout(()=>{if(pathADetail)pathADetail.classList.add('visible');},150);
     updateDots(slide3Dots,1);
-    if(slide3ActionText)slide3ActionText.textContent='Path A active -- discuss, then click to continue';
+    if(slide3ActionText)slide3ActionText.textContent='Path A active -- discuss, then press Space / Right Arrow';
     requestAnimationFrame(()=>playChimePositive());
   }
 
   function goToSlide3ADone(){
     currentState=STATES.SLIDE3_PATH_A_DONE;
+    showSlide(pathsSlide);
     if(pathADetail)pathADetail.classList.remove('visible');
     if(pathBDetail)pathBDetail.classList.remove('visible');
     setTimeout(()=>{
@@ -184,22 +228,24 @@ document.addEventListener('DOMContentLoaded', () => {
       if(pathsChapterLabel)pathsChapterLabel.classList.add('visible');
     },150);
     updateDots(slide3Dots,2);
-    if(slide3ActionText)slide3ActionText.textContent='Path A covered -- click to enter Path B';
+    if(slide3ActionText)slide3ActionText.textContent='Path A covered -- press Space / Right Arrow for Path B';
     requestAnimationFrame(()=>playSlideWhoosh());
   }
 
   function goToSlide3BOpen(){
     currentState=STATES.SLIDE3_PATH_B_OPEN;
+    showSlide(pathsSlide);
     if(pathsCenter)pathsCenter.classList.add('hidden-for-detail');
     if(pathADetail)pathADetail.classList.remove('visible');
     setTimeout(()=>{if(pathBDetail)pathBDetail.classList.add('visible');},150);
     updateDots(slide3Dots,3);
-    if(slide3ActionText)slide3ActionText.textContent='Path B active -- discuss, then click to continue';
+    if(slide3ActionText)slide3ActionText.textContent='Path B active -- discuss, then press Space / Right Arrow';
     requestAnimationFrame(()=>playChimeWarning());
   }
 
   function goToSlide3BothDone(){
     currentState=STATES.SLIDE3_BOTH_DONE;
+    showSlide(pathsSlide);
     if(pathADetail)pathADetail.classList.remove('visible');
     if(pathBDetail)pathBDetail.classList.remove('visible');
     setTimeout(()=>{
@@ -216,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if(pathsChapterLabel)pathsChapterLabel.classList.add('visible');
     },150);
     updateDots(slide3Dots,4);
-    if(slide3ActionText)slide3ActionText.textContent='Both paths explored -- click to proceed to Chapter 04';
+    if(slide3ActionText)slide3ActionText.textContent='Both paths explored -- press Space / Right Arrow for Chapter 04';
     requestAnimationFrame(()=>playSlideWhoosh());
   }
 
@@ -229,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
       paperPlaneOverlay.classList.add('active');
     }
     setTimeout(()=>{
-      if(pathsSlide)pathsSlide.classList.remove('active');
       goToSlide4Title();
     },1400);
     setTimeout(()=>{
@@ -240,71 +285,119 @@ document.addEventListener('DOMContentLoaded', () => {
     },2100);
   }
 
-  function nextSlide3(){
-    if(currentState===STATES.SLIDE3_INTRO)goToSlide3AOpen();
+  // Slide 4
+  function goToSlide4Title(){
+    currentState=STATES.SLIDE4_TITLE;
+    showSlide(ethicsSlide);
+    if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');
+    setTimeout(()=>{if(ethicsTitleWrap)ethicsTitleWrap.classList.add('visible');},80);
+    if(slide4Dot1)slide4Dot1.classList.add('active');
+    if(slide4Dot2)slide4Dot2.classList.remove('active');
+    if(slide4ActionText)slide4ActionText.textContent='Press Space / Right Arrow to reveal definition';
+    requestAnimationFrame(()=>playSlideWhoosh());
+  }
+
+  function goToSlide4Definition(){
+    currentState=STATES.SLIDE4_DEFINITION;
+    showSlide(ethicsSlide);
+    if(ethicsTitleWrap)ethicsTitleWrap.classList.add('visible');
+    if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.add('visible');
+    if(slide4Dot1)slide4Dot1.classList.remove('active');
+    if(slide4Dot2)slide4Dot2.classList.add('active');
+    if(slide4ActionText)slide4ActionText.textContent='Definition revealed';
+    requestAnimationFrame(()=>playQuestionRevealChord());
+  }
+
+  // Master bidirectional navigation
+  function navigateForward(){
+    if(isPlaneAnimating)return;
+    if(isHelloAnimating||currentState===STATES.HELLO){
+      dismissHelloInstantly();
+      return;
+    }
+    if(currentState===STATES.COVER)goToSlide1Scene();
+    else if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();
+    else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();
+    else if(currentState===STATES.SLIDE2_SCENE1)goToSlide2Scene2();
+    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene3();
+    else if(currentState===STATES.SLIDE2_SCENE3)goToSlide3Intro();
+    else if(currentState===STATES.SLIDE3_INTRO)goToSlide3AOpen();
     else if(currentState===STATES.SLIDE3_PATH_A_OPEN)goToSlide3ADone();
     else if(currentState===STATES.SLIDE3_PATH_A_DONE)goToSlide3BOpen();
     else if(currentState===STATES.SLIDE3_PATH_B_OPEN)goToSlide3BothDone();
     else if(currentState===STATES.SLIDE3_BOTH_DONE)launchPaperPlane();
+    else if(currentState===STATES.SLIDE4_TITLE)goToSlide4Definition();
   }
 
-  function prevSlide3(){
-    if(currentState===STATES.SLIDE3_BOTH_DONE)goToSlide3BOpen();
+  function navigateBackward(){
+    if(isPlaneAnimating)return;
+    if(isHelloAnimating||currentState===STATES.HELLO){
+      dismissHelloInstantly();
+      return;
+    }
+    if(currentState===STATES.SLIDE4_DEFINITION)goToSlide4Title();
+    else if(currentState===STATES.SLIDE4_TITLE)goToSlide3BothDone();
+    else if(currentState===STATES.SLIDE3_BOTH_DONE)goToSlide3BOpen();
     else if(currentState===STATES.SLIDE3_PATH_B_OPEN)goToSlide3ADone();
     else if(currentState===STATES.SLIDE3_PATH_A_DONE)goToSlide3AOpen();
     else if(currentState===STATES.SLIDE3_PATH_A_OPEN)goToSlide3Intro();
-    else if(currentState===STATES.SLIDE3_INTRO){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();}
+    else if(currentState===STATES.SLIDE3_INTRO)goToSlide2Scene3();
+    else if(currentState===STATES.SLIDE2_SCENE3)goToSlide2Scene2();
+    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene1();
+    else if(currentState===STATES.SLIDE2_SCENE1)goToSlide1Question();
+    else if(currentState===STATES.SLIDE1_QUESTION)goToSlide1Scene();
+    else if(currentState===STATES.SLIDE1_SCENE)goToCover();
   }
-
-  // Slide 4
-  function goToSlide4Title(){currentState=STATES.SLIDE4_TITLE;if(ethicsSlide)ethicsSlide.classList.add('active');if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');setTimeout(()=>{if(ethicsTitleWrap)ethicsTitleWrap.classList.add('visible');},80);if(slide4Dot1)slide4Dot1.classList.add('active');if(slide4Dot2)slide4Dot2.classList.remove('active');if(slide4ActionText)slide4ActionText.textContent='Click to reveal the definition';requestAnimationFrame(()=>playSlideWhoosh());}
-  function goToSlide4Definition(){currentState=STATES.SLIDE4_DEFINITION;if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.add('visible');if(slide4Dot1)slide4Dot1.classList.remove('active');if(slide4Dot2)slide4Dot2.classList.add('active');if(slide4ActionText)slide4ActionText.textContent='Definition revealed';requestAnimationFrame(()=>playQuestionRevealChord());}
-  function nextSlide4(){if(currentState===STATES.SLIDE4_TITLE)goToSlide4Definition();}
-  function prevSlide4(){if(currentState===STATES.SLIDE4_DEFINITION){currentState=STATES.SLIDE4_TITLE;if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');if(slide4Dot1)slide4Dot1.classList.add('active');if(slide4Dot2)slide4Dot2.classList.remove('active');if(slide4ActionText)slide4ActionText.textContent='Click to reveal the definition';}else if(currentState===STATES.SLIDE4_TITLE){if(ethicsSlide)ethicsSlide.classList.remove('active');if(ethicsTitleWrap)ethicsTitleWrap.classList.remove('visible');goToSlide3BothDone();}}
 
   // Button listeners
   if(btnEnter)btnEnter.addEventListener('click',e=>{e.stopPropagation();goToSlide1Scene();});
   if(btnSlideBack)btnSlideBack.addEventListener('click',e=>{e.stopPropagation();goToCover();});
-  if(btnSlide2Back)btnSlide2Back.addEventListener('click',e=>{e.stopPropagation();if(dilemmaSlide)dilemmaSlide.classList.remove('active');revealSlide1Question();currentState=STATES.SLIDE1_QUESTION;});
-  if(btnSlide3Back)btnSlide3Back.addEventListener('click',e=>{e.stopPropagation();if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();});
-  if(btnSlide4Back)btnSlide4Back.addEventListener('click',e=>{e.stopPropagation();if(ethicsSlide)ethicsSlide.classList.remove('active');if(ethicsTitleWrap)ethicsTitleWrap.classList.remove('visible');if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');goToSlide3BothDone();});
-  if(btnRevealHint)btnRevealHint.addEventListener('click',e=>{e.stopPropagation();if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();});
-  if(btnSlide2Hint)btnSlide2Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide2();});
-  if(btnSlide3Hint)btnSlide3Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide3();});
-  if(btnSlide4Hint)btnSlide4Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide4();});
-  if(cinematicSlide)cinematicSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide-back'))return;if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();});
-  if(dilemmaSlide)dilemmaSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide2-back')||e.target.closest('#btn-slide2-hint'))return;nextSlide2();});
-  if(pathsSlide)pathsSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide3-back')||e.target.closest('#btn-slide3-hint'))return;if(!isPlaneAnimating)nextSlide3();});
-  if(ethicsSlide)ethicsSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide4-back')||e.target.closest('#btn-slide4-hint'))return;nextSlide4();});
+  if(btnSlide2Back)btnSlide2Back.addEventListener('click',e=>{e.stopPropagation();goToSlide1Question();});
+  if(btnSlide3Back)btnSlide3Back.addEventListener('click',e=>{e.stopPropagation();goToSlide2Scene3();});
+  if(btnSlide4Back)btnSlide4Back.addEventListener('click',e=>{e.stopPropagation();goToSlide3BothDone();});
 
-  const s2States=[STATES.SLIDE2_SCENE1,STATES.SLIDE2_SCENE2,STATES.SLIDE2_SCENE3];
-  const s3States=[STATES.SLIDE3_INTRO,STATES.SLIDE3_PATH_A_OPEN,STATES.SLIDE3_PATH_A_DONE,STATES.SLIDE3_PATH_B_OPEN,STATES.SLIDE3_BOTH_DONE];
-  const s4States=[STATES.SLIDE4_TITLE,STATES.SLIDE4_DEFINITION];
+  if(btnRevealHint)btnRevealHint.addEventListener('click',e=>{e.stopPropagation();navigateForward();});
+  if(btnSlide2Hint)btnSlide2Hint.addEventListener('click',e=>{e.stopPropagation();navigateForward();});
+  if(btnSlide3Hint)btnSlide3Hint.addEventListener('click',e=>{e.stopPropagation();navigateForward();});
+  if(btnSlide4Hint)btnSlide4Hint.addEventListener('click',e=>{e.stopPropagation();navigateForward();});
+
+  if(cinematicSlide)cinematicSlide.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('#btn-reveal-hint'))return;navigateForward();});
+  if(dilemmaSlide)dilemmaSlide.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('#btn-slide2-hint'))return;navigateForward();});
+  if(pathsSlide)pathsSlide.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('#btn-slide3-hint'))return;navigateForward();});
+  if(ethicsSlide)ethicsSlide.addEventListener('click',e=>{if(e.target.closest('button')||e.target.closest('#btn-slide4-hint'))return;navigateForward();});
+
+  const FORWARD_CODES=new Set(['Space','Enter','ArrowRight','ArrowDown','PageDown']);
+  const BACKWARD_CODES=new Set(['ArrowLeft','ArrowUp','PageUp','Backspace']);
+  const FORWARD_KEYS=new Set([' ','Enter','ArrowRight','ArrowDown','PageDown','Right','Down']);
+  const BACKWARD_KEYS=new Set(['ArrowLeft','ArrowUp','PageUp','Backspace','Left','Up']);
 
   window.addEventListener('keydown',e=>{
-    if(isHelloAnimating||isPlaneAnimating)return;
-    if(e.code==='Space'||e.code==='Enter'||e.code==='ArrowRight'){
+    if(e.target&&(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'))return;
+
+    if(FORWARD_CODES.has(e.code)||FORWARD_KEYS.has(e.key)){
       e.preventDefault();
-      if(currentState===STATES.COVER)goToSlide1Scene();
-      else if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();
-      else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();
-      else if(s2States.includes(currentState))nextSlide2();
-      else if(s3States.includes(currentState))nextSlide3();
-      else if(s4States.includes(currentState))nextSlide4();
-    } else if(e.code==='ArrowLeft'||e.code==='Backspace'){
+      e.stopPropagation();
+      navigateForward();
+    } else if(BACKWARD_CODES.has(e.code)||BACKWARD_KEYS.has(e.key)){
       e.preventDefault();
-      if(s2States.includes(currentState))prevSlide2();
-      else if(s3States.includes(currentState))prevSlide3();
-      else if(s4States.includes(currentState))prevSlide4();
-      else if(currentState===STATES.SLIDE1_QUESTION){currentState=STATES.SLIDE1_SCENE;if(slideContentCenter)slideContentCenter.classList.remove('revealed');if(stepDot1)stepDot1.classList.add('active');if(stepDot2)stepDot2.classList.remove('active');if(slideActionText)slideActionText.textContent='Click anywhere or press Space to reveal question';}
-      else if(currentState===STATES.SLIDE1_SCENE)goToCover();
-    } else if(e.code==='Escape'){
-      if(s2States.includes(currentState)){if(dilemmaSlide)dilemmaSlide.classList.remove('active');revealSlide1Question();currentState=STATES.SLIDE1_QUESTION;}
-      else if(s3States.includes(currentState)){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();}
-      else if(s4States.includes(currentState)){if(ethicsSlide)ethicsSlide.classList.remove('active');if(ethicsTitleWrap)ethicsTitleWrap.classList.remove('visible');if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');goToSlide3BothDone();}
-      else if(currentState===STATES.SLIDE1_QUESTION||currentState===STATES.SLIDE1_SCENE)goToCover();
+      e.stopPropagation();
+      navigateBackward();
+    } else if(e.code==='Escape'||e.key==='Escape'){
+      e.preventDefault();
+      e.stopPropagation();
+      if(currentState===STATES.SLIDE4_DEFINITION||currentState===STATES.SLIDE4_TITLE){
+        goToSlide3BothDone();
+      } else if(currentState.startsWith('s3')){
+        goToSlide2Scene3();
+      } else if(currentState.startsWith('s2')){
+        goToSlide1Question();
+      } else if(currentState===STATES.SLIDE1_QUESTION||currentState===STATES.SLIDE1_SCENE){
+        goToCover();
+      }
     }
-  });
+  },{capture:true});
+
+  window.focus();
 
   // Parallax
   const sp={x:0,y:0,tx:0,ty:0};

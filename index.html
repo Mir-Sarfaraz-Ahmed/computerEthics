@@ -228,15 +228,28 @@
   <!-- ============================================================ -->
   <!-- 4. SLIDE 2: THE PIRACY DILEMMA ("You've probably seen this before.") -->
   <!-- ============================================================ -->
+  <!-- ============================================================ -->
+  <!-- 4. SLIDE 2: THE PIRACY CASE STUDY ("You Have Seen This Before") -->
+  <!-- ============================================================ -->
   <section class="cinematic-slide dilemma-slide" id="dilemma-slide" aria-hidden="true">
     
-    <!-- Ultra-high definition background with parallax depth -->
+    <!-- Multi-Layer Backgrounds with Parallax Depth -->
     <div class="slide-backdrop-wrap">
-      <div class="slide-backdrop dilemma-backdrop" id="slide2-backdrop" style="background-image: url('assets/slide2_bg.jpg');"></div>
+      <!-- Layer 1: GTA V Intro Backdrop -->
+      <div class="slide-backdrop dilemma-backdrop" id="slide2-bg-gtav" style="background-image: url('assets/gtav_intro_bg.jpg');"></div>
       
-      <!-- Cozy Lamp Glow (Left) & Screen Glow (Center) -->
+      <!-- Layer 2: Student Desk with Blank Screen -->
+      <div class="slide-backdrop dilemma-backdrop" id="slide2-bg-blank" style="background-image: url('assets/slide2_blank.jpg');"></div>
+      
+      <!-- Layer 3: Student Desk with Left Half Only (Paid Store) -->
+      <div class="slide-backdrop dilemma-backdrop" id="slide2-bg-left" style="background-image: url('assets/slide2_left_only.jpg');"></div>
+      
+      <!-- Layer 4: Student Desk with Both Halves (Paid vs. Cracked) -->
+      <div class="slide-backdrop dilemma-backdrop" id="slide2-bg-both" style="background-image: url('assets/slide2_bg.jpg');"></div>
+      
+      <!-- Cozy Lamp Glow & Screen Glow Overlays -->
       <div class="slide2-lamp-glow" aria-hidden="true"></div>
-      <div class="slide2-screen-glow" aria-hidden="true"></div>
+      <div class="slide2-screen-glow" id="slide2-screen-glow" aria-hidden="true"></div>
       
       <!-- Vignette for cinematic framing -->
       <div class="slide-vignette" aria-hidden="true"></div>
@@ -257,161 +270,30 @@
       </div>
 
       <div class="slide-step-indicator" id="slide2-step-indicator">
-        <span class="step-dot active" id="slide2-dot-1" title="Step 1: The Choice"></span>
-        <span class="step-dot" id="slide2-dot-2" title="Step 2: Ethical Breakdown"></span>
+        <span class="step-dot active" id="slide2-dot-1" title="Step 1: The Scene"></span>
+        <span class="step-dot" id="slide2-dot-2" title="Step 2: Core Statement"></span>
+        <span class="step-dot" id="slide2-dot-3" title="Step 3: Blank Display"></span>
+        <span class="step-dot" id="slide2-dot-4" title="Step 4: Paid Edition"></span>
+        <span class="step-dot" id="slide2-dot-5" title="Step 5: The Contrast"></span>
       </div>
     </div>
 
-    <!-- Center Top Headline ("You've probably seen this before.") -->
+    <!-- Center Top Headline ("You Have Seen This Before.") -->
     <div class="dilemma-header-wrap" id="dilemma-header-wrap">
       <h2 class="dilemma-headline">
-        <span class="dilemma-line-1">You’ve probably</span>
+        <span class="dilemma-line-1">You Have</span>
         <span class="dilemma-line-2">
-          <span class="glow-amber-phrase">seen this</span>
-          <span class="dilemma-word-after">before.</span>
+          <span class="glow-amber-phrase">Seen This</span>
+          <span class="dilemma-word-after">Before.</span>
         </span>
       </h2>
-      <p class="dilemma-tagline">Same game. Two buttons. An everyday ethical choice.</p>
-    </div>
-
-    <!-- Interactive Laptop Screen HUD & Hotspots -->
-    <div class="laptop-interactive-hud" id="laptop-interactive-hud">
-      <!-- Left Hotspot: Official Purchase -->
-      <div class="hud-hotspot hud-hotspot-left" id="hotspot-official">
-        <div class="hotspot-card">
-          <div class="hotspot-badge official-badge">
-            <span class="badge-icon">✓</span>
-            <span>Official Store · ₹ 1,999</span>
-          </div>
-          <div class="hotspot-body">
-            <p class="hotspot-lead">The Ethical Contract</p>
-            <ul class="hotspot-list">
-              <li><span>🛡️</span> Zero malware / 100% clean files</li>
-              <li><span>👥</span> Funds 1,000+ developers &amp; artists</li>
-              <li><span>☁️</span> Official multiplayer &amp; cloud saves</li>
-            </ul>
-          </div>
-          <button class="btn-inspect-path btn-official-inspect" id="btn-inspect-official">
-            <span>Verify Path A</span>
-            <span class="btn-micro-badge">Legal</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Center Versus Indicator -->
-      <div class="hud-vs-badge" id="hud-vs-badge">
-        <span>VS</span>
-      </div>
-
-      <!-- Right Hotspot: Shady Cracked Portal -->
-      <div class="hud-hotspot hud-hotspot-right" id="hotspot-pirate">
-        <div class="hotspot-card warning-card">
-          <div class="hotspot-badge warning-badge">
-            <span class="badge-icon">⚠️</span>
-            <span>GetIntoPC · Free (Cracked)</span>
-          </div>
-          <div class="hotspot-body">
-            <p class="hotspot-lead">The "Free" Illusion</p>
-            <ul class="hotspot-list">
-              <li><span>🪱</span> 43% of cracks bundle crypto-miners/trojans</li>
-              <li><span>⛔</span> Requires turning off Windows Defender</li>
-              <li><span>💸</span> Zero payment for 5 years of human labor</li>
-            </ul>
-          </div>
-          <button class="btn-inspect-path btn-pirate-inspect" id="btn-inspect-pirate">
-            <span>Trigger Path B</span>
-            <span class="btn-micro-badge warning-micro">Risk</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Step 2: The 3 Philosophical Pillars & Interactive Poll (Revealed on Next Click) -->
-    <div class="dilemma-breakdown-deck" id="dilemma-breakdown-deck">
-      <div class="deck-title-area">
-        <span class="deck-super-badge">ETHICAL ANALYSIS</span>
-        <h3 class="deck-main-title">Three Moral Dimensions of Software Piracy</h3>
-      </div>
-
-      <div class="breakdown-grid">
-        <!-- Card 1 -->
-        <div class="dilemma-card" id="card-ip" tabindex="0">
-          <div class="card-icon-wrap icon-cyan">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-            </svg>
-          </div>
-          <h3 class="card-title">Is Digital Code "Property"?</h3>
-          <p class="card-desc">
-            Copying a game doesn't physically take a box off a shelf. Does the absence of physical scarcity make unauthorized copying morally distinct from theft?
-          </p>
-          <div class="card-tag">Labor vs Scarcity</div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="dilemma-card" id="card-rationalization" tabindex="0">
-          <div class="card-icon-wrap icon-amber">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-              <line x1="12" y1="17" x2="12.01" y2="17"></line>
-            </svg>
-          </div>
-          <h3 class="card-title">The "Victimless" Myth</h3>
-          <p class="card-desc">
-            <em>"They're a billion-dollar company, they won't miss my ₹2,000."</em> We rationalize because the creator is abstract, but every studio relies on paid sales.
-          </p>
-          <div class="card-tag">Rationalization Bias</div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="dilemma-card" id="card-accessibility" tabindex="0">
-          <div class="card-icon-wrap icon-emerald">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
-          </div>
-          <h3 class="card-title">Purchasing Power Disparity</h3>
-          <p class="card-desc">
-            ₹1,999 represents 4x more relative student purchasing power in India than in Western markets. When pricing ignores local economies, is piracy theft or a pricing failure?
-          </p>
-          <div class="card-tag">Global Equity</div>
-        </div>
-      </div>
-
-      <!-- Interactive Audience Poll Widget -->
-      <div class="dilemma-poll-widget" id="dilemma-poll-widget">
-        <div class="poll-question">
-          <span class="poll-badge">AUDIENCE ETHICS POLL</span>
-          <span>Where do you stand on digital piracy?</span>
-        </div>
-        <div class="poll-options">
-          <button class="poll-btn" data-choice="strict" id="poll-btn-1">
-            <span class="poll-letter">A</span>
-            <span class="poll-text">Piracy is always wrong. Respect creators.</span>
-            <span class="poll-percent" id="pct-strict">48%</span>
-          </button>
-          <button class="poll-btn" data-choice="nuance" id="poll-btn-2">
-            <span class="poll-letter">B</span>
-            <span class="poll-text">Depends on regional pricing &amp; intent.</span>
-            <span class="poll-percent" id="pct-nuance">42%</span>
-          </button>
-          <button class="poll-btn" data-choice="free" id="poll-btn-3">
-            <span class="poll-letter">C</span>
-            <span class="poll-text">Digital copies shouldn't be paywalled.</span>
-            <span class="poll-percent" id="pct-free">10%</span>
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- Bottom Presenter Hint (Click to Reveal / Next) -->
     <div class="slide-footer-hint" id="slide2-footer-hint">
       <div class="hint-badge" id="btn-slide2-hint" role="button" tabindex="0">
         <span class="kbd-key">Space</span>
-        <span class="hint-text" id="slide2-action-text">Click anywhere or press Space to unpack the dilemma</span>
+        <span class="hint-text" id="slide2-action-text">Click anywhere or press Space to reveal</span>
         <span class="hint-arrow">→</span>
       </div>
     </div>

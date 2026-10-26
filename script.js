@@ -218,16 +218,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Slide 2 Elements
   const dilemmaSlide = document.getElementById('dilemma-slide');
-  const slide2Backdrop = document.getElementById('slide2-backdrop');
+  const slide2BgGtav = document.getElementById('slide2-bg-gtav');
+  const slide2BgBlank = document.getElementById('slide2-bg-blank');
+  const slide2BgLeft = document.getElementById('slide2-bg-left');
+  const slide2BgBoth = document.getElementById('slide2-bg-both');
+  const slide2ScreenGlow = document.getElementById('slide2-screen-glow');
+  const dilemmaHeaderWrap = document.getElementById('dilemma-header-wrap');
   const btnSlide2Back = document.getElementById('btn-slide2-back');
-  const slide2Dot1 = document.getElementById('slide2-dot-1');
-  const slide2Dot2 = document.getElementById('slide2-dot-2');
+  const slide2Dots = [
+    document.getElementById('slide2-dot-1'),
+    document.getElementById('slide2-dot-2'),
+    document.getElementById('slide2-dot-3'),
+    document.getElementById('slide2-dot-4'),
+    document.getElementById('slide2-dot-5')
+  ];
   const slide2ActionText = document.getElementById('slide2-action-text');
   const btnSlide2Hint = document.getElementById('btn-slide2-hint');
-  const btnInspectOfficial = document.getElementById('btn-inspect-official');
-  const btnInspectPirate = document.getElementById('btn-inspect-pirate');
-  const hotspotOfficial = document.getElementById('hotspot-official');
-  const hotspotPirate = document.getElementById('hotspot-pirate');
 
   // Header Bar Elements
   const btnReplayHello = document.getElementById('btn-replay-hello');
@@ -243,8 +249,11 @@ document.addEventListener('DOMContentLoaded', () => {
     COVER: 'cover',
     SLIDE1_SCENE: 'slide1_scene',
     SLIDE1_QUESTION: 'slide1_question',
-    SLIDE2_CHOICE: 'slide2_choice',
-    SLIDE2_BREAKDOWN: 'slide2_breakdown'
+    SLIDE2_GTAV_SCENE: 'slide2_gtav_scene',
+    SLIDE2_GTAV_TEXT: 'slide2_gtav_text',
+    SLIDE2_DESK_BLANK: 'slide2_desk_blank',
+    SLIDE2_DESK_LEFT: 'slide2_desk_left',
+    SLIDE2_DESK_BOTH: 'slide2_desk_both'
   };
   let currentState = STATES.HELLO;
 
@@ -364,19 +373,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Transition to Slide 2 (STEP 1: The Piracy Dilemma Choice & Split Screen)
-  function goToSlide2() {
-    currentState = STATES.SLIDE2_CHOICE;
+  // -------------------------------------------------------------
+  // 4b. Slide 2: The GTA V Case Study (5-Step Master Sequence)
+  // -------------------------------------------------------------
+  function updateSlide2StepDot(activeIndex) {
+    slide2Dots.forEach((dot, idx) => {
+      if (dot) {
+        if (idx === activeIndex) dot.classList.add('active');
+        else dot.classList.remove('active');
+      }
+    });
+  }
+
+  // Step 1: GTA V Intro Scene (Visual Only)
+  function goToSlide2GtavScene() {
+    currentState = STATES.SLIDE2_GTAV_SCENE;
 
     cinematicSlide.classList.remove('active');
     dilemmaSlide.classList.add('active');
-    dilemmaSlide.classList.remove('active-breakdown');
 
-    if (slide2Dot1) slide2Dot1.classList.add('active');
-    if (slide2Dot2) slide2Dot2.classList.remove('active');
+    // Show GTA V intro backdrop only
+    if (slide2BgGtav) slide2BgGtav.classList.add('active');
+    if (slide2BgBlank) slide2BgBlank.classList.remove('active');
+    if (slide2BgLeft) slide2BgLeft.classList.remove('active');
+    if (slide2BgBoth) slide2BgBoth.classList.remove('active');
+    if (slide2ScreenGlow) slide2ScreenGlow.classList.remove('active');
+
+    // Hide headline until revealed on click
+    if (dilemmaHeaderWrap) dilemmaHeaderWrap.classList.remove('visible');
+
+    updateSlide2StepDot(0);
 
     if (slide2ActionText) {
-      slide2ActionText.textContent = 'Click anywhere or press Space to unpack the dilemma';
+      slide2ActionText.textContent = 'Click anywhere or press Space to reveal';
     }
 
     requestAnimationFrame(() => {
@@ -384,22 +413,129 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Slide 2 (STEP 2: Unpack 3 Ethical Pillars & Audience Poll)
-  function revealSlide2Breakdown() {
-    currentState = STATES.SLIDE2_BREAKDOWN;
+  // Step 2: Pop "You Have Seen This Before."
+  function revealSlide2GtavText() {
+    currentState = STATES.SLIDE2_GTAV_TEXT;
 
-    dilemmaSlide.classList.add('active-breakdown');
+    if (dilemmaHeaderWrap) dilemmaHeaderWrap.classList.add('visible');
 
-    if (slide2Dot1) slide2Dot1.classList.remove('active');
-    if (slide2Dot2) slide2Dot2.classList.add('active');
+    updateSlide2StepDot(1);
 
     if (slide2ActionText) {
-      slide2ActionText.textContent = 'Dilemma Unpacked · Press Space or Click to proceed';
+      slide2ActionText.textContent = 'Press Space to enter the case study →';
     }
 
     requestAnimationFrame(() => {
       playQuestionRevealChord();
     });
+  }
+
+  // Step 3: Switch to Real-World Desk Scene with BLANK Laptop Screen
+  function revealSlide2DeskBlank() {
+    currentState = STATES.SLIDE2_DESK_BLANK;
+
+    // Switch backdrop to Blank Laptop Screen
+    if (slide2BgGtav) slide2BgGtav.classList.remove('active');
+    if (slide2BgBlank) slide2BgBlank.classList.add('active');
+    if (slide2BgLeft) slide2BgLeft.classList.remove('active');
+    if (slide2BgBoth) slide2BgBoth.classList.remove('active');
+    if (slide2ScreenGlow) slide2ScreenGlow.classList.remove('active');
+
+    if (dilemmaHeaderWrap) dilemmaHeaderWrap.classList.add('visible');
+
+    updateSlide2StepDot(2);
+
+    if (slide2ActionText) {
+      slide2ActionText.textContent = 'Laptop display blank · Press Space to power on display →';
+    }
+
+    requestAnimationFrame(() => {
+      playSlideWhoosh();
+    });
+  }
+
+  // Step 4: Laptop Screen Powers On LEFT Half (The Official / Paid Store: ₹1,999)
+  function revealSlide2DeskLeft() {
+    currentState = STATES.SLIDE2_DESK_LEFT;
+
+    // Switch backdrop to Left Half Only
+    if (slide2BgGtav) slide2BgGtav.classList.remove('active');
+    if (slide2BgBlank) slide2BgBlank.classList.remove('active');
+    if (slide2BgLeft) slide2BgLeft.classList.add('active');
+    if (slide2BgBoth) slide2BgBoth.classList.remove('active');
+    if (slide2ScreenGlow) slide2ScreenGlow.classList.add('active');
+
+    updateSlide2StepDot(3);
+
+    if (slide2ActionText) {
+      slide2ActionText.textContent = 'Left partition: Official Store (₹1,999) · Press Space for alternative →';
+    }
+
+    requestAnimationFrame(() => {
+      playChimePositive();
+    });
+  }
+
+  // Step 5: Laptop Screen Powers On RIGHT Half (The Cracked Portal)
+  function revealSlide2DeskBoth() {
+    currentState = STATES.SLIDE2_DESK_BOTH;
+
+    // Switch backdrop to Both Halves
+    if (slide2BgGtav) slide2BgGtav.classList.remove('active');
+    if (slide2BgBlank) slide2BgBlank.classList.remove('active');
+    if (slide2BgLeft) slide2BgLeft.classList.remove('active');
+    if (slide2BgBoth) slide2BgBoth.classList.add('active');
+    if (slide2ScreenGlow) slide2ScreenGlow.classList.add('active');
+
+    updateSlide2StepDot(4);
+
+    if (slide2ActionText) {
+      slide2ActionText.textContent = 'Both partitions active · Press Space for Path A vs Path B discussion →';
+    }
+
+    requestAnimationFrame(() => {
+      playChimePositive();
+    });
+  }
+
+  // Forward Navigation within Slide 2
+  function nextSlide2Step() {
+    if (currentState === STATES.SLIDE2_GTAV_SCENE) {
+      revealSlide2GtavText();
+    } else if (currentState === STATES.SLIDE2_GTAV_TEXT) {
+      revealSlide2DeskBlank();
+    } else if (currentState === STATES.SLIDE2_DESK_BLANK) {
+      revealSlide2DeskLeft();
+    } else if (currentState === STATES.SLIDE2_DESK_LEFT) {
+      revealSlide2DeskBoth();
+    } else if (currentState === STATES.SLIDE2_DESK_BOTH) {
+      showToast('Case Study Active · Path A vs Path B discussion on Slide 03');
+    }
+  }
+
+  // Backward Navigation within Slide 2
+  function prevSlide2Step() {
+    if (currentState === STATES.SLIDE2_DESK_BOTH) {
+      revealSlide2DeskLeft();
+    } else if (currentState === STATES.SLIDE2_DESK_LEFT) {
+      revealSlide2DeskBlank();
+    } else if (currentState === STATES.SLIDE2_DESK_BLANK) {
+      // Step back to GTA V text view
+      currentState = STATES.SLIDE2_GTAV_TEXT;
+      if (slide2BgGtav) slide2BgGtav.classList.add('active');
+      if (slide2BgBlank) slide2BgBlank.classList.remove('active');
+      if (slide2BgLeft) slide2BgLeft.classList.remove('active');
+      if (slide2BgBoth) slide2BgBoth.classList.remove('active');
+      if (dilemmaHeaderWrap) dilemmaHeaderWrap.classList.add('visible');
+      updateSlide2StepDot(1);
+      if (slide2ActionText) slide2ActionText.textContent = 'Press Space to enter the case study →';
+    } else if (currentState === STATES.SLIDE2_GTAV_TEXT) {
+      goToSlide2GtavScene();
+    } else if (currentState === STATES.SLIDE2_GTAV_SCENE) {
+      dilemmaSlide.classList.remove('active');
+      cinematicSlide.classList.add('active');
+      revealSlide1Question();
+    }
   }
 
   // -------------------------------------------------------------
@@ -425,7 +561,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnSlide2Back) {
     btnSlide2Back.addEventListener('click', (e) => {
       e.stopPropagation();
-      goToSlide1Scene();
+      dilemmaSlide.classList.remove('active');
+      cinematicSlide.classList.add('active');
       revealSlide1Question();
     });
   }
@@ -437,7 +574,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentState === STATES.SLIDE1_SCENE) {
         revealSlide1Question();
       } else if (currentState === STATES.SLIDE1_QUESTION) {
-        goToSlide2();
+        goToSlide2GtavScene();
       }
     });
   }
@@ -446,11 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnSlide2Hint) {
     btnSlide2Hint.addEventListener('click', (e) => {
       e.stopPropagation();
-      if (currentState === STATES.SLIDE2_CHOICE) {
-        revealSlide2Breakdown();
-      } else if (currentState === STATES.SLIDE2_BREAKDOWN) {
-        showToast('Chapter 02 Complete · Ready for Slide 03');
-      }
+      nextSlide2Step();
     });
   }
 
@@ -462,7 +595,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentState === STATES.SLIDE1_SCENE) {
         revealSlide1Question();
       } else if (currentState === STATES.SLIDE1_QUESTION) {
-        goToSlide2();
+        goToSlide2GtavScene();
       }
     });
   }
@@ -471,60 +604,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (dilemmaSlide) {
     dilemmaSlide.addEventListener('click', (e) => {
       if (e.target.closest('#btn-slide2-back')) return;
-      if (e.target.closest('.hud-hotspot')) return;
-      if (e.target.closest('.dilemma-card')) return;
-      if (e.target.closest('.poll-btn')) return;
+      if (e.target.closest('#btn-slide2-hint')) return;
 
-      if (currentState === STATES.SLIDE2_CHOICE) {
-        revealSlide2Breakdown();
-      } else if (currentState === STATES.SLIDE2_BREAKDOWN) {
-        showToast('Chapter 02 Complete · Ready for Slide 03');
-      }
+      nextSlide2Step();
     });
   }
-
-  // -------------------------------------------------------------
-  // 6. Interactive Slide 2 Hotspots (Path A vs Path B)
-  // -------------------------------------------------------------
-  function handleOfficialInspect(e) {
-    if (e) e.stopPropagation();
-    playChimePositive();
-    showToast('✓ Path A Verified: Funds 1,000+ creators, zero malware risk, official cloud saves.');
-  }
-
-  function handlePirateInspect(e) {
-    if (e) e.stopPropagation();
-    playChimeWarning();
-    showToast('⚠️ Security Alert: Antivirus bypassed. 43% of cracks bundle cryptominers or trojans.');
-  }
-
-  if (btnInspectOfficial) btnInspectOfficial.addEventListener('click', handleOfficialInspect);
-  if (btnInspectPirate) btnInspectPirate.addEventListener('click', handlePirateInspect);
-  if (hotspotOfficial) hotspotOfficial.addEventListener('click', handleOfficialInspect);
-  if (hotspotPirate) hotspotPirate.addEventListener('click', handlePirateInspect);
-
-  // -------------------------------------------------------------
-  // 7. Interactive Live Opinion Poll
-  // -------------------------------------------------------------
-  const pollButtons = document.querySelectorAll('.poll-btn');
-  const pollInsights = {
-    strict: 'Deontological Ethics: Software creation requires labor. Unauthorized duplication denies earned compensation.',
-    nuance: 'Utilitarian / Regional Ethics: When pricing ignores local purchasing power, accessibility and fairness clash.',
-    free: 'Information Libertarianism: Digital ideas possess zero marginal replication cost. Scarcity is artificial.'
-  };
-
-  pollButtons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      pollButtons.forEach((b) => b.classList.remove('voted'));
-      btn.classList.add('voted');
-
-      playChimePositive();
-      const choice = btn.dataset.choice;
-      const insight = pollInsights[choice] || 'Audience perspective recorded.';
-      showToast(insight);
-    });
-  });
 
   // -------------------------------------------------------------
   // 8. Global Keyboard Navigation (Keynote Presenter Experience)
@@ -539,28 +623,26 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (currentState === STATES.SLIDE1_SCENE) {
         revealSlide1Question();
       } else if (currentState === STATES.SLIDE1_QUESTION) {
-        goToSlide2();
-      } else if (currentState === STATES.SLIDE2_CHOICE) {
-        revealSlide2Breakdown();
-      } else if (currentState === STATES.SLIDE2_BREAKDOWN) {
-        showToast('Chapter 02 Complete · Ready for Slide 03');
+        goToSlide2GtavScene();
+      } else if (
+        currentState === STATES.SLIDE2_GTAV_SCENE ||
+        currentState === STATES.SLIDE2_GTAV_TEXT ||
+        currentState === STATES.SLIDE2_DESK_BLANK ||
+        currentState === STATES.SLIDE2_DESK_LEFT ||
+        currentState === STATES.SLIDE2_DESK_BOTH
+      ) {
+        nextSlide2Step();
       }
     } else if (e.code === 'ArrowLeft' || e.code === 'Backspace') {
       e.preventDefault();
-      if (currentState === STATES.SLIDE2_BREAKDOWN) {
-        // Step back to Slide 2 Choice
-        currentState = STATES.SLIDE2_CHOICE;
-        dilemmaSlide.classList.remove('active-breakdown');
-        if (slide2Dot1) slide2Dot1.classList.add('active');
-        if (slide2Dot2) slide2Dot2.classList.remove('active');
-        if (slide2ActionText) {
-          slide2ActionText.textContent = 'Click anywhere or press Space to unpack the dilemma';
-        }
-      } else if (currentState === STATES.SLIDE2_CHOICE) {
-        // Step back to Slide 1 Question
-        dilemmaSlide.classList.remove('active');
-        cinematicSlide.classList.add('active');
-        revealSlide1Question();
+      if (
+        currentState === STATES.SLIDE2_GTAV_SCENE ||
+        currentState === STATES.SLIDE2_GTAV_TEXT ||
+        currentState === STATES.SLIDE2_DESK_BLANK ||
+        currentState === STATES.SLIDE2_DESK_LEFT ||
+        currentState === STATES.SLIDE2_DESK_BOTH
+      ) {
+        prevSlide2Step();
       } else if (currentState === STATES.SLIDE1_QUESTION) {
         // Step back to Slide 1 Scene
         currentState = STATES.SLIDE1_SCENE;
@@ -574,8 +656,15 @@ document.addEventListener('DOMContentLoaded', () => {
         goToCover();
       }
     } else if (e.code === 'Escape') {
-      if (currentState === STATES.SLIDE2_CHOICE || currentState === STATES.SLIDE2_BREAKDOWN) {
-        goToSlide1Scene();
+      if (
+        currentState === STATES.SLIDE2_GTAV_SCENE ||
+        currentState === STATES.SLIDE2_GTAV_TEXT ||
+        currentState === STATES.SLIDE2_DESK_BLANK ||
+        currentState === STATES.SLIDE2_DESK_LEFT ||
+        currentState === STATES.SLIDE2_DESK_BOTH
+      ) {
+        dilemmaSlide.classList.remove('active');
+        cinematicSlide.classList.add('active');
         revealSlide1Question();
       } else if (currentState === STATES.SLIDE1_QUESTION || currentState === STATES.SLIDE1_SCENE) {
         goToCover();
@@ -607,8 +696,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (slideBackdrop && (currentState === STATES.SLIDE1_SCENE || currentState === STATES.SLIDE1_QUESTION)) {
       slideBackdrop.style.transform = `scale(1.04) translate3d(${slideParallax.x}px, ${slideParallax.y}px, 0)`;
     }
-    if (slide2Backdrop && (currentState === STATES.SLIDE2_CHOICE || currentState === STATES.SLIDE2_BREAKDOWN)) {
-      slide2Backdrop.style.transform = `scale(1.04) translate3d(${slideParallax.x * 0.8}px, ${slideParallax.y * 0.8}px, 0)`;
+
+    const isSlide2 = (
+      currentState === STATES.SLIDE2_GTAV_SCENE ||
+      currentState === STATES.SLIDE2_GTAV_TEXT ||
+      currentState === STATES.SLIDE2_DESK_BLANK ||
+      currentState === STATES.SLIDE2_DESK_LEFT ||
+      currentState === STATES.SLIDE2_DESK_BOTH
+    );
+
+    if (isSlide2) {
+      const allDilemmaBackdrops = [slide2BgGtav, slide2BgBlank, slide2BgLeft, slide2BgBoth];
+      allDilemmaBackdrops.forEach((bg) => {
+        if (bg && bg.classList.contains('active')) {
+          bg.style.transform = `scale(1.04) translate3d(${slideParallax.x * 0.8}px, ${slideParallax.y * 0.8}px, 0)`;
+        }
+      });
     }
 
     requestAnimationFrame(renderParallax);

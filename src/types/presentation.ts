@@ -10,7 +10,6 @@ export type PresentationState =
   | 's3intro'
   | 's3plane'
   | 's4title'
-  | 's4def'
-  | 's5casestudy';
+  | 's4def';
 
 export type ThemeMode = 'dark' | 'light';

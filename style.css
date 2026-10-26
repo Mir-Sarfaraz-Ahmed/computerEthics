@@ -1053,7 +1053,18 @@ body.theme-light .ambient-grain {
 .dilemma-backdrop.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+#slide2-bg-blank {
+  z-index: 1;
+}
+
+#slide2-bg-left {
   z-index: 2;
+}
+
+#slide2-bg-both {
+  z-index: 3;
 }
 
 .slide2-lamp-glow {

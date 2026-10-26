@@ -46,8 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const cinematicSlide=document.getElementById('cinematic-slide'), slideContentCenter=document.getElementById('slide-content-center');
   const slideActionText=document.getElementById('slide-action-text'), stepDot1=document.getElementById('step-dot-1'), stepDot2=document.getElementById('step-dot-2');
   const btnSlideBack=document.getElementById('btn-slide-back'), btnRevealHint=document.getElementById('btn-reveal-hint'), btnEnter=document.getElementById('btn-enter'), slideBackdrop=document.getElementById('slide-backdrop');
-  const dilemmaSlide=document.getElementById('dilemma-slide'), slide2BgGtav=document.getElementById('slide2-bg-gtav'), slide2BgBlank=document.getElementById('slide2-bg-blank'), slide2BgLeft=document.getElementById('slide2-bg-left'), slide2BgBoth=document.getElementById('slide2-bg-both'), slide2ScreenGlow=document.getElementById('slide2-screen-glow');
-  const slide2Dots=[document.getElementById('slide2-dot-1'),document.getElementById('slide2-dot-2'),document.getElementById('slide2-dot-3'),document.getElementById('slide2-dot-4')];
+  const dilemmaSlide=document.getElementById('dilemma-slide'), slide2BgBlank=document.getElementById('slide2-bg-blank'), slide2BgLeft=document.getElementById('slide2-bg-left'), slide2BgBoth=document.getElementById('slide2-bg-both'), slide2ScreenGlow=document.getElementById('slide2-screen-glow');
+  const slide2Dots=[document.getElementById('slide2-dot-1'),document.getElementById('slide2-dot-2'),document.getElementById('slide2-dot-3')];
   const pathsSlide=document.getElementById('paths-slide'), pathsCenter=document.getElementById('paths-center'), pathADetail=document.getElementById('path-a-detail'), pathBDetail=document.getElementById('path-b-detail');
   const pathACard=document.getElementById('path-a-card'), pathBCard=document.getElementById('path-b-card'), pathsVsDivider=document.getElementById('paths-vs-divider'), pathsChapterLabel=document.getElementById('paths-chapter-label');
   const btnSlide3Back=document.getElementById('btn-slide3-back'), slide3ActionText=document.getElementById('slide3-action-text'), btnSlide3Hint=document.getElementById('btn-slide3-hint');
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnSlide4Back=document.getElementById('btn-slide4-back'), slide4Dot1=document.getElementById('slide4-dot-1'), slide4Dot2=document.getElementById('slide4-dot-2'), slide4ActionText=document.getElementById('slide4-action-text'), btnSlide4Hint=document.getElementById('btn-slide4-hint');
   const btnReplayHello=document.getElementById('btn-replay-hello'), btnAudio=document.getElementById('btn-audio'), audioLabel=document.getElementById('audio-label'), btnTheme=document.getElementById('btn-theme'), themeLabel=document.getElementById('theme-label'), themeIcon=document.getElementById('theme-icon');
 
-  const STATES={HELLO:'hello',COVER:'cover',SLIDE1_SCENE:'s1scene',SLIDE1_QUESTION:'s1q',SLIDE2_GTAV:'s2gtav',SLIDE2_BLANK:'s2blank',SLIDE2_LEFT:'s2left',SLIDE2_BOTH:'s2both',SLIDE3_INTRO:'s3intro',SLIDE3_PATH_A_OPEN:'s3aopen',SLIDE3_PATH_A_DONE:'s3adone',SLIDE3_PATH_B_OPEN:'s3bopen',SLIDE3_BOTH_DONE:'s3bothdone',SLIDE3_PLANE:'s3plane',SLIDE4_TITLE:'s4title',SLIDE4_DEFINITION:'s4def'};
+  const STATES={HELLO:'hello',COVER:'cover',SLIDE1_SCENE:'s1scene',SLIDE1_QUESTION:'s1q',SLIDE2_SCENE1:'s2scene1',SLIDE2_SCENE2:'s2scene2',SLIDE2_SCENE3:'s2scene3',SLIDE3_INTRO:'s3intro',SLIDE3_PATH_A_OPEN:'s3aopen',SLIDE3_PATH_A_DONE:'s3adone',SLIDE3_PATH_B_OPEN:'s3bopen',SLIDE3_BOTH_DONE:'s3bothdone',SLIDE3_PLANE:'s3plane',SLIDE4_TITLE:'s4title',SLIDE4_DEFINITION:'s4def'};
   let currentState=STATES.HELLO, isHelloAnimating=false, helloTimeoutId=null, isPlaneAnimating=false, currentTheme='dark';
 
   // Hello sequence
@@ -85,12 +85,52 @@ document.addEventListener('DOMContentLoaded', () => {
   function goToSlide1Scene(){currentState=STATES.SLIDE1_SCENE;if(btnEnter){btnEnter.style.transform='scale(0.96)';setTimeout(()=>{btnEnter.style.transform='';},160);}if(presentationStage){presentationStage.classList.remove('active');presentationStage.classList.add('exited');}[dilemmaSlide,pathsSlide,ethicsSlide].forEach(s=>{if(s)s.classList.remove('active');});if(cinematicSlide)cinematicSlide.classList.add('active');if(slideContentCenter)slideContentCenter.classList.remove('revealed');if(stepDot1)stepDot1.classList.add('active');if(stepDot2)stepDot2.classList.remove('active');if(slideActionText)slideActionText.textContent='Click anywhere or press Space to reveal question';requestAnimationFrame(()=>playSlideWhoosh());}
   function revealSlide1Question(){currentState=STATES.SLIDE1_QUESTION;if(slideContentCenter)slideContentCenter.classList.add('revealed');if(stepDot1)stepDot1.classList.remove('active');if(stepDot2)stepDot2.classList.add('active');if(slideActionText)slideActionText.textContent='Press Space for Slide 02';requestAnimationFrame(()=>playQuestionRevealChord());}
   function updateDots(dots,i){dots.forEach((d,j)=>{if(d){if(j===i)d.classList.add('active');else d.classList.remove('active');}});}
-  function goToSlide2Gtav(){currentState=STATES.SLIDE2_GTAV;if(cinematicSlide)cinematicSlide.classList.remove('active');if(pathsSlide)pathsSlide.classList.remove('active');if(dilemmaSlide)dilemmaSlide.classList.add('active');if(slide2BgGtav)slide2BgGtav.classList.add('active');[slide2BgBlank,slide2BgLeft,slide2BgBoth].forEach(b=>{if(b)b.classList.remove('active');});if(slide2ScreenGlow)slide2ScreenGlow.classList.remove('active');updateDots(slide2Dots,0);if(slide2ActionText)slide2ActionText.textContent='Click anywhere or press Space to continue';requestAnimationFrame(()=>playSlideWhoosh());}
-  function goToSlide2Blank(){currentState=STATES.SLIDE2_BLANK;if(slide2BgGtav)slide2BgGtav.classList.remove('active');if(slide2BgBlank)slide2BgBlank.classList.add('active');if(slide2BgLeft)slide2BgLeft.classList.remove('active');if(slide2BgBoth)slide2BgBoth.classList.remove('active');if(slide2ScreenGlow)slide2ScreenGlow.classList.remove('active');updateDots(slide2Dots,1);if(slide2ActionText)slide2ActionText.textContent='Laptop blank -- click to power on left screen';requestAnimationFrame(()=>playSlideWhoosh());}
-  function goToSlide2Left(){currentState=STATES.SLIDE2_LEFT;if(slide2BgGtav)slide2BgGtav.classList.remove('active');if(slide2BgBlank)slide2BgBlank.classList.remove('active');if(slide2BgLeft)slide2BgLeft.classList.add('active');if(slide2BgBoth)slide2BgBoth.classList.remove('active');if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');updateDots(slide2Dots,2);if(slide2ActionText)slide2ActionText.textContent='Left: Official Store -- click to reveal right side';requestAnimationFrame(()=>playChimePositive());}
-  function goToSlide2Both(){currentState=STATES.SLIDE2_BOTH;[slide2BgGtav,slide2BgBlank,slide2BgLeft].forEach(b=>{if(b)b.classList.remove('active');});if(slide2BgBoth)slide2BgBoth.classList.add('active');if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');updateDots(slide2Dots,3);if(slide2ActionText)slide2ActionText.textContent='Both revealed -- click for Path A vs B discussion';requestAnimationFrame(()=>playChimePositive());}
-  function nextSlide2(){if(currentState===STATES.SLIDE2_GTAV)goToSlide2Blank();else if(currentState===STATES.SLIDE2_BLANK)goToSlide2Left();else if(currentState===STATES.SLIDE2_LEFT)goToSlide2Both();else if(currentState===STATES.SLIDE2_BOTH)goToSlide3Intro();}
-  function prevSlide2(){if(currentState===STATES.SLIDE2_BOTH)goToSlide2Left();else if(currentState===STATES.SLIDE2_LEFT)goToSlide2Blank();else if(currentState===STATES.SLIDE2_BLANK)goToSlide2Gtav();else if(currentState===STATES.SLIDE2_GTAV){if(dilemmaSlide)dilemmaSlide.classList.remove('active');revealSlide1Question();currentState=STATES.SLIDE1_QUESTION;}}
+  function goToSlide2Scene1(){
+    currentState=STATES.SLIDE2_SCENE1;
+    if(cinematicSlide)cinematicSlide.classList.remove('active');
+    if(pathsSlide)pathsSlide.classList.remove('active');
+    if(dilemmaSlide)dilemmaSlide.classList.add('active');
+    if(slide2BgBlank)slide2BgBlank.classList.add('active');
+    if(slide2BgLeft)slide2BgLeft.classList.remove('active');
+    if(slide2BgBoth)slide2BgBoth.classList.remove('active');
+    if(slide2ScreenGlow)slide2ScreenGlow.classList.remove('active');
+    updateDots(slide2Dots,0);
+    if(slide2ActionText)slide2ActionText.textContent='Scene 1: Blank Screen -- click to power on display';
+    requestAnimationFrame(()=>playSlideWhoosh());
+  }
+  function goToSlide2Scene2(){
+    currentState=STATES.SLIDE2_SCENE2;
+    if(slide2BgBlank)slide2BgBlank.classList.add('active');
+    if(slide2BgLeft)slide2BgLeft.classList.add('active');
+    if(slide2BgBoth)slide2BgBoth.classList.remove('active');
+    if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');
+    updateDots(slide2Dots,1);
+    if(slide2ActionText)slide2ActionText.textContent='Scene 2: Official Store (₹1,999) -- click to reveal alternative';
+    requestAnimationFrame(()=>playChimePositive());
+  }
+  function goToSlide2Scene3(){
+    currentState=STATES.SLIDE2_SCENE3;
+    if(slide2BgBlank)slide2BgBlank.classList.add('active');
+    if(slide2BgLeft)slide2BgLeft.classList.add('active');
+    if(slide2BgBoth)slide2BgBoth.classList.add('active');
+    if(slide2ScreenGlow)slide2ScreenGlow.classList.add('active');
+    updateDots(slide2Dots,2);
+    if(slide2ActionText)slide2ActionText.textContent='Scene 3: The Crossroads -- click for Two Paths analysis';
+    requestAnimationFrame(()=>playChimePositive());
+  }
+  function nextSlide2(){
+    if(currentState===STATES.SLIDE2_SCENE1)goToSlide2Scene2();
+    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene3();
+    else if(currentState===STATES.SLIDE2_SCENE3)goToSlide3Intro();
+  }
+  function prevSlide2(){
+    if(currentState===STATES.SLIDE2_SCENE3)goToSlide2Scene2();
+    else if(currentState===STATES.SLIDE2_SCENE2)goToSlide2Scene1();
+    else if(currentState===STATES.SLIDE2_SCENE1){
+      if(dilemmaSlide)dilemmaSlide.classList.remove('active');
+      revealSlide1Question();
+    }
+  }
 
   // Slide 3 — Path A/B
   function resetPaths(){
@@ -213,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     else if(currentState===STATES.SLIDE3_PATH_B_OPEN)goToSlide3ADone();
     else if(currentState===STATES.SLIDE3_PATH_A_DONE)goToSlide3AOpen();
     else if(currentState===STATES.SLIDE3_PATH_A_OPEN)goToSlide3Intro();
-    else if(currentState===STATES.SLIDE3_INTRO){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Both();}
+    else if(currentState===STATES.SLIDE3_INTRO){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();}
   }
 
   // Slide 4
@@ -226,18 +266,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if(btnEnter)btnEnter.addEventListener('click',e=>{e.stopPropagation();goToSlide1Scene();});
   if(btnSlideBack)btnSlideBack.addEventListener('click',e=>{e.stopPropagation();goToCover();});
   if(btnSlide2Back)btnSlide2Back.addEventListener('click',e=>{e.stopPropagation();if(dilemmaSlide)dilemmaSlide.classList.remove('active');revealSlide1Question();currentState=STATES.SLIDE1_QUESTION;});
-  if(btnSlide3Back)btnSlide3Back.addEventListener('click',e=>{e.stopPropagation();if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Both();});
+  if(btnSlide3Back)btnSlide3Back.addEventListener('click',e=>{e.stopPropagation();if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();});
   if(btnSlide4Back)btnSlide4Back.addEventListener('click',e=>{e.stopPropagation();if(ethicsSlide)ethicsSlide.classList.remove('active');if(ethicsTitleWrap)ethicsTitleWrap.classList.remove('visible');if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');goToSlide3BothDone();});
-  if(btnRevealHint)btnRevealHint.addEventListener('click',e=>{e.stopPropagation();if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Gtav();});
+  if(btnRevealHint)btnRevealHint.addEventListener('click',e=>{e.stopPropagation();if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();});
   if(btnSlide2Hint)btnSlide2Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide2();});
   if(btnSlide3Hint)btnSlide3Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide3();});
   if(btnSlide4Hint)btnSlide4Hint.addEventListener('click',e=>{e.stopPropagation();nextSlide4();});
-  if(cinematicSlide)cinematicSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide-back'))return;if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Gtav();});
+  if(cinematicSlide)cinematicSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide-back'))return;if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();});
   if(dilemmaSlide)dilemmaSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide2-back')||e.target.closest('#btn-slide2-hint'))return;nextSlide2();});
   if(pathsSlide)pathsSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide3-back')||e.target.closest('#btn-slide3-hint'))return;if(!isPlaneAnimating)nextSlide3();});
   if(ethicsSlide)ethicsSlide.addEventListener('click',e=>{if(e.target.closest('#btn-slide4-back')||e.target.closest('#btn-slide4-hint'))return;nextSlide4();});
 
-  const s2States=[STATES.SLIDE2_GTAV,STATES.SLIDE2_BLANK,STATES.SLIDE2_LEFT,STATES.SLIDE2_BOTH];
+  const s2States=[STATES.SLIDE2_SCENE1,STATES.SLIDE2_SCENE2,STATES.SLIDE2_SCENE3];
   const s3States=[STATES.SLIDE3_INTRO,STATES.SLIDE3_PATH_A_OPEN,STATES.SLIDE3_PATH_A_DONE,STATES.SLIDE3_PATH_B_OPEN,STATES.SLIDE3_BOTH_DONE];
   const s4States=[STATES.SLIDE4_TITLE,STATES.SLIDE4_DEFINITION];
 
@@ -247,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       if(currentState===STATES.COVER)goToSlide1Scene();
       else if(currentState===STATES.SLIDE1_SCENE)revealSlide1Question();
-      else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Gtav();
+      else if(currentState===STATES.SLIDE1_QUESTION)goToSlide2Scene1();
       else if(s2States.includes(currentState))nextSlide2();
       else if(s3States.includes(currentState))nextSlide3();
       else if(s4States.includes(currentState))nextSlide4();
@@ -260,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
       else if(currentState===STATES.SLIDE1_SCENE)goToCover();
     } else if(e.code==='Escape'){
       if(s2States.includes(currentState)){if(dilemmaSlide)dilemmaSlide.classList.remove('active');revealSlide1Question();currentState=STATES.SLIDE1_QUESTION;}
-      else if(s3States.includes(currentState)){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Both();}
+      else if(s3States.includes(currentState)){if(pathsSlide)pathsSlide.classList.remove('active');goToSlide2Scene3();}
       else if(s4States.includes(currentState)){if(ethicsSlide)ethicsSlide.classList.remove('active');if(ethicsTitleWrap)ethicsTitleWrap.classList.remove('visible');if(ethicsDefinitionWrap)ethicsDefinitionWrap.classList.remove('visible');goToSlide3BothDone();}
       else if(currentState===STATES.SLIDE1_QUESTION||currentState===STATES.SLIDE1_SCENE)goToCover();
     }
@@ -272,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderParallax(){
     sp.x+=(sp.tx-sp.x)*0.06; sp.y+=(sp.ty-sp.y)*0.06;
     if(slideBackdrop&&(currentState===STATES.SLIDE1_SCENE||currentState===STATES.SLIDE1_QUESTION))slideBackdrop.style.transform=`scale(1.04) translate3d(${sp.x}px,${sp.y}px,0)`;
-    if(s2States.includes(currentState))[slide2BgGtav,slide2BgBlank,slide2BgLeft,slide2BgBoth].forEach(b=>{if(b&&b.classList.contains('active'))b.style.transform=`scale(1.04) translate3d(${sp.x*0.8}px,${sp.y*0.8}px,0)`;});
+    if(s2States.includes(currentState))[slide2BgBlank,slide2BgLeft,slide2BgBoth].forEach(b=>{if(b&&b.classList.contains('active'))b.style.transform=`scale(1.04) translate3d(${sp.x*0.8}px,${sp.y*0.8}px,0)`;});
     requestAnimationFrame(renderParallax);
   }
   requestAnimationFrame(renderParallax);

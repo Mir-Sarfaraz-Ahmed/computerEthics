@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Presentation Keynote — Are You Ready ?</title>
+  <meta name="description" content="Iconic Apple Hello cursive handwriting loading animation transitioning into a presentation keynote stage." />
+  
+  <!-- Modern Typography (Plus Jakarta Sans, JetBrains Mono, and Editorial Cinzel) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-dark">
+
+  <!-- ============================================================ -->
+  <!-- 1. ICONIC APPLE "HELLO" CURSIVE HANDWRITING LOADING SCREEN   -->
+  <!-- ============================================================ -->
+  <div id="apple-hello-screen" class="apple-hello-screen" aria-live="polite">
+    <div class="hello-container">
+      
+      <!-- Authentic Vector Apple "hello" Cursive Handwriting -->
+      <svg class="apple-hello-svg" id="apple-hello-svg" viewBox="0 0 638 200" fill="none" stroke="currentColor" stroke-width="14.8883" aria-label="hello">
+        <title>hello</title>
+        <!-- Stroke 1: Initial 'h' stem -->
+        <path
+          id="hello-path-1"
+          class="hello-path hello-path-1"
+          d="M8.69214 166.553C36.2393 151.239 61.3409 131.548 89.8191 98.0295C109.203 75.1488 119.625 49.0228 120.122 31.0026C120.37 17.6036 113.836 7.43883 101.759 7.43883C88.3598 7.43883 79.9231 17.6036 74.7122 40.9363C69.005 66.5793 64.7866 96.0036 54.1166 190.356"
+          pathLength="1"
+        />
+        <!-- Stroke 2: Continuous cursive 'h-e-l-l-o' -->
+        <path
+          id="hello-path-2"
+          class="hello-path hello-path-2"
+          d="M55.1624 181.135C60.6251 133.114 81.4118 98.0479 107.963 98.0479C123.844 98.0479 133.937 110.703 131.071 128.817C129.457 139.487 127.587 150.405 125.408 163.06C122.869 178.941 130.128 191.348 152.122 191.348C184.197 191.348 219.189 173.523 237.097 145.915C243.198 136.509 245.68 128.073 245.928 119.884C246.176 104.996 237.739 93.8296 222.851 93.8296C203.992 93.8296 189.6 115.17 189.6 142.465C189.6 171.745 205.481 192.341 239.208 192.341C285.066 192.341 335.86 137.292 359.199 75.8585C365.788 58.513 368.26 42.4065 368.26 31.1512C368.26 17.8057 364.042 7.55823 352.131 7.55823C340.469 7.55823 332.777 16.6141 325.829 30.9129C317.688 47.4967 311.667 71.4162 309.203 98.4549C303 166.301 316.896 191.348 349.936 191.348C390 191.348 434.542 135.534 457.286 75.6686C463.803 58.513 466.275 42.4065 466.275 31.1512C466.275 17.8057 462.057 7.55823 450.146 7.55823C438.484 7.55823 430.792 16.6141 423.844 30.9129C415.703 47.4967 409.682 71.4162 407.218 98.4549C401.015 166.301 414.911 191.348 444.416 191.348C473.874 191.348 489.877 165.67 499.471 138.402C508.955 111.447 520.618 94.8221 544.935 94.8221C565.035 94.8221 580.916 109.71 580.916 137.75C580.916 168.768 560.792 192.093 535.362 192.341C512.984 192.589 498.285 174.475 499.774 147.179C501.511 116.907 519.873 94.8221 543.943 94.8221C557.839 94.8221 569.51 100.999 578.682 107.725C603.549 125.866 622.709 114.656 630.047 96.7186"
+          pathLength="1"
+        />
+      </svg>
+
+      <!-- Subtitle hint under Hello during writing -->
+      <div class="hello-subtext" id="hello-subtext">Sarfaraz Ethics Presentation</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 2. MAIN LANDING PAGE CONTAINER ("Are You Ready ?")           -->
+  <!-- ============================================================ -->
+  <main class="presentation-stage" id="presentation-stage">
+    
+    <!-- Dynamic Ambient Aura Canvas (Fluid Glowing Gradients) -->
+    <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+
+    <!-- Subtle Vignette & Frosted Noise Overlay -->
+    <div class="ambient-vignette" aria-hidden="true"></div>
+    <div class="ambient-grain" aria-hidden="true"></div>
+
+    <!-- macOS Style Top Navigation Bar -->
+    <header class="mac-header">
+      <div class="mac-window-controls">
+        <button class="win-btn win-close" id="btn-close" title="Close" aria-label="Close window">
+          <span class="btn-icon">×</span>
+        </button>
+        <button class="win-btn win-min" id="btn-minimize" title="Minimize" aria-label="Minimize window">
+          <span class="btn-icon">−</span>
+        </button>
+        <button class="win-btn win-max" id="btn-fullscreen" title="Toggle Fullscreen" aria-label="Toggle fullscreen">
+          <span class="btn-icon">⤢</span>
+        </button>
+      </div>
+
+      <div class="mac-header-title">
+        <span class="header-badge-dot"></span>
+        <span class="header-project-name">ETHICS &amp; FUTURE SYSTEMS</span>
+        <span class="header-divider">/</span>
+        <span class="header-chapter">KEYNOTE 2026</span>
+      </div>
+
+      <div class="mac-header-actions">
+        <!-- Replay Hello Animation -->
+        <button class="action-pill-btn" id="btn-replay-hello" title="Replay Apple Hello handwriting animation">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          <span>Replay "Hello"</span>
+        </button>
+
+        <!-- Theme Toggle (Dark / Light) -->
+        <button class="action-pill-btn" id="btn-theme" title="Toggle Light/Dark Theme">
+          <span id="theme-icon">◐</span>
+          <span id="theme-label">Theme</span>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button class="action-pill-btn" id="btn-audio" title="Toggle Sound Effect">
+          <svg class="sound-icon-on" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <span id="audio-label">Sound On</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Center Stage Content -->
+    <div class="hero-stage">
+      
+      <!-- Hero Cinematic Title -->
+      <div class="hero-title-container">
+        <h1 class="hero-title">
+          <span class="title-line shimmer-text">Are You Ready ?</span>
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          To question what is right, and redefine what is possible.
+        </p>
+      </div>
+
+      <!-- Interactive Call to Action / Speaker Ready Prompt -->
+      <div class="hero-action-area">
+        <button class="btn-enter-presentation" id="btn-enter" aria-label="Begin presentation">
+          <span class="btn-shine"></span>
+          <span class="btn-content">
+            <span class="btn-text">Begin Presentation</span>
+            <svg class="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </span>
+        </button>
+
+        <div class="keyboard-hint">
+          <span class="kbd-key">Space</span>
+          <span class="hint-label">or click to proceed</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 3. SLIDE 1: CINEMATIC DUALITY ("WHAT IS COMPUTER ETHICS?")  -->
+  <!-- ============================================================ -->
+  <section class="cinematic-slide" id="cinematic-slide" aria-hidden="true">
+    
+    <!-- Ultra-high definition background with parallax depth -->
+    <div class="slide-backdrop-wrap">
+      <div class="slide-backdrop" id="slide-backdrop" style="background-image: url('assets/ethics_slide_bg.jpg');"></div>
+      
+      <!-- Atmospheric Cyber Glow (Left) & Warm Sunset Glow (Right) -->
+      <div class="slide-glow-cyber" aria-hidden="true"></div>
+      <div class="slide-glow-sunset" aria-hidden="true"></div>
+      
+      <!-- Floating data dust / light specks canvas -->
+      <canvas id="slide-particle-canvas" class="slide-particle-canvas" aria-hidden="true"></canvas>
+
+      <!-- Subtle vignette for cinematic punch -->
+      <div class="slide-vignette" aria-hidden="true"></div>
+    </div>
+
+    <!-- Slide Header Bar (Floating Glass Badge) -->
+    <div class="slide-floating-nav">
+      <button class="slide-nav-back" id="btn-slide-back" title="Back to cover">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        <span>Cover</span>
+      </button>
+
+      <div class="slide-chapter-tag">
+        <span class="slide-tag-dot"></span>
+        <span>CHAPTER 01 / INTRODUCTION</span>
+      </div>
+
+      <div class="slide-step-indicator" id="slide-step-indicator">
+        <span class="step-dot active" id="step-dot-1" title="Step 1: Visual Scene"></span>
+        <span class="step-dot" id="step-dot-2" title="Step 2: Core Question"></span>
+      </div>
+    </div>
+
+    <!-- Center Theatrical Typography (Revealed on Next Click) -->
+    <div class="slide-content-center" id="slide-content-center">
+      <div class="question-hero" id="question-hero">
+        <div class="question-prefix">
+          <span class="letter-reveal">W</span>
+          <span class="letter-reveal">H</span>
+          <span class="letter-reveal">A</span>
+          <span class="letter-reveal">T</span>
+          <span class="letter-space"></span>
+          <span class="letter-reveal">I</span>
+          <span class="letter-reveal">S</span>
+        </div>
+
+        <h2 class="question-main-title">
+          <span class="cyber-word">COMPUTER</span>
+          <span class="amber-word">ETHICS,</span>
+        </h2>
+
+        <div class="question-suffix">
+          <span class="letter-reveal">A</span>
+          <span class="letter-reveal">C</span>
+          <span class="letter-reveal">T</span>
+          <span class="letter-reveal">U</span>
+          <span class="letter-reveal">A</span>
+          <span class="letter-reveal">L</span>
+          <span class="letter-reveal">L</span>
+          <span class="letter-reveal">Y</span>
+          <span class="letter-reveal">?</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Presenter Hint (Click to Reveal / Next) -->
+    <div class="slide-footer-hint" id="slide-footer-hint">
+      <div class="hint-badge" id="btn-reveal-hint" role="button" tabindex="0">
+        <span class="kbd-key">Space</span>
+        <span class="hint-text" id="slide-action-text">Click anywhere or press Space to reveal question</span>
+        <span class="hint-arrow">→</span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- 4. SLIDE 2: THE PIRACY DILEMMA ("You've probably seen this before.") -->
+  <!-- ============================================================ -->
+  <section class="cinematic-slide dilemma-slide" id="dilemma-slide" aria-hidden="true">
+    
+    <!-- Ultra-high definition background with parallax depth -->
+    <div class="slide-backdrop-wrap">
+      <div class="slide-backdrop dilemma-backdrop" id="slide2-backdrop" style="background-image: url('assets/slide2_bg.jpg');"></div>
+      
+      <!-- Cozy Lamp Glow (Left) & Screen Glow (Center) -->
+      <div class="slide2-lamp-glow" aria-hidden="true"></div>
+      <div class="slide2-screen-glow" aria-hidden="true"></div>
+      
+      <!-- Vignette for cinematic framing -->
+      <div class="slide-vignette" aria-hidden="true"></div>
+    </div>
+
+    <!-- Slide Header Bar (Floating Glass Badge) -->
+    <div class="slide-floating-nav">
+      <button class="slide-nav-back" id="btn-slide2-back" title="Back to Slide 1">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+        <span>Slide 01</span>
+      </button>
+
+      <div class="slide-chapter-tag">
+        <span class="slide-tag-dot orange-dot"></span>
+        <span>CHAPTER 02 / THE DILEMMA</span>
+      </div>
+
+      <div class="slide-step-indicator" id="slide2-step-indicator">
+        <span class="step-dot active" id="slide2-dot-1" title="Step 1: The Choice"></span>
+        <span class="step-dot" id="slide2-dot-2" title="Step 2: Ethical Breakdown"></span>
+      </div>
+    </div>
+
+    <!-- Center Top Headline ("You've probably seen this before.") -->
+    <div class="dilemma-header-wrap" id="dilemma-header-wrap">
+      <h2 class="dilemma-headline">
+        <span class="dilemma-line-1">You’ve probably</span>
+        <span class="dilemma-line-2">
+          <span class="glow-amber-phrase">seen this</span>
+          <span class="dilemma-word-after">before.</span>
+        </span>
+      </h2>
+      <p class="dilemma-tagline">Same game. Two buttons. An everyday ethical choice.</p>
+    </div>
+
+    <!-- Interactive Laptop Screen HUD & Hotspots -->
+    <div class="laptop-interactive-hud" id="laptop-interactive-hud">
+      <!-- Left Hotspot: Official Purchase -->
+      <div class="hud-hotspot hud-hotspot-left" id="hotspot-official">
+        <div class="hotspot-card">
+          <div class="hotspot-badge official-badge">
+            <span class="badge-icon">✓</span>
+            <span>Official Store · ₹ 1,999</span>
+          </div>
+          <div class="hotspot-body">
+            <p class="hotspot-lead">The Ethical Contract</p>
+            <ul class="hotspot-list">
+              <li><span>🛡️</span> Zero malware / 100% clean files</li>
+              <li><span>👥</span> Funds 1,000+ developers &amp; artists</li>
+              <li><span>☁️</span> Official multiplayer &amp; cloud saves</li>
+            </ul>
+          </div>
+          <button class="btn-inspect-path btn-official-inspect" id="btn-inspect-official">
+            <span>Verify Path A</span>
+            <span class="btn-micro-badge">Legal</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Center Versus Indicator -->
+      <div class="hud-vs-badge" id="hud-vs-badge">
+        <span>VS</span>
+      </div>
+
+      <!-- Right Hotspot: Shady Cracked Portal -->
+      <div class="hud-hotspot hud-hotspot-right" id="hotspot-pirate">
+        <div class="hotspot-card warning-card">
+          <div class="hotspot-badge warning-badge">
+            <span class="badge-icon">⚠️</span>
+            <span>GetIntoPC · Free (Cracked)</span>
+          </div>
+          <div class="hotspot-body">
+            <p class="hotspot-lead">The "Free" Illusion</p>
+            <ul class="hotspot-list">
+              <li><span>🪱</span> 43% of cracks bundle crypto-miners/trojans</li>
+              <li><span>⛔</span> Requires turning off Windows Defender</li>
+              <li><span>💸</span> Zero payment for 5 years of human labor</li>
+            </ul>
+          </div>
+          <button class="btn-inspect-path btn-pirate-inspect" id="btn-inspect-pirate">
+            <span>Trigger Path B</span>
+            <span class="btn-micro-badge warning-micro">Risk</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: The 3 Philosophical Pillars & Interactive Poll (Revealed on Next Click) -->
+    <div class="dilemma-breakdown-deck" id="dilemma-breakdown-deck">
+      <div class="deck-title-area">
+        <span class="deck-super-badge">ETHICAL ANALYSIS</span>
+        <h3 class="deck-main-title">Three Moral Dimensions of Software Piracy</h3>
+      </div>
+
+      <div class="breakdown-grid">
+        <!-- Card 1 -->
+        <div class="dilemma-card" id="card-ip" tabindex="0">
+          <div class="card-icon-wrap icon-cyan">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+          </div>
+          <h3 class="card-title">Is Digital Code "Property"?</h3>
+          <p class="card-desc">
+            Copying a game doesn't physically take a box off a shelf. Does the absence of physical scarcity make unauthorized copying morally distinct from theft?
+          </p>
+          <div class="card-tag">Labor vs Scarcity</div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="dilemma-card" id="card-rationalization" tabindex="0">
+          <div class="card-icon-wrap icon-amber">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <h3 class="card-title">The "Victimless" Myth</h3>
+          <p class="card-desc">
+            <em>"They're a billion-dollar company, they won't miss my ₹2,000."</em> We rationalize because the creator is abstract, but every studio relies on paid sales.
+          </p>
+          <div class="card-tag">Rationalization Bias</div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="dilemma-card" id="card-accessibility" tabindex="0">
+          <div class="card-icon-wrap icon-emerald">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Purchasing Power Disparity</h3>
+          <p class="card-desc">
+            ₹1,999 represents 4x more relative student purchasing power in India than in Western markets. When pricing ignores local economies, is piracy theft or a pricing failure?
+          </p>
+          <div class="card-tag">Global Equity</div>
+        </div>
+      </div>
+
+      <!-- Interactive Audience Poll Widget -->
+      <div class="dilemma-poll-widget" id="dilemma-poll-widget">
+        <div class="poll-question">
+          <span class="poll-badge">AUDIENCE ETHICS POLL</span>
+          <span>Where do you stand on digital piracy?</span>
+        </div>
+        <div class="poll-options">
+          <button class="poll-btn" data-choice="strict" id="poll-btn-1">
+            <span class="poll-letter">A</span>
+            <span class="poll-text">Piracy is always wrong. Respect creators.</span>
+            <span class="poll-percent" id="pct-strict">48%</span>
+          </button>
+          <button class="poll-btn" data-choice="nuance" id="poll-btn-2">
+            <span class="poll-letter">B</span>
+            <span class="poll-text">Depends on regional pricing &amp; intent.</span>
+            <span class="poll-percent" id="pct-nuance">42%</span>
+          </button>
+          <button class="poll-btn" data-choice="free" id="poll-btn-3">
+            <span class="poll-letter">C</span>
+            <span class="poll-text">Digital copies shouldn't be paywalled.</span>
+            <span class="poll-percent" id="pct-free">10%</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Presenter Hint (Click to Reveal / Next) -->
+    <div class="slide-footer-hint" id="slide2-footer-hint">
+      <div class="hint-badge" id="btn-slide2-hint" role="button" tabindex="0">
+        <span class="kbd-key">Space</span>
+        <span class="hint-text" id="slide2-action-text">Click anywhere or press Space to unpack the dilemma</span>
+        <span class="hint-arrow">→</span>
+      </div>
+    </div>
+
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

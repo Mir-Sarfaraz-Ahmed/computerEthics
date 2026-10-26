@@ -240,18 +240,14 @@ export const Slide1Introduction: React.FC<Slide1IntroductionProps> = ({
           id="btn-reveal-hint"
           role="button"
           tabIndex={0}
+          title="Press Space to advance"
+          aria-label="Advance"
           onClick={(e) => {
             e.stopPropagation();
             onForward();
           }}
         >
           <span className="kbd-key">Space</span>
-          <span className="hint-text" id="slide-action-text">
-            {!isQuestionRevealed
-              ? 'Click anywhere or press Space to reveal question'
-              : 'Press Space for Slide 02'}
-          </span>
-          <span className="hint-arrow">→</span>
         </div>
       </div>
     </section>

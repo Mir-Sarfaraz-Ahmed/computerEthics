@@ -106,7 +106,7 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
           >
             <path d="m15 18-6-6 6-6" />
           </svg>
-          <span>Slide 02</span>
+          <span>Back</span>
         </button>
 
         <div className="slide-chapter-tag">
@@ -157,16 +157,14 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
           id="btn-slide3-hint"
           role="button"
           tabIndex={0}
+          title="Press Space to advance"
+          aria-label="Advance"
           onClick={(e) => {
             e.stopPropagation();
             onForward();
           }}
         >
           <span className="kbd-key">Space</span>
-          <span className="hint-text" id="slide3-action-text">
-            Two paths. One choice — press Space for Chapter 04
-          </span>
-          <span className="hint-arrow">→</span>
         </div>
       </div>
     </section>

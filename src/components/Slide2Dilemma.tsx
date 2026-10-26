@@ -50,13 +50,10 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
     };
   }, [isS2]);
 
-  let actionText = 'Scene 1: Blank Screen -- press Space / Right Arrow to power on';
   let activeDotIndex = 0;
   if (isScene2) {
-    actionText = 'Scene 2: Official Store (₹1,999) -- press Space / Right Arrow';
     activeDotIndex = 1;
   } else if (isScene3) {
-    actionText = 'Scene 3: The Crossroads -- press Space / Right Arrow for Choice';
     activeDotIndex = 2;
   }
 
@@ -163,16 +160,14 @@ export const Slide2Dilemma: React.FC<Slide2DilemmaProps> = ({
           id="btn-slide2-hint"
           role="button"
           tabIndex={0}
+          title="Press Space to advance"
+          aria-label="Advance"
           onClick={(e) => {
             e.stopPropagation();
             onForward();
           }}
         >
           <span className="kbd-key">Space</span>
-          <span className="hint-text" id="slide2-action-text">
-            {actionText}
-          </span>
-          <span className="hint-arrow">→</span>
         </div>
       </div>
     </section>

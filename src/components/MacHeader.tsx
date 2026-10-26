@@ -1,20 +1,13 @@
 import React from 'react';
-import { ThemeMode } from '../types/presentation';
 
 interface MacHeaderProps {
-  currentTheme: ThemeMode;
   isSoundOn: boolean;
-  onReplayHello: () => void;
-  onToggleTheme: () => void;
   onToggleSound: () => void;
   onShowToast: (msg: string) => void;
 }
 
 export const MacHeader: React.FC<MacHeaderProps> = ({
-  currentTheme,
   isSoundOn,
-  onReplayHello,
-  onToggleTheme,
   onToggleSound,
   onShowToast,
 }) => {
@@ -75,32 +68,46 @@ export const MacHeader: React.FC<MacHeaderProps> = ({
 
       <div className="mac-header-actions">
         <button
-          className="action-pill-btn"
-          id="btn-replay-hello"
-          title="Replay Sarfaraz Intro"
-          onClick={onReplayHello}
-        >
-          <span>Replay Intro</span>
-        </button>
-
-        <button
-          className="action-pill-btn"
-          id="btn-theme"
-          title="Toggle Theme"
-          onClick={onToggleTheme}
-        >
-          <span id="theme-icon">{currentTheme === 'dark' ? '☀' : '☾'}</span>
-          <span id="theme-label">{currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-        </button>
-
-        <button
-          className="action-pill-btn"
+          className="action-icon-btn"
           id="btn-audio"
-          title="Toggle Sound"
+          title={isSoundOn ? 'Sound On (Click to mute)' : 'Sound Muted (Click to unmute)'}
+          aria-label={isSoundOn ? 'Mute sound' : 'Unmute sound'}
           onClick={onToggleSound}
-          style={{ opacity: isSoundOn ? 1 : 0.6 }}
+          style={{ opacity: isSoundOn ? 1 : 0.65 }}
         >
-          <span id="audio-label">{isSoundOn ? 'Sound On' : 'Sound Off'}</span>
+          {isSoundOn ? (
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" fillOpacity="0.2" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+          ) : (
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <line x1="23" y1="9" x2="17" y2="15" />
+              <line x1="17" y1="9" x2="23" y2="15" />
+            </svg>
+          )}
         </button>
       </div>
     </header>

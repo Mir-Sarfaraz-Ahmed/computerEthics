@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { PresentationState, ThemeMode } from './types/presentation';
+import { PresentationState } from './types/presentation';
 import {
   playAppleChime,
   playSlideWhoosh,
   playQuestionRevealChord,
   playChimePositive,
   playChimeWarning,
-  playPaperPlaneSound,
   resumeAudio,
   toggleSound,
   isSoundEnabled,
@@ -16,29 +15,22 @@ import { AppleHello } from './components/AppleHello';
 import { CoverStage } from './components/CoverStage';
 import { Slide1Introduction } from './components/Slide1Introduction';
 import { Slide2Dilemma } from './components/Slide2Dilemma';
+import { SlideShaderGhost } from './components/SlideShaderGhost';
 import { Slide3Paths } from './components/Slide3Paths';
-import { PaperPlaneOverlay } from './components/PaperPlaneOverlay';
 import { Slide4Definition } from './components/Slide4Definition';
 
 export const App: React.FC = () => {
   const [currentState, setCurrentState] = useState<PresentationState>('hello');
-  const [currentTheme, setCurrentTheme] = useState<ThemeMode>('dark');
   const [isSoundOn, setIsSoundOn] = useState<boolean>(true);
-  const [replayTrigger, setReplayTrigger] = useState<number>(0);
-  const [isPlaneAnimating, setIsPlaneAnimating] = useState<boolean>(false);
+  const [replayTrigger] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Sync theme with body class
+  // Default keynote dark theme
   useEffect(() => {
-    if (currentTheme === 'light') {
-      document.body.classList.remove('theme-dark');
-      document.body.classList.add('theme-light');
-    } else {
-      document.body.classList.remove('theme-light');
-      document.body.classList.add('theme-dark');
-    }
-  }, [currentTheme]);
+    document.body.classList.remove('theme-light');
+    document.body.classList.add('theme-dark');
+  }, []);
 
   const showToast = useCallback((msg: string) => {
     if (toastTimeoutRef.current) {
@@ -50,18 +42,9 @@ export const App: React.FC = () => {
     }, 2800);
   }, []);
 
-  const handleToggleTheme = useCallback(() => {
-    setCurrentTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  }, []);
-
   const handleToggleSound = useCallback(() => {
     const updated = toggleSound();
     setIsSoundOn(updated);
-  }, []);
-
-  const handleReplayHello = useCallback(() => {
-    setCurrentState('hello');
-    setReplayTrigger((prev) => prev + 1);
   }, []);
 
   const dismissHello = useCallback(() => {
@@ -71,7 +54,6 @@ export const App: React.FC = () => {
   // Forward Navigation
   const navigateForward = useCallback(() => {
     resumeAudio();
-    if (isPlaneAnimating) return;
 
     if (currentState === 'hello') {
       dismissHello();
@@ -94,32 +76,23 @@ export const App: React.FC = () => {
       setCurrentState('s2scene3');
       playChimePositive();
     } else if (currentState === 's2scene3') {
+      setCurrentState('s2shader');
+      playSlideWhoosh();
+    } else if (currentState === 's2shader') {
       setCurrentState('s3intro');
       playSlideWhoosh();
     } else if (currentState === 's3intro') {
-      // Launch paper plane transition after Chapter 03 into Chapter 04!
-      setIsPlaneAnimating(true);
-      setCurrentState('s3plane');
-      playPaperPlaneSound();
-
-      setTimeout(() => {
-        setCurrentState('s4title');
-        playSlideWhoosh();
-      }, 1400);
-
-      setTimeout(() => {
-        setIsPlaneAnimating(false);
-      }, 2100);
+      setCurrentState('s4title');
+      playSlideWhoosh();
     } else if (currentState === 's4title') {
       setCurrentState('s4def');
       playQuestionRevealChord();
     }
-  }, [currentState, isPlaneAnimating, dismissHello]);
+  }, [currentState, dismissHello]);
 
   // Backward Navigation
   const navigateBackward = useCallback(() => {
     resumeAudio();
-    if (isPlaneAnimating) return;
 
     if (currentState === 'hello') {
       dismissHello();
@@ -131,6 +104,8 @@ export const App: React.FC = () => {
     } else if (currentState === 's4title') {
       setCurrentState('s3intro');
     } else if (currentState === 's3intro') {
+      setCurrentState('s2shader');
+    } else if (currentState === 's2shader') {
       setCurrentState('s2scene3');
     } else if (currentState === 's2scene3') {
       setCurrentState('s2scene2');
@@ -143,7 +118,7 @@ export const App: React.FC = () => {
     } else if (currentState === 's1scene') {
       setCurrentState('cover');
     }
-  }, [currentState, isPlaneAnimating, dismissHello]);
+  }, [currentState, dismissHello]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -172,6 +147,8 @@ export const App: React.FC = () => {
         if (currentState === 's4def' || currentState === 's4title') {
           setCurrentState('s3intro');
         } else if (currentState.startsWith('s3')) {
+          setCurrentState('s2shader');
+        } else if (currentState === 's2shader') {
           setCurrentState('s2scene3');
         } else if (currentState.startsWith('s2')) {
           setCurrentState('s1q');
@@ -199,14 +176,11 @@ export const App: React.FC = () => {
       {/* Cover / Presentation Stage */}
       <CoverStage
         isActive={currentState === 'cover'}
-        currentTheme={currentTheme}
         isSoundOn={isSoundOn}
         onEnter={() => {
           setCurrentState('s1scene');
           playSlideWhoosh();
         }}
-        onReplayHello={handleReplayHello}
-        onToggleTheme={handleToggleTheme}
         onToggleSound={handleToggleSound}
         onShowToast={showToast}
       />
@@ -225,31 +199,19 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide 3: Paths */}
-      <Slide3Paths
+      {/* Slide: Shader Ghost / The Digital Conscience */}
+      <SlideShaderGhost
         currentState={currentState}
         onBack={() => setCurrentState('s2scene3')}
         onForward={navigateForward}
-        onSelectState={(nextState) => {
-          if (nextState === 's3plane') {
-            setIsPlaneAnimating(true);
-            setCurrentState('s3plane');
-            playPaperPlaneSound();
-            setTimeout(() => {
-              setCurrentState('s4title');
-              playSlideWhoosh();
-            }, 1400);
-            setTimeout(() => {
-              setIsPlaneAnimating(false);
-            }, 2100);
-            return;
-          }
-          setCurrentState(nextState);
-        }}
       />
 
-      {/* Paper Plane Overlay */}
-      <PaperPlaneOverlay isActive={isPlaneAnimating || currentState === 's2plane' || currentState === 's3plane'} />
+      {/* Slide 3: Paths */}
+      <Slide3Paths
+        currentState={currentState}
+        onBack={() => setCurrentState('s2shader')}
+        onForward={navigateForward}
+      />
 
       {/* Slide 4: Definition */}
       <Slide4Definition

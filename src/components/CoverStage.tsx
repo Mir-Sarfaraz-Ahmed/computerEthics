@@ -1,25 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import { ThemeMode } from '../types/presentation';
 import { MacHeader } from './MacHeader';
 
 interface CoverStageProps {
   isActive: boolean;
-  currentTheme: ThemeMode;
   isSoundOn: boolean;
   onEnter: () => void;
-  onReplayHello: () => void;
-  onToggleTheme: () => void;
   onToggleSound: () => void;
   onShowToast: (msg: string) => void;
 }
 
 export const CoverStage: React.FC<CoverStageProps> = ({
   isActive,
-  currentTheme,
   isSoundOn,
   onEnter,
-  onReplayHello,
-  onToggleTheme,
   onToggleSound,
   onShowToast,
 }) => {
@@ -102,7 +95,7 @@ export const CoverStage: React.FC<CoverStageProps> = ({
       const my = (m.y / ah - 0.5) * 80;
 
       ctx.clearRect(0, 0, aw, ah);
-      ctx.globalCompositeOperation = currentTheme === 'dark' ? 'screen' : 'multiply';
+      ctx.globalCompositeOperation = 'screen';
 
       // 1. Ambient Floating Orbs
       orbs.forEach((o) => {
@@ -110,11 +103,10 @@ export const CoverStage: React.FC<CoverStageProps> = ({
         const yo = Math.cos(t * o.sy + o.ph) * (ah * 0.12);
         const cx2 = o.bx * aw + xo + mx;
         const cy2 = o.by * ah + yo + my;
-        const oc = currentTheme === 'dark' ? o.dc : o.lc;
 
         const g = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, o.r);
-        g.addColorStop(0, oc);
-        g.addColorStop(0.5, oc.replace(/[\d.]+\)$/, '0.04)'));
+        g.addColorStop(0, o.dc);
+        g.addColorStop(0.5, o.dc.replace(/[\d.]+\)$/, '0.04)'));
         g.addColorStop(1, 'rgba(0,0,0,0)');
 
         ctx.fillStyle = g;
@@ -138,17 +130,10 @@ export const CoverStage: React.FC<CoverStageProps> = ({
         spotRadius
       );
 
-      if (currentTheme === 'dark') {
-        spotGrad.addColorStop(0, 'rgba(56, 189, 248, 0.14)');
-        spotGrad.addColorStop(0.35, 'rgba(99, 102, 241, 0.08)');
-        spotGrad.addColorStop(0.7, 'rgba(139, 92, 246, 0.03)');
-        spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      } else {
-        spotGrad.addColorStop(0, 'rgba(14, 165, 233, 0.12)');
-        spotGrad.addColorStop(0.35, 'rgba(99, 102, 241, 0.06)');
-        spotGrad.addColorStop(0.7, 'rgba(139, 92, 246, 0.02)');
-        spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      }
+      spotGrad.addColorStop(0, 'rgba(56, 189, 248, 0.14)');
+      spotGrad.addColorStop(0.35, 'rgba(99, 102, 241, 0.08)');
+      spotGrad.addColorStop(0.7, 'rgba(139, 92, 246, 0.03)');
+      spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
       ctx.fillStyle = spotGrad;
       ctx.beginPath();
@@ -168,17 +153,10 @@ export const CoverStage: React.FC<CoverStageProps> = ({
         const bottomX = vpX + norm * maxDist * 2.8;
 
         const lineGrad = ctx.createLinearGradient(vpX, horizonY, bottomX, ah);
-        if (currentTheme === 'dark') {
-          lineGrad.addColorStop(0, 'rgba(56, 189, 248, 0.0)');
-          lineGrad.addColorStop(0.2, 'rgba(56, 189, 248, 0.08)');
-          lineGrad.addColorStop(0.65, 'rgba(99, 102, 241, 0.18)');
-          lineGrad.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
-        } else {
-          lineGrad.addColorStop(0, 'rgba(14, 165, 233, 0.0)');
-          lineGrad.addColorStop(0.2, 'rgba(14, 165, 233, 0.06)');
-          lineGrad.addColorStop(0.65, 'rgba(99, 102, 241, 0.12)');
-          lineGrad.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
-        }
+        lineGrad.addColorStop(0, 'rgba(56, 189, 248, 0.0)');
+        lineGrad.addColorStop(0.2, 'rgba(56, 189, 248, 0.08)');
+        lineGrad.addColorStop(0.65, 'rgba(99, 102, 241, 0.18)');
+        lineGrad.addColorStop(1, 'rgba(139, 92, 246, 0.0)');
 
         ctx.strokeStyle = lineGrad;
         ctx.lineWidth = 1;
@@ -194,11 +172,9 @@ export const CoverStage: React.FC<CoverStageProps> = ({
         // Exponential distribution for realistic camera depth perspective
         const prog = Math.pow(j / numTransLines, 2.2);
         const curY = horizonY + prog * (ah - horizonY);
-        const depthAlpha = Math.min(prog * (currentTheme === 'dark' ? 0.22 : 0.14), 0.25);
+        const depthAlpha = Math.min(prog * 0.22, 0.25);
 
-        ctx.strokeStyle = currentTheme === 'dark'
-          ? `rgba(56, 189, 248, ${depthAlpha})`
-          : `rgba(14, 165, 233, ${depthAlpha})`;
+        ctx.strokeStyle = `rgba(56, 189, 248, ${depthAlpha})`;
         ctx.lineWidth = 1;
 
         const spread = (curY - horizonY) / (ah - horizonY);
@@ -213,7 +189,7 @@ export const CoverStage: React.FC<CoverStageProps> = ({
       // Polished Stage Lacquer Horizon Glow
       const lacquerGrad = ctx.createLinearGradient(0, horizonY - 10, 0, horizonY + 30);
       lacquerGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-      lacquerGrad.addColorStop(0.4, currentTheme === 'dark' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(14, 165, 233, 0.08)');
+      lacquerGrad.addColorStop(0.4, 'rgba(56, 189, 248, 0.15)');
       lacquerGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
       ctx.fillStyle = lacquerGrad;
@@ -232,9 +208,7 @@ export const CoverStage: React.FC<CoverStageProps> = ({
 
         const op = p.op * (0.6 + Math.sin(t * p.ps + p.ph) * 0.4);
         ctx.beginPath();
-        ctx.fillStyle = currentTheme === 'dark'
-          ? `rgba(224, 242, 254, ${op * 0.85})`
-          : `rgba(14, 165, 233, ${op * 0.65})`;
+        ctx.fillStyle = `rgba(224, 242, 254, ${op * 0.85})`;
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
       });
@@ -249,7 +223,7 @@ export const CoverStage: React.FC<CoverStageProps> = ({
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [currentTheme]);
+  }, []);
 
   return (
     <main className={`presentation-stage ${isActive ? 'active' : ''}`} id="presentation-stage">
@@ -258,10 +232,7 @@ export const CoverStage: React.FC<CoverStageProps> = ({
       <div className="ambient-grain" aria-hidden="true"></div>
 
       <MacHeader
-        currentTheme={currentTheme}
         isSoundOn={isSoundOn}
-        onReplayHello={onReplayHello}
-        onToggleTheme={onToggleTheme}
         onToggleSound={onToggleSound}
         onShowToast={onShowToast}
       />

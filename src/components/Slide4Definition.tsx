@@ -205,18 +205,14 @@ export const Slide4Definition: React.FC<Slide4DefinitionProps> = ({
           id="btn-slide4-hint"
           role="button"
           tabIndex={0}
+          title="Press Space to advance"
+          aria-label="Advance"
           onClick={(e) => {
             e.stopPropagation();
             onForward();
           }}
         >
           <span className="kbd-key">Space</span>
-          <span className="hint-text" id="slide4-action-text">
-            {!isDefinitionRevealed
-              ? 'Click to reveal definition'
-              : 'Definition revealed'}
-          </span>
-          <span className="hint-arrow">→</span>
         </div>
       </div>
     </section>

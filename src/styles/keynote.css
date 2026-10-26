@@ -423,6 +423,34 @@ body.theme-light .ambient-grain {
   transform: translateY(0);
 }
 
+.action-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.25s var(--ease-apple);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.action-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.35);
+}
+
+.action-icon-btn:active {
+  transform: translateY(0) scale(0.94);
+}
+
 /* ============================================================ */
 /* 4. HERO STAGE CENTERPIECE                                    */
 /* ============================================================ */
@@ -712,24 +740,21 @@ body.theme-light .btn-enter-presentation {
 
 .kbd-key {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 4px 10px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-  border: 1px solid var(--border-subtle);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  color: var(--text-primary);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  letter-spacing: 0.02em;
-}
-
-body.theme-light .kbd-key {
-  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
-  color: var(--text-primary);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  color: #f8fafc;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.22s var(--ease-apple);
+  user-select: none;
 }
 
 /* Fade In Animations */
@@ -1144,33 +1169,31 @@ body.theme-light .kbd-key {
 .hint-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 20px;
-  background: rgba(7, 8, 11, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  backdrop-filter: blur(16px);
-  color: var(--text-secondary);
-  font-size: 0.8rem;
-  font-weight: 500;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s var(--ease-apple);
 }
 
-.hint-badge:hover {
-  background: rgba(18, 20, 29, 0.85);
-  border-color: rgba(255, 255, 255, 0.3);
+.hint-badge:hover .kbd-key {
+  border-color: rgba(56, 189, 248, 0.6);
+  border-bottom-color: rgba(56, 189, 248, 0.85);
   color: #ffffff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4), 0 4px 12px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.hint-badge:active .kbd-key {
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.25), 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .hint-arrow {
-  font-size: 1rem;
-  color: #38bdf8;
-  transition: transform 0.2s ease;
-}
-
-.hint-badge:hover .hint-arrow {
-  transform: translateX(3px);
+  display: none;
 }
 
 @keyframes fadeIn {
@@ -2251,5 +2274,101 @@ body.theme-light .ethics-definition-text {
 body.theme-light .ethics-em-word {
   color: #0284c7;
   text-shadow: none;
+}
+
+/* ============================================================ */
+/* SLIDE: SHADER GHOST (DIGITAL CONSCIENCE)                     */
+/* ============================================================ */
+
+.shader-slide {
+  background-color: #070913;
+}
+
+.shader-backdrop {
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(236, 72, 153, 0.18) 0%, rgba(99, 102, 241, 0.15) 35%, transparent 70%),
+    radial-gradient(circle at 80% 25%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
+    radial-gradient(circle at 20% 75%, rgba(139, 92, 246, 0.12) 0%, transparent 50%);
+  background-color: #060811;
+}
+
+.shader-content-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 70px 24px 60px;
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.shader-header-text {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.shader-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: #f472b6;
+  text-shadow: 0 0 10px rgba(244, 114, 182, 0.4);
+}
+
+.shader-main-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.shader-glow-word {
+  color: #f472b6;
+  text-shadow:
+    0 0 20px rgba(244, 114, 182, 0.8),
+    0 0 40px rgba(219, 39, 119, 0.5);
+}
+
+.shader-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+  color: rgba(255, 255, 255, 0.65);
+  max-width: 580px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.shader-interactive-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 360px;
+  margin-top: 10px;
+}
+
+.shader-glow-aura {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(99, 102, 241, 0.15) 50%, transparent 75%);
+  filter: blur(28px);
+  pointer-events: none;
+  animation: shaderPulse 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes shaderPulse {
+  0% { transform: scale(0.92); opacity: 0.5; }
+  100% { transform: scale(1.08); opacity: 0.85; }
 }
 

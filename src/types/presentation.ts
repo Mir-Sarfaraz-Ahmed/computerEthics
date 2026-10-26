@@ -9,10 +9,21 @@ export type PresentationState =
   | 's2shader'
   | 's2plane'
   | 's3intro'
+  | 's3cost'
   | 's3plane'
   | 's4title'
   | 's4def'
   | 's5intro'
-  | 's5casestudy';
+  | 's5casestudy'
+  | 's5choice'
+  | 's6date'
+  | 's7ww3'
+  | 's8alert'
+  | 's9missiles'
+  | 's10petrov'
+  | 's11story'
+  | 's12meta'
+  | 's12ghost'
+  | 's13video';
 
 export type ThemeMode = 'dark' | 'light';

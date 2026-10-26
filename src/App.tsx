@@ -17,7 +17,18 @@ import { Slide1Introduction } from './components/Slide1Introduction';
 import { Slide2Dilemma } from './components/Slide2Dilemma';
 import { SlideShaderGhost } from './components/SlideShaderGhost';
 import { Slide3Paths } from './components/Slide3Paths';
+import { Slide3Cost } from './components/Slide3Cost';
 import { Slide4Definition } from './components/Slide4Definition';
+import { SlideChoice } from './components/SlideChoice';
+import { Slide6Date } from './components/Slide6Date';
+import { Slide7WW3 } from './components/Slide7WW3';
+import { Slide8Alert } from './components/Slide8Alert';
+import { Slide9Missiles } from './components/Slide9Missiles';
+import { Slide10Petrov } from './components/Slide10Petrov';
+import { Slide11Story } from './components/Slide11Story';
+import { Slide12Meta } from './components/Slide12Meta';
+import { Slide12Ghost } from './components/Slide12Ghost';
+import { Slide13Video } from './components/Slide13Video';
 
 export const App: React.FC = () => {
   const [currentState, setCurrentState] = useState<PresentationState>('hello');
@@ -25,6 +36,7 @@ export const App: React.FC = () => {
   const [replayTrigger] = useState<number>(0);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
 
   // Default keynote dark theme
   useEffect(() => {
@@ -82,11 +94,45 @@ export const App: React.FC = () => {
       setCurrentState('s3intro');
       playSlideWhoosh();
     } else if (currentState === 's3intro') {
+      setCurrentState('s3cost');
+      playSlideWhoosh();
+    } else if (currentState === 's3cost') {
       setCurrentState('s4title');
       playSlideWhoosh();
     } else if (currentState === 's4title') {
       setCurrentState('s4def');
       playQuestionRevealChord();
+    } else if (currentState === 's4def') {
+      setCurrentState('s5choice');
+      playSlideWhoosh();
+    } else if (currentState === 's5choice') {
+      setCurrentState('s6date');
+      playSlideWhoosh();
+    } else if (currentState === 's6date') {
+      setCurrentState('s7ww3');
+    } else if (currentState === 's7ww3') {
+      setCurrentState('s8alert');
+      playSlideWhoosh();
+    } else if (currentState === 's8alert') {
+      setCurrentState('s9missiles');
+    } else if (currentState === 's9missiles') {
+      setCurrentState('s10petrov');
+      playSlideWhoosh();
+    } else if (currentState === 's10petrov') {
+      setCurrentState('s11story');
+      playSlideWhoosh();
+    } else if (currentState === 's11story') {
+      setCurrentState('s12meta');
+      playSlideWhoosh();
+    } else if (currentState === 's12meta') {
+      setCurrentState('s12ghost');
+      playSlideWhoosh();
+    } else if (currentState === 's12ghost') {
+      setCurrentState('s13video');
+      playSlideWhoosh();
+    } else if (currentState === 's13video') {
+      setCurrentState('cover');
+      playAppleChime();
     }
   }, [currentState, dismissHello]);
 
@@ -99,9 +145,31 @@ export const App: React.FC = () => {
       return;
     }
 
-    if (currentState === 's4def') {
+    if (currentState === 's13video') {
+      setCurrentState('s12ghost');
+    } else if (currentState === 's12ghost') {
+      setCurrentState('s12meta');
+    } else if (currentState === 's12meta') {
+      setCurrentState('s11story');
+    } else if (currentState === 's11story') {
+      setCurrentState('s10petrov');
+    } else if (currentState === 's10petrov') {
+      setCurrentState('s9missiles');
+    } else if (currentState === 's9missiles') {
+      setCurrentState('s8alert');
+    } else if (currentState === 's8alert') {
+      setCurrentState('s7ww3');
+    } else if (currentState === 's7ww3') {
+      setCurrentState('s6date');
+    } else if (currentState === 's6date') {
+      setCurrentState('s5choice');
+    } else if (currentState === 's5choice') {
+      setCurrentState('s4def');
+    } else if (currentState === 's4def') {
       setCurrentState('s4title');
     } else if (currentState === 's4title') {
+      setCurrentState('s3cost');
+    } else if (currentState === 's3cost') {
       setCurrentState('s3intro');
     } else if (currentState === 's3intro') {
       setCurrentState('s2shader');
@@ -144,7 +212,25 @@ export const App: React.FC = () => {
       } else if (e.code === 'Escape' || e.key === 'Escape') {
         e.preventDefault();
         e.stopPropagation();
-        if (currentState === 's4def' || currentState === 's4title') {
+        if (currentState === 's13video') {
+          setCurrentState('s12ghost');
+        } else if (currentState === 's12ghost') {
+          setCurrentState('s12meta');
+        } else if (currentState === 's12meta') {
+          setCurrentState('s11story');
+        } else if (currentState === 's11story') {
+          setCurrentState('s10petrov');
+        } else if (currentState === 's10petrov') {
+          setCurrentState('s9missiles');
+        } else if (currentState === 's9missiles') {
+          setCurrentState('s8alert');
+        } else if (currentState === 's7ww3') {
+          setCurrentState('s6date');
+        } else if (currentState === 's6date') {
+          setCurrentState('s5choice');
+        } else if (currentState === 's5choice') {
+          setCurrentState('s4def');
+        } else if (currentState === 's4def' || currentState === 's4title') {
           setCurrentState('s3intro');
         } else if (currentState.startsWith('s3')) {
           setCurrentState('s2shader');
@@ -163,6 +249,7 @@ export const App: React.FC = () => {
       window.removeEventListener('keydown', handleKeyDown, { capture: true });
     };
   }, [currentState, navigateForward, navigateBackward]);
+
 
   return (
     <>
@@ -213,10 +300,88 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
+      {/* Slide 3.5: Free for you, but at what cost? */}
+      <Slide3Cost
+        currentState={currentState}
+        onBack={() => setCurrentState('s3intro')}
+        onForward={navigateForward}
+      />
+
       {/* Slide 4: Definition */}
       <Slide4Definition
         currentState={currentState}
-        onBack={() => setCurrentState('s3intro')}
+        onBack={() => setCurrentState('s3cost')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 5: The Choice */}
+      <SlideChoice
+        currentState={currentState}
+        onBack={() => setCurrentState('s4def')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 6: 26 SEPTEMBER 1983 */}
+      <Slide6Date
+        currentState={currentState}
+        onBack={() => setCurrentState('s5choice')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 7: WORLD WAR 3 */}
+      <Slide7WW3
+        currentState={currentState}
+        onBack={() => setCurrentState('s6date')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 8: РАКЕТНЫЙ УДАР / MISSILE ATTACK */}
+      <Slide8Alert
+        currentState={currentState}
+        onBack={() => setCurrentState('s7ww3')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 9: 5 Missiles in Chevron Formation */}
+      <Slide9Missiles
+        currentState={currentState}
+        onBack={() => setCurrentState('s8alert')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 10: Stanislav Yevgrafovich Petrov */}
+      <Slide10Petrov
+        currentState={currentState}
+        onBack={() => setCurrentState('s9missiles')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 11: The Man Who Saved The World & Ethical Conflict */}
+      <Slide11Story
+        currentState={currentState}
+        onBack={() => setCurrentState('s10petrov')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 12: Metacognitive Intelligence (Whole Fullscreen Background) */}
+      <Slide12Meta
+        currentState={currentState}
+        onBack={() => setCurrentState('s11story')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 13: The Ghost (Cyber Entity & Shadow Threat) */}
+      <Slide12Ghost
+        currentState={currentState}
+        onBack={() => setCurrentState('s12meta')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 13: Fullscreen Theatrical Video Player */}
+      <Slide13Video
+        currentState={currentState}
+        videoUrl="https://youtu.be/JzBaVohSC5s"
+        onBack={() => setCurrentState('s12ghost')}
         onForward={navigateForward}
       />
 

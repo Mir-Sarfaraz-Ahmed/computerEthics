@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 220" width="100%" height="100%">
+  <defs>
+    <!-- White / Silver Cylindrical Volumetric Shading -->
+    <linearGradient id="whiteCylinderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0" />
+      <stop offset="20%" stop-color="#ffffff" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="85%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <!-- Black / Dark Charcoal Cylindrical Volumetric Shading -->
+    <linearGradient id="blackCylinderGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="22%" stop-color="#1e293b" />
+      <stop offset="55%" stop-color="#0f172a" />
+      <stop offset="85%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+
+    <!-- Dome Nose Shading -->
+    <radialGradient id="noseDomeGrad" cx="65%" cy="38%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="45%" stop-color="#e2e8f0" />
+      <stop offset="75%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#475569" />
+    </radialGradient>
+
+    <!-- Fin Gradients -->
+    <linearGradient id="finWhiteGradTop" x1="30%" y1="0%" x2="70%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="50%" stop-color="#cbd5e1" />
+      <stop offset="100%" stop-color="#64748b" />
+    </linearGradient>
+
+    <linearGradient id="finWhiteGradBottom" x1="30%" y1="100%" x2="70%" y2="0%">
+      <stop offset="0%" stop-color="#475569" />
+      <stop offset="50%" stop-color="#94a3b8" />
+      <stop offset="100%" stop-color="#f8fafc" />
+    </linearGradient>
+
+    <!-- Supersonic Plasma Jet Flame Gradient -->
+    <linearGradient id="plasmaCore" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="20%" stop-color="#fef08a" stop-opacity="0.95" />
+      <stop offset="48%" stop-color="#fb923c" stop-opacity="0.85" />
+      <stop offset="75%" stop-color="#e11d48" stop-opacity="0.5" />
+      <stop offset="100%" stop-color="#e11d48" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="flameOuter" x1="100%" y1="50%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#f43f5e" stop-opacity="0.85" />
+      <stop offset="40%" stop-color="#e11d48" stop-opacity="0.5" />
+      <stop offset="75%" stop-color="#be123c" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#881337" stop-opacity="0" />
+    </linearGradient>
+
+    <radialGradient id="machDiamond" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+      <stop offset="45%" stop-color="#fef08a" stop-opacity="0.9" />
+      <stop offset="80%" stop-color="#f97316" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Engine Thruster Filter -->
+    <filter id="thrusterGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="7" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ==================== ROCKET EXHAUST & THRUST PLUME ==================== -->
+  <g class="rocket-propulsion-exhaust" filter="url(#thrusterGlow)">
+    <!-- Long Ion Trail Plume Streaming to Left -->
+    <path d="M185,110 C130,85 60,92 5,104 C0,107 0,113 5,116 C60,128 130,135 185,110 Z" fill="url(#flameOuter)" />
+
+    <!-- Main Supersonic Flame Jet -->
+    <path d="M190,110 C155,90 95,96 35,106 C25,108 25,112 35,114 C95,124 155,130 190,110 Z" fill="url(#plasmaCore)" />
+
+    <!-- Incandescent White Core -->
+    <polygon points="190,103 135,108 85,110 135,112 190,117" fill="#ffffff" opacity="0.95" />
+
+    <!-- Supersonic Mach Diamonds -->
+    <ellipse cx="168" cy="110" rx="12" ry="5.5" fill="url(#machDiamond)" />
+    <ellipse cx="138" cy="110" rx="9" ry="4.5" fill="url(#machDiamond)" />
+    <ellipse cx="108" cy="110" rx="7" ry="3.5" fill="url(#machDiamond)" />
+    <ellipse cx="78" cy="110" rx="5" ry="2.5" fill="url(#machDiamond)" />
+  </g>
+
+  <!-- ==================== MAIN MISSILE AIRFRAME (BLACK & WHITE ROLL PATTERN) ==================== -->
+  <g class="missile-body">
+    <!-- Fuselage Centerline: Y = 110, Height = 64 (Top: 78, Bottom: 142) -->
+
+    <!-- Base Engine Nozzle (X: 180 to 195) -->
+    <path d="M180,84 L195,80 L195,140 L180,136 Z" fill="url(#blackCylinderGrad)" stroke="#090d16" stroke-width="1.2" />
+    <ellipse cx="180" cy="110" rx="3" ry="12" fill="#090d16" />
+    <ellipse cx="181" cy="110" rx="2" ry="8" fill="#f97316" filter="url(#thrusterGlow)" />
+
+    <!-- REAR BASE STABILIZER VANES (X: 195 to 240) -->
+    <!-- Top Base Vane -->
+    <polygon points="200,80 215,50 235,50 225,80" fill="url(#finWhiteGradTop)" stroke="#090d16" stroke-width="0.8" />
+    <polygon points="228,50 235,50 230,62 223,62" fill="#090d16" />
+    <!-- Bottom Base Vane -->
+    <polygon points="200,140 215,170 235,170 225,140" fill="url(#finWhiteGradBottom)" stroke="#090d16" stroke-width="0.8" />
+    <polygon points="228,170 235,170 230,158 223,158" fill="#090d16" />
+
+    <!-- MAIN DELTA FINS (X: 280 to 410) -->
+    <!-- Large Top Swept Delta Fin -->
+    <polygon points="285,78 335,16 385,16 355,78" fill="url(#finWhiteGradTop)" stroke="#090d16" stroke-width="1.2" />
+    <!-- Black Fin Tip & Edges -->
+    <polygon points="368,16 385,16 376,34 359,34" fill="#0f172a" />
+    <line x1="337" y1="18" x2="357" y2="78" stroke="#ffffff" stroke-width="1" opacity="0.75" />
+
+    <!-- Large Bottom Swept Delta Fin -->
+    <polygon points="285,142 335,204 385,204 355,142" fill="url(#finWhiteGradBottom)" stroke="#090d16" stroke-width="1.2" />
+    <!-- Black Fin Tip & Edges -->
+    <polygon points="368,204 385,204 376,186 359,186" fill="#0f172a" />
+    <line x1="337" y1="202" x2="357" y2="142" stroke="#334155" stroke-width="1" />
+
+    <!-- CYLINDRICAL FUSELAGE SECTIONS (MATCHING USER'S BLACK & WHITE ROLL BANDS) -->
+    <!-- Band 1: Base Black Section (X: 195 to 240) -->
+    <rect x="195" y="80" width="45" height="60" fill="url(#blackCylinderGrad)" />
+
+    <!-- Band 2: Lower White Section (X: 240 to 290) -->
+    <rect x="240" y="79" width="50" height="62" rx="0.5" fill="url(#whiteCylinderGrad)" stroke="#64748b" stroke-width="0.6" />
+
+    <!-- Band 3: Main Fin Mid Black Section (X: 290 to 415) -->
+    <rect x="290" y="78.5" width="125" height="63" fill="url(#blackCylinderGrad)" />
+
+    <!-- Interstage Separation Ring Groove -->
+    <rect x="414" y="78" width="4" height="64" fill="#020617" stroke="#000000" stroke-width="0.8" />
+
+    <!-- Band 4: Mid-Upper White Section (X: 418 to 540) -->
+    <rect x="418" y="78.5" width="122" height="63" rx="0.5" fill="url(#whiteCylinderGrad)" stroke="#64748b" stroke-width="0.6" />
+
+    <!-- Band 5: Upper Black Band (X: 540 to 605) -->
+    <rect x="540" y="78.5" width="65" height="63" fill="url(#blackCylinderGrad)" />
+
+    <!-- Band 6: Stencil White Band with Serial "- 301041" (X: 605 to 680) -->
+    <rect x="605" y="78.5" width="75" height="63" fill="url(#whiteCylinderGrad)" stroke="#64748b" stroke-width="0.6" />
+
+    <!-- Band 7: Sub-Nose Black Ring Band (X: 680 to 710) -->
+    <rect x="680" y="78.5" width="30" height="63" fill="url(#blackCylinderGrad)" />
+
+    <!-- HEMISPHERICAL ROUNDED DOME NOSE CONE (X: 710 to 765) -->
+    <path d="M710,78.5 C740,78.5 765,92 765,110 C765,128 740,141.5 710,141.5 Z" fill="url(#noseDomeGrad)" stroke="#94a3b8" stroke-width="0.8" />
+
+    <!-- Front Center Delta Fin (Perspective View on Fuselage) -->
+    <polygon points="295,110 330,96 360,98 335,116" fill="#cbd5e1" stroke="#334155" stroke-width="0.8" opacity="0.9" />
+    <polygon points="350,97 360,98 355,104 345,103" fill="#0f172a" />
+
+    <!-- Front Center Base Vane -->
+    <polygon points="202,110 218,103 232,104 222,113" fill="#cbd5e1" stroke="#334155" stroke-width="0.6" opacity="0.85" />
+
+    <!-- ==================== STENCIL MARKINGS & SURFACE SPECULAR SHEEN ==================== -->
+    <!-- Authentic Stencil from User Image: "- 301041" -->
+    <text x="614" y="115" font-family="'JetBrains Mono', 'Consolas', 'Arial Black', monospace" font-size="13" font-weight="900" fill="#090d16" letter-spacing="1.2">- 301041</text>
+
+    <!-- Longitudinal Specular Highlight Streak across full rocket body -->
+    <line x1="200" y1="87" x2="710" y2="87" stroke="#ffffff" stroke-width="2.2" opacity="0.65" stroke-linecap="round" />
+    <path d="M710,87 C735,88 755,97 760,105" stroke="#ffffff" stroke-width="2" opacity="0.75" fill="none" stroke-linecap="round" />
+
+    <!-- Secondary Soft Shadow Line on lower fuselage -->
+    <line x1="200" y1="135" x2="710" y2="135" stroke="#000000" stroke-width="1.8" opacity="0.4" stroke-linecap="round" />
+
+    <!-- Panel Seam Lines -->
+    <line x1="418" y1="79" x2="418" y2="141" stroke="#475569" stroke-width="1.2" />
+    <line x1="540" y1="79" x2="540" y2="141" stroke="#334155" stroke-width="1.2" />
+    <line x1="605" y1="79" x2="605" y2="141" stroke="#334155" stroke-width="1.2" />
+    <line x1="680" y1="79" x2="680" y2="141" stroke="#334155" stroke-width="1.2" />
+  </g>
+</svg>

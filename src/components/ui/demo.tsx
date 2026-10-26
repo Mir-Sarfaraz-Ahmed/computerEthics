@@ -1,6 +1,7 @@
-import React from "react";
-import { MeshGradientSVG } from "@/components/ui/shader-svg";
+import VideoPlayer from "@/components/ui/video-player"
 
-export default function DemoOne() {
-  return <MeshGradientSVG />;
+const VideoPlayerDemo = () => {
+    return <VideoPlayer src="https://videos.pexels.com/video-files/30333849/13003128_2560_1440_25fps.mp4"/>
 }
+
+export { VideoPlayerDemo }

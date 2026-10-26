@@ -119,6 +119,7 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
 
         <div className="slide-step-indicator" id="slide3-step-indicator">
           <span className="step-dot active" id="slide3-dot-1"></span>
+          <span className="step-dot" id="slide3-dot-2"></span>
         </div>
       </div>
 

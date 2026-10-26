@@ -77,7 +77,7 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
       {/* Center Stage Presentation Content */}
       <div className="shader-content-wrap">
         <div className="shader-header-text">
-          <div className="shader-eyebrow">THE GHOST IN THE SYSTEM</div>
+          <div className="shader-eyebrow">WHAT'S YOUR CHOICE</div>
           <h2 className="shader-main-title">
             <span>Every choice leaves a</span>{' '}
             <span className="shader-glow-word">footprint.</span>

@@ -19,6 +19,7 @@ import { Slide2Dilemma } from './components/Slide2Dilemma';
 import { Slide3Paths } from './components/Slide3Paths';
 import { PaperPlaneOverlay } from './components/PaperPlaneOverlay';
 import { Slide4Definition } from './components/Slide4Definition';
+import { Slide5CaseStudy } from './components/Slide5CaseStudy';
 
 export const App: React.FC = () => {
   const [currentState, setCurrentState] = useState<PresentationState>('hello');
@@ -113,6 +114,9 @@ export const App: React.FC = () => {
     } else if (currentState === 's4title') {
       setCurrentState('s4def');
       playQuestionRevealChord();
+    } else if (currentState === 's4def') {
+      setCurrentState('s5casestudy');
+      playSlideWhoosh();
     }
   }, [currentState, isPlaneAnimating, dismissHello]);
 
@@ -126,7 +130,9 @@ export const App: React.FC = () => {
       return;
     }
 
-    if (currentState === 's4def') {
+    if (currentState === 's5casestudy') {
+      setCurrentState('s4def');
+    } else if (currentState === 's4def') {
       setCurrentState('s4title');
     } else if (currentState === 's4title') {
       setCurrentState('s3intro');
@@ -169,7 +175,9 @@ export const App: React.FC = () => {
       } else if (e.code === 'Escape' || e.key === 'Escape') {
         e.preventDefault();
         e.stopPropagation();
-        if (currentState === 's4def' || currentState === 's4title') {
+        if (currentState === 's5casestudy') {
+          setCurrentState('s4def');
+        } else if (currentState === 's4def' || currentState === 's4title') {
           setCurrentState('s3intro');
         } else if (currentState.startsWith('s3')) {
           setCurrentState('s2scene3');
@@ -255,6 +263,13 @@ export const App: React.FC = () => {
       <Slide4Definition
         currentState={currentState}
         onBack={() => setCurrentState('s3intro')}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 5: Case Study */}
+      <Slide5CaseStudy
+        currentState={currentState}
+        onBack={() => setCurrentState('s4def')}
         onForward={navigateForward}
       />
 

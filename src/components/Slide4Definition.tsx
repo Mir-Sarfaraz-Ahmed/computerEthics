@@ -214,7 +214,7 @@ export const Slide4Definition: React.FC<Slide4DefinitionProps> = ({
           <span className="hint-text" id="slide4-action-text">
             {!isDefinitionRevealed
               ? 'Click to reveal definition'
-              : 'Definition revealed'}
+              : 'Proceed to Case Study'}
           </span>
           <span className="hint-arrow">→</span>
         </div>

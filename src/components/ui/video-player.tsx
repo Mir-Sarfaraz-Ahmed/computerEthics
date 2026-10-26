@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Play, Pause, Volume2, Volume1, VolumeX } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,6 +58,7 @@ export interface VideoPlayerProps {
   className?: string;
   containerClassName?: string;
   autoPlay?: boolean;
+  isFullscreen?: boolean;
 }
 
 const VideoPlayer = ({
@@ -65,8 +66,10 @@ const VideoPlayer = ({
   className,
   containerClassName,
   autoPlay = false,
+  isFullscreen = false,
 }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const [volume, setVolume] = useState(1);
   const [progress, setProgress] = useState(0);
@@ -75,6 +78,23 @@ const VideoPlayer = ({
   const [showControls, setShowControls] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    if (autoPlay) {
+      if (videoRef.current) {
+        videoRef.current.play().catch(() => {});
+        setIsPlaying(true);
+      }
+      if (iframeRef.current?.contentWindow) {
+        try {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+            '*'
+          );
+        } catch {}
+      }
+    }
+  }, [autoPlay]);
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -143,6 +163,7 @@ const VideoPlayer = ({
       <motion.div
         className={cn(
           "relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden bg-[#11111198] shadow-[0_0_20px_rgba(0,0,0,0.2)] backdrop-blur-sm",
+          isFullscreen && "w-screen h-screen max-w-none max-h-none rounded-none border-0 shadow-none bg-black",
           containerClassName
         )}
         initial={{ opacity: 0, y: 20 }}
@@ -150,10 +171,11 @@ const VideoPlayer = ({
         transition={{ duration: 0.5 }}
       >
         <iframe
+          ref={iframeRef}
           src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=${autoPlay ? 1 : 0}&rel=0&modestbranding=1&enablejsapi=1`}
-          className={cn("w-full h-full border-0 rounded-xl", className)}
+          className={cn("w-full h-full border-0 rounded-xl", isFullscreen && "rounded-none", className)}
           title="YouTube Video Player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
           allowFullScreen
         />
       </motion.div>

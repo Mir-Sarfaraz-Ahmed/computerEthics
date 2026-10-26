@@ -34,8 +34,18 @@ export const App: React.FC = () => {
   const [currentState, setCurrentState] = useState<PresentationState>('hello');
   const [isSoundOn, setIsSoundOn] = useState<boolean>(true);
   const [replayTrigger] = useState<number>(0);
+  const [isVideoFullscreen, setIsVideoFullscreen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (currentState !== 's13video' && isVideoFullscreen) {
+      setIsVideoFullscreen(false);
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  }, [currentState, isVideoFullscreen]);
 
 
   // Default keynote dark theme
@@ -131,10 +141,18 @@ export const App: React.FC = () => {
       setCurrentState('s13video');
       playSlideWhoosh();
     } else if (currentState === 's13video') {
-      setCurrentState('cover');
-      playAppleChime();
+      if (!isVideoFullscreen) {
+        setIsVideoFullscreen(true);
+      } else {
+        setIsVideoFullscreen(false);
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        }
+        setCurrentState('cover');
+        playAppleChime();
+      }
     }
-  }, [currentState, dismissHello]);
+  }, [currentState, isVideoFullscreen, dismissHello]);
 
   // Backward Navigation
   const navigateBackward = useCallback(() => {
@@ -146,7 +164,14 @@ export const App: React.FC = () => {
     }
 
     if (currentState === 's13video') {
-      setCurrentState('s12ghost');
+      if (isVideoFullscreen) {
+        setIsVideoFullscreen(false);
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        }
+      } else {
+        setCurrentState('s12ghost');
+      }
     } else if (currentState === 's12ghost') {
       setCurrentState('s12meta');
     } else if (currentState === 's12meta') {
@@ -213,7 +238,14 @@ export const App: React.FC = () => {
         e.preventDefault();
         e.stopPropagation();
         if (currentState === 's13video') {
-          setCurrentState('s12ghost');
+          if (isVideoFullscreen) {
+            setIsVideoFullscreen(false);
+            if (document.fullscreenElement) {
+              document.exitFullscreen().catch(() => {});
+            }
+          } else {
+            setCurrentState('s12ghost');
+          }
         } else if (currentState === 's12ghost') {
           setCurrentState('s12meta');
         } else if (currentState === 's12meta') {
@@ -377,10 +409,12 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide 13: Fullscreen Theatrical Video Player */}
+      {/* Slide 14: Fullscreen Theatrical Video Player */}
       <Slide13Video
         currentState={currentState}
         videoUrl="https://youtu.be/JzBaVohSC5s"
+        isFullscreen={isVideoFullscreen}
+        onToggleFullscreen={setIsVideoFullscreen}
         onBack={() => setCurrentState('s12ghost')}
         onForward={navigateForward}
       />

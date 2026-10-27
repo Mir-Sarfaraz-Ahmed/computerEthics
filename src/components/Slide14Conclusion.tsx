@@ -3,7 +3,6 @@ import { PresentationState } from '../types/presentation';
 import {
   playAppleChime,
   playHeroRevealChord,
-  playSlideWhoosh,
   resumeAudio,
 } from '../audio/soundEffects';
 
@@ -13,89 +12,26 @@ interface Slide14ConclusionProps {
   onRestart: () => void;
 }
 
-interface ReferenceItem {
-  title: string;
-  author: string;
-  detail: string;
-  tag: string;
-}
-
-const REFERENCE_GROUPS: {
-  category: string;
-  tagline: string;
-  color: string;
-  badgeBg: string;
-  borderColor: string;
-  items: ReferenceItem[];
-}[] = [
+const REFERENCES = [
   {
-    category: 'CASE ARCHIVES',
-    tagline: 'Historical System Failures',
-    color: '#38bdf8',
-    badgeBg: 'rgba(56, 189, 248, 0.1)',
-    borderColor: 'rgba(56, 189, 248, 0.25)',
-    items: [
-      {
-        title: 'The 1983 Soviet Nuclear False Alarm Incident',
-        author: 'Stanislav Petrov Case Archive · UN World Citizen Award',
-        detail:
-          'Analysis of OKO satellite early-warning radar anomaly and the necessity of human conscience in automated decision loops.',
-        tag: 'Case Study',
-      },
-      {
-        title: 'Crunch Culture & The Human Cost of Software',
-        author: 'Schreier, J. (2017) · Blood, Sweat, and Pixels',
-        detail:
-          'Investigative analysis of engineering burnout, labor exploitation, and the hidden human cost behind $0 piracy expectations.',
-        tag: 'Industry Study',
-      },
-    ],
+    name: 'YouTube Shorts — Case Archive',
+    url: 'https://youtube.com/shorts/a4KF8Ei_gk8',
+    type: 'youtube',
   },
   {
-    category: 'ETHICAL FRAMEWORKS',
-    tagline: 'Professional Standards & Codes',
-    color: '#818cf8',
-    badgeBg: 'rgba(129, 140, 248, 0.1)',
-    borderColor: 'rgba(129, 140, 248, 0.25)',
-    items: [
-      {
-        title: 'ACM Code of Ethics & Professional Conduct',
-        author: 'Association for Computing Machinery (ACM)',
-        detail:
-          'Mandating that technologists bear ethical responsibility for the societal impact, safety, and human dignity of their architectures.',
-        tag: 'Standard',
-      },
-      {
-        title: 'Ethically Aligned Design: Human Well-being',
-        author: 'IEEE Global Initiative on Autonomous Systems',
-        detail:
-          'Comprehensive architectural principles ensuring human sovereignty, algorithmic transparency, and moral accountability.',
-        tag: 'IEEE Charter',
-      },
-    ],
+    name: 'Computer Ethics — GeeksforGeeks',
+    url: 'https://share.google/ladEdkZKWyxkoNmOX',
+    type: 'gfg',
   },
   {
-    category: 'LITERATURE & FOUNDATIONS',
-    tagline: 'Philosophy of Computing',
-    color: '#f59e0b',
-    badgeBg: 'rgba(245, 158, 11, 0.1)',
-    borderColor: 'rgba(245, 158, 11, 0.25)',
-    items: [
-      {
-        title: 'Computer Power and Human Reason',
-        author: 'Joseph Weizenbaum · MIT Press (1976)',
-        detail:
-          'The foundational philosophical distinction between mere algorithmic calculation and genuine human judgment and conscience.',
-        tag: 'Foundations',
-      },
-      {
-        title: 'The Age of Surveillance Capitalism',
-        author: 'Shoshana Zuboff · Harvard Business School (2019)',
-        detail:
-          'The economics of behavioral modification and the real cost extracted when consumer digital platforms cost nothing.',
-        tag: 'Economics & Tech',
-      },
-    ],
+    name: 'Computer Ethics | Ethics, Laws, Definition & Privacy',
+    url: 'https://share.google/7hnzi8nYqeEWO0b76',
+    type: 'google',
+  },
+  {
+    name: 'YouTube — Theatrical Case Study',
+    url: 'https://youtu.be/zUPA8kyo0Fo',
+    type: 'youtube',
   },
 ];
 
@@ -106,8 +42,6 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
 }) => {
   const isConclusionActive = currentState === 's14conclusion';
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const parallaxRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
   const hasTriggeredAudio = useRef<boolean>(false);
 
   useEffect(() => {
@@ -122,38 +56,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
     }
   }, [isConclusionActive]);
 
-  // Subtle interactive 3D parallax
-  useEffect(() => {
-    if (!isConclusionActive) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      parallaxRef.current.tx = (e.clientX / window.innerWidth - 0.5) * 16;
-      parallaxRef.current.ty = (e.clientY / window.innerHeight - 0.5) * 12;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    let animId: number;
-    const render = () => {
-      const p = parallaxRef.current;
-      p.x += (p.tx - p.x) * 0.05;
-      p.y += (p.ty - p.y) * 0.05;
-
-      if (containerRef.current) {
-        containerRef.current.style.transform = `translate3d(${p.x * 0.4}px, ${p.y * 0.4}px, 0)`;
-      }
-      animId = requestAnimationFrame(render);
-    };
-
-    animId = requestAnimationFrame(render);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [isConclusionActive]);
-
-  // Atmospheric Particle Canvas
+  // Subtle ambient particle canvas
   useEffect(() => {
     const canvas = particleCanvasRef.current;
     if (!canvas || !isConclusionActive) return;
@@ -170,15 +73,15 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
     };
     window.addEventListener('resize', handleResize);
 
-    const particleCount = 40;
+    const particleCount = 28;
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.3,
-      radius: Math.random() * 2 + 0.8,
-      alpha: Math.random() * 0.6 + 0.2,
-      color: Math.random() > 0.4 ? '#38bdf8' : '#f59e0b',
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.25,
+      radius: Math.random() * 1.8 + 0.6,
+      alpha: Math.random() * 0.5 + 0.15,
+      color: Math.random() > 0.5 ? '#38bdf8' : '#818cf8',
     }));
 
     let animId: number;
@@ -199,8 +102,6 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.alpha;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 8;
         ctx.fill();
         ctx.restore();
       });
@@ -221,14 +122,21 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
       className={`cinematic-slide conclusion-slide ${isConclusionActive ? 'active' : ''}`}
       id="conclusion-slide"
       aria-hidden={!isConclusionActive}
-      style={{ overflowY: 'auto' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: '100vh',
+        width: '100%',
+        padding: '0',
+        overflow: 'hidden',
+        background: '#07080b',
+      }}
     >
       {/* Background Ambience & Canvas */}
       <div className="conclusion-atmosphere" aria-hidden="true">
         <canvas ref={particleCanvasRef} className="conclusion-particle-canvas" />
         <div className="conclusion-ambient-glow-cyan" />
-        <div className="conclusion-ambient-glow-gold" />
-        <div className="conclusion-grid-mesh" />
         <div className="slide-vignette" />
       </div>
 
@@ -237,7 +145,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
         <button
           className="slide-nav-back"
           id="btn-conclusion-back"
-          title="Back to Video Screening (Slide 14)"
+          title="Back to Video Screening (Slide 13)"
           onClick={(e) => {
             e.stopPropagation();
             onBack();
@@ -266,272 +174,257 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
               boxShadow: '0 0 10px #38bdf8, 0 0 20px rgba(56, 189, 248, 0.85)',
             }}
           />
-          <span style={{ letterSpacing: '0.14em' }}>CHAPTER 07 / REFERENCES & ARCHIVE</span>
+          <span style={{ letterSpacing: '0.14em' }}>REFERENCES</span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <button
-            className="slide-nav-next-btn"
-            id="btn-conclusion-restart-header"
-            title="Restart Presentation from Beginning"
-            onClick={(e) => {
-              e.stopPropagation();
-              playAppleChime();
-              onRestart();
-            }}
-            style={{
-              borderColor: 'rgba(16, 185, 129, 0.4)',
-              color: '#34d399',
-            }}
+        <button
+          className="slide-nav-next-btn"
+          id="btn-conclusion-restart-header"
+          title="Restart Presentation from Beginning"
+          onClick={(e) => {
+            e.stopPropagation();
+            playAppleChime();
+            onRestart();
+          }}
+          style={{
+            borderColor: 'rgba(16, 185, 129, 0.4)',
+            color: '#34d399',
+          }}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-            <span>Restart</span>
-          </button>
-        </div>
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+          </svg>
+          <span>Restart</span>
+        </button>
       </div>
 
-      {/* Main Content Stage */}
+      {/* Single Center Block */}
       <div
-        ref={containerRef}
-        className="conclusion-content-wrap"
         style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-          padding: '28px 32px 48px',
+          flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          gap: '24px',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px 24px',
           zIndex: 10,
-          position: 'relative',
         }}
       >
-        {/* Title & Tagline */}
-        <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-          <h1
-            style={{
-              fontSize: 'clamp(2.4rem, 4.6vw, 3.8rem)',
-              fontWeight: 900,
-              letterSpacing: '-0.02em',
-              lineHeight: 1.15,
-              color: '#ffffff',
-              margin: '0 0 10px',
-              fontFamily: 'var(--font-sans)',
-            }}
-          >
-            Academic Papers & <span style={{ background: 'linear-gradient(135deg, #38bdf8 0%, #818cf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>References</span>
-            <span style={{ color: '#f59e0b' }}>.</span>
-          </h1>
-          <p
-            style={{
-              fontSize: 'clamp(0.95rem, 1.3vw, 1.1rem)',
-              color: 'rgba(226, 232, 240, 0.72)',
-              maxWidth: '720px',
-              margin: '0 auto',
-              lineHeight: 1.5,
-              fontWeight: 400,
-            }}
-          >
-            Core citations, historical case studies, and engineering charters referenced throughout this case inquiry.
-          </p>
-        </div>
-
-        {/* 3 Reference Cards */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '20px',
+            width: '100%',
+            maxWidth: '680px',
+            background: 'rgba(15, 23, 42, 0.65)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '20px',
+            padding: '28px 32px',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(56, 189, 248, 0.08)',
           }}
         >
-          {REFERENCE_GROUPS.map((group, gIdx) => (
-            <div
-              key={gIdx}
+          {/* Block Header */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingBottom: '18px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+              marginBottom: '16px',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '999px',
+                  background: '#38bdf8',
+                  boxShadow: '0 0 8px #38bdf8',
+                }}
+              />
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: '1.05rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-mono)',
+                }}
+              >
+                References
+              </h2>
+            </div>
+            <span
               style={{
-                background: 'rgba(15, 23, 42, 0.55)',
-                border: `1px solid ${group.borderColor}`,
-                borderRadius: '18px',
-                padding: '24px',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                boxShadow: '0 12px 36px rgba(0, 0, 0, 0.35)',
-                transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease',
+                fontSize: '0.75rem',
+                fontFamily: 'var(--font-mono)',
+                color: 'rgba(255, 255, 255, 0.45)',
               }}
             >
-              <div>
-                {/* Group Header */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingBottom: '14px',
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                    marginBottom: '18px',
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-mono)',
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      letterSpacing: '0.12em',
-                      color: group.color,
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {group.category}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: '0.72rem',
-                      color: 'rgba(255, 255, 255, 0.45)',
-                      fontFamily: 'var(--font-mono)',
-                    }}
-                  >
-                    {group.tagline}
-                  </span>
-                </div>
-
-                {/* Items */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  {group.items.map((item, itemIdx) => (
-                    <div key={itemIdx} style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
-                        <h3
-                          style={{
-                            fontSize: '0.98rem',
-                            fontWeight: 700,
-                            color: '#f8fafc',
-                            margin: 0,
-                            lineHeight: 1.35,
-                          }}
-                        >
-                          {item.title}
-                        </h3>
-                        <span
-                          style={{
-                            fontSize: '0.68rem',
-                            fontFamily: 'var(--font-mono)',
-                            padding: '2px 8px',
-                            borderRadius: '6px',
-                            background: group.badgeBg,
-                            color: group.color,
-                            border: `1px solid ${group.borderColor}`,
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {item.tag}
-                        </span>
-                      </div>
-                      <span
-                        style={{
-                          fontSize: '0.78rem',
-                          color: '#94a3b8',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {item.author}
-                      </span>
-                      <p
-                        style={{
-                          fontSize: '0.82rem',
-                          color: 'rgba(226, 232, 240, 0.65)',
-                          margin: 0,
-                          lineHeight: 1.45,
-                          fontWeight: 300,
-                        }}
-                      >
-                        {item.detail}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Bottom Banner with Quote and Restart Button */}
-        <div
-          style={{
-            marginTop: '8px',
-            background: 'rgba(10, 15, 28, 0.7)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRadius: '16px',
-            padding: '16px 24px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '16px',
-            backdropFilter: 'blur(16px)',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ color: '#f59e0b', fontSize: '1.4rem', fontFamily: 'var(--font-serif)', lineHeight: 1 }}>
-              “
-            </span>
-            <span style={{ fontSize: '0.88rem', color: '#cbd5e1', fontStyle: 'italic' }}>
-              What we permit in our systems, we enforce on society.
+              4 Sources
             </span>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <button
-              onClick={() => {
-                playAppleChime();
-                onRestart();
-              }}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '10px 22px',
-                borderRadius: '10px',
-                background: '#10b981',
-                color: '#022c22',
-                fontWeight: 700,
-                fontSize: '0.82rem',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                border: 'none',
-                cursor: 'pointer',
-                boxShadow: '0 0 25px rgba(16, 185, 129, 0.45)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.04)';
-                e.currentTarget.style.background = '#34d399';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.background = '#10b981';
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                <path d="M3 3v5h5" />
-              </svg>
-              <span>Restart Presentation</span>
-            </button>
+          {/* Line by Line Links */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {REFERENCES.map((ref, idx) => (
+              <a
+                key={idx}
+                href={ref.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '14px 18px',
+                  borderRadius: '12px',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.06)',
+                  textDecoration: 'none',
+                  color: '#f8fafc',
+                  transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(56, 189, 248, 0.08)';
+                  e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.35)';
+                  e.currentTarget.style.transform = 'translateX(4px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+                  e.currentTarget.style.transform = 'translateX(0)';
+                }}
+              >
+                {/* Left: Logo & Name */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
+                  {/* Logo */}
+                  {ref.type === 'youtube' && (
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'rgba(255, 0, 0, 0.12)',
+                        border: '1px solid rgba(255, 0, 0, 0.25)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                      </svg>
+                    </div>
+                  )}
+
+                  {ref.type === 'gfg' && (
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'rgba(47, 141, 70, 0.15)',
+                        border: '1px solid rgba(47, 141, 70, 0.35)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: '#2F8D46',
+                          fontWeight: 900,
+                          fontSize: '0.72rem',
+                          fontFamily: 'var(--font-mono)',
+                          letterSpacing: '-0.02em',
+                        }}
+                      >
+                        GfG
+                      </span>
+                    </div>
+                  )}
+
+                  {ref.type === 'google' && (
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'rgba(66, 133, 244, 0.12)',
+                        border: '1px solid rgba(66, 133, 244, 0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Name */}
+                  <span
+                    style={{
+                      fontSize: '0.92rem',
+                      fontWeight: 600,
+                      color: '#f1f5f9',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {ref.name}
+                  </span>
+                </div>
+
+                {/* Right: External Link Arrow */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'rgba(255, 255, 255, 0.4)', flexShrink: 0 }}>
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Subtle bottom spacing */}
+      <div style={{ height: '32px' }} />
     </section>
   );
 };

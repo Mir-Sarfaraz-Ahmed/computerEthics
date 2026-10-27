@@ -4883,8 +4883,8 @@ body.theme-light .ethics-em-word {
   z-index: 30;
   display: flex;
   justify-content: center;
-  width: 90%;
-  max-width: 840px;
+  width: max-content;
+  max-width: 95vw;
   pointer-events: none;
   animation: insightSlideUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -4892,14 +4892,15 @@ body.theme-light .ethics-em-word {
 .meta-insight-pill {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 8px 24px;
   border-radius: 999px;
-  background: rgba(10, 16, 32, 0.72);
+  background: rgba(10, 16, 32, 0.75);
   border: 1px solid rgba(56, 189, 248, 0.3);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 24px rgba(56, 189, 248, 0.12);
+  white-space: nowrap;
 }
 
 .meta-pill-dot {
@@ -4908,6 +4909,7 @@ body.theme-light .ethics-em-word {
   border-radius: 50%;
   background: #38bdf8;
   box-shadow: 0 0 10px #38bdf8;
+  flex-shrink: 0;
   animation: metaDotPulse 1.2s ease-in-out infinite alternate;
 }
 
@@ -4924,10 +4926,13 @@ body.theme-light .ethics-em-word {
   color: #f59e0b;
   text-shadow: 0 0 12px rgba(245, 158, 11, 0.45);
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .meta-pill-sep {
   color: rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
 }
 
 .meta-pill-text {
@@ -4935,6 +4940,8 @@ body.theme-light .ethics-em-word {
   color: #e2e8f0;
   font-weight: 400;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 @keyframes pulseSynapseCyan {

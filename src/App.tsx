@@ -27,8 +27,8 @@ import { Slide9Missiles } from './components/Slide9Missiles';
 import { Slide10Petrov } from './components/Slide10Petrov';
 import { Slide11Story } from './components/Slide11Story';
 import { Slide12Meta } from './components/Slide12Meta';
-import { Slide12Ghost } from './components/Slide12Ghost';
 import { Slide13Video } from './components/Slide13Video';
+import { Slide14Conclusion } from './components/Slide14Conclusion';
 
 export const App: React.FC = () => {
   const [currentState, setCurrentState] = useState<PresentationState>('hello');
@@ -126,6 +126,9 @@ export const App: React.FC = () => {
     } else if (currentState === 's8alert') {
       setCurrentState('s9missiles');
     } else if (currentState === 's9missiles') {
+      setCurrentState('s9shader');
+      playSlideWhoosh();
+    } else if (currentState === 's9shader') {
       setCurrentState('s10petrov');
       playSlideWhoosh();
     } else if (currentState === 's10petrov') {
@@ -135,22 +138,20 @@ export const App: React.FC = () => {
       setCurrentState('s12meta');
       playSlideWhoosh();
     } else if (currentState === 's12meta') {
-      setCurrentState('s12ghost');
-      playSlideWhoosh();
-    } else if (currentState === 's12ghost') {
       setCurrentState('s13video');
       playSlideWhoosh();
     } else if (currentState === 's13video') {
-      if (!isVideoFullscreen) {
-        setIsVideoFullscreen(true);
-      } else {
+      if (isVideoFullscreen) {
         setIsVideoFullscreen(false);
         if (document.fullscreenElement) {
           document.exitFullscreen().catch(() => {});
         }
-        setCurrentState('cover');
-        playAppleChime();
       }
+      setCurrentState('s14conclusion');
+      playSlideWhoosh();
+    } else if (currentState === 's14conclusion') {
+      setCurrentState('cover');
+      playAppleChime();
     }
   }, [currentState, isVideoFullscreen, dismissHello]);
 
@@ -163,22 +164,25 @@ export const App: React.FC = () => {
       return;
     }
 
-    if (currentState === 's13video') {
+    if (currentState === 's14conclusion') {
+      setCurrentState('s13video');
+      playSlideWhoosh();
+    } else if (currentState === 's13video') {
       if (isVideoFullscreen) {
         setIsVideoFullscreen(false);
         if (document.fullscreenElement) {
           document.exitFullscreen().catch(() => {});
         }
       } else {
-        setCurrentState('s12ghost');
+        setCurrentState('s12meta');
       }
-    } else if (currentState === 's12ghost') {
-      setCurrentState('s12meta');
     } else if (currentState === 's12meta') {
       setCurrentState('s11story');
     } else if (currentState === 's11story') {
       setCurrentState('s10petrov');
     } else if (currentState === 's10petrov') {
+      setCurrentState('s9shader');
+    } else if (currentState === 's9shader') {
       setCurrentState('s9missiles');
     } else if (currentState === 's9missiles') {
       setCurrentState('s8alert');
@@ -211,7 +215,7 @@ export const App: React.FC = () => {
     } else if (currentState === 's1scene') {
       setCurrentState('cover');
     }
-  }, [currentState, dismissHello]);
+  }, [currentState, isVideoFullscreen, dismissHello]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -226,6 +230,23 @@ export const App: React.FC = () => {
         return;
       }
 
+      // In video fullscreen mode, allow Escape to exit fullscreen without changing slide,
+      // and do not hijack Spacebar so video play/pause is preserved
+      if (currentState === 's13video' && isVideoFullscreen) {
+        if (e.code === 'Escape' || e.key === 'Escape') {
+          e.preventDefault();
+          e.stopPropagation();
+          setIsVideoFullscreen(false);
+          if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => {});
+          }
+          return;
+        }
+        if (e.code === 'Space' || e.key === ' ' || e.code === 'Spacebar') {
+          return;
+        }
+      }
+
       if (FORWARD_CODES.has(e.code) || FORWARD_KEYS.has(e.key)) {
         e.preventDefault();
         e.stopPropagation();
@@ -237,17 +258,17 @@ export const App: React.FC = () => {
       } else if (e.code === 'Escape' || e.key === 'Escape') {
         e.preventDefault();
         e.stopPropagation();
-        if (currentState === 's13video') {
+        if (currentState === 's14conclusion') {
+          setCurrentState('s13video');
+        } else if (currentState === 's13video') {
           if (isVideoFullscreen) {
             setIsVideoFullscreen(false);
             if (document.fullscreenElement) {
               document.exitFullscreen().catch(() => {});
             }
           } else {
-            setCurrentState('s12ghost');
+            setCurrentState('s12meta');
           }
-        } else if (currentState === 's12ghost') {
-          setCurrentState('s12meta');
         } else if (currentState === 's12meta') {
           setCurrentState('s11story');
         } else if (currentState === 's11story') {
@@ -381,10 +402,18 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
+      {/* Slide: Shader Ghost / Digital Conscience (After Missiles, exactly same as slide 2) */}
+      <SlideShaderGhost
+        currentState={currentState}
+        activeStateName="s9shader"
+        onBack={() => setCurrentState('s9missiles')}
+        onForward={navigateForward}
+      />
+
       {/* Slide 10: Stanislav Yevgrafovich Petrov */}
       <Slide10Petrov
         currentState={currentState}
-        onBack={() => setCurrentState('s9missiles')}
+        onBack={() => setCurrentState('s9shader')}
         onForward={navigateForward}
       />
 
@@ -402,21 +431,27 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide 13: The Ghost (Cyber Entity & Shadow Threat) */}
-      <Slide12Ghost
-        currentState={currentState}
-        onBack={() => setCurrentState('s12meta')}
-        onForward={navigateForward}
-      />
-
-      {/* Slide 14: Fullscreen Theatrical Video Player */}
+      {/* Slide 13: Fullscreen Theatrical Video Player */}
       <Slide13Video
         currentState={currentState}
         videoUrl="https://youtu.be/JzBaVohSC5s"
         isFullscreen={isVideoFullscreen}
         onToggleFullscreen={setIsVideoFullscreen}
-        onBack={() => setCurrentState('s12ghost')}
+        onBack={() => setCurrentState('s12meta')}
         onForward={navigateForward}
+      />
+
+      {/* Slide 15: Grand Finale / Conclusion & Moral Horizon */}
+      <Slide14Conclusion
+        currentState={currentState}
+        onBack={() => {
+          setCurrentState('s13video');
+          playSlideWhoosh();
+        }}
+        onRestart={() => {
+          setCurrentState('cover');
+          playAppleChime();
+        }}
       />
 
       {/* Toast Notification */}

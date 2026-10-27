@@ -4,16 +4,22 @@ import { MeshGradientSVG } from './ui/shader-svg';
 
 interface SlideShaderGhostProps {
   currentState: PresentationState;
+  activeStateName?: PresentationState;
+  backButtonLabel?: string;
+  chapterLabel?: string;
   onBack: () => void;
   onForward: () => void;
 }
 
 export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
   currentState,
+  activeStateName = 's2shader',
+  backButtonLabel = 'Slide 02',
+  chapterLabel = 'CHAPTER 02 / THE DIGITAL CONSCIENCE',
   onBack,
   onForward,
 }) => {
-  const isShader = currentState === 's2shader';
+  const isShader = currentState === activeStateName;
 
   const handleSlideClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('button')) {
@@ -25,13 +31,13 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
   return (
     <section
       className={`cinematic-slide shader-slide ${isShader ? 'active' : ''}`}
-      id="shader-slide"
+      id={activeStateName === 's9shader' ? 'shader-slide-missiles' : 'shader-slide'}
       aria-hidden={!isShader}
       onClick={handleSlideClick}
     >
       {/* Deep atmospheric backdrop */}
       <div className="slide-backdrop-wrap">
-        <div className="slide-backdrop shader-backdrop" id="shader-backdrop"></div>
+        <div className="slide-backdrop shader-backdrop" id={activeStateName === 's9shader' ? 'shader-backdrop-missiles' : 'shader-backdrop'}></div>
         <div className="slide-vignette" aria-hidden="true"></div>
       </div>
 
@@ -39,8 +45,8 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
       <div className="slide-floating-nav">
         <button
           className="slide-nav-back"
-          id="btn-shader-back"
-          title="Back to Slide 2"
+          id={activeStateName === 's9shader' ? 'btn-shader-back-missiles' : 'btn-shader-back'}
+          title="Back"
           onClick={(e) => {
             e.stopPropagation();
             onBack();
@@ -58,7 +64,7 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
           >
             <path d="m15 18-6-6 6-6" />
           </svg>
-          <span>Slide 02</span>
+          <span>{backButtonLabel}</span>
         </button>
 
         <div className="slide-chapter-tag">
@@ -66,11 +72,11 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
             className="slide-tag-dot"
             style={{ background: '#ec4899', boxShadow: '0 0 10px #ec4899' }}
           ></span>
-          <span>CHAPTER 02 / THE DIGITAL CONSCIENCE</span>
+          <span>{chapterLabel}</span>
         </div>
 
-        <div className="slide-step-indicator" id="shader-step-indicator">
-          <span className="step-dot active" id="shader-dot-1"></span>
+        <div className="slide-step-indicator" id={activeStateName === 's9shader' ? 'shader-step-indicator-missiles' : 'shader-step-indicator'}>
+          <span className="step-dot active" id={activeStateName === 's9shader' ? 'shader-dot-missiles' : 'shader-dot-1'}></span>
         </div>
       </div>
 

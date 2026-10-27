@@ -78,21 +78,22 @@ export const Slide12Ghost: React.FC<Slide12GhostProps> = ({
       aria-hidden={!isGhostActive}
       onClick={handleSlideClick}
     >
-      {/* Saturated Ambient Aura Expanding into Letterbox Space */}
-      <div
-        className="ghost-ambient-blur-bg"
-        style={{ backgroundImage: `url('/assets/the_ghost.jpg')` }}
-        aria-hidden="true"
-      />
-
-      {/* Cyber Glitch Mood Lighting: Electric Cyan vs Menacing Crimson Red */}
-      <div className="ghost-mood-lighting" aria-hidden="true">
-        <div className="ghost-cyan-halo" />
-        <div className="ghost-crimson-halo" />
-        <div className="ghost-scanline-sweep" />
+      {/* Full Background Stage (No Box, No Blur, Unclipped & Crystal Clear) */}
+      <div className="slide-backdrop-wrap ghost-backdrop-wrap">
+        <div
+          ref={mediaWrapRef}
+          className="slide-backdrop ghost-fullscreen-bg"
+          style={{ backgroundImage: `url('/assets/the_ghost.jpg')` }}
+          role="img"
+          aria-label="The Ghost - Cyber Entity with Red Eyes in Matrix Data Stream"
+        />
+        <div className="ghost-mood-lighting" aria-hidden="true">
+          <div className="ghost-cyan-halo" />
+          <div className="ghost-crimson-halo" />
+          <div className="ghost-scanline-sweep" />
+        </div>
+        <div className="slide-vignette" aria-hidden="true" />
       </div>
-
-      <div className="slide-vignette" aria-hidden="true" />
 
       {/* Floating Header Navigation Bar */}
       <div className="slide-floating-nav">
@@ -143,21 +144,6 @@ export const Slide12Ghost: React.FC<Slide12GhostProps> = ({
               boxShadow: '0 0 10px rgba(239, 68, 68, 0.9), 0 0 16px rgba(56, 189, 248, 0.6)',
             }}
           />
-        </div>
-      </div>
-
-      {/* Main Theatrical Stage Frame */}
-      <div className="finale-stage-frame ghost-stage-frame">
-        <div ref={mediaWrapRef} className="finale-stage-media-wrap ghost-stage-media-wrap">
-          <img
-            src="/assets/the_ghost.jpg"
-            alt="The Ghost - Cyber Entity with Red Eyes in Matrix Data Stream"
-            className="finale-stage-image ghost-stage-image"
-            loading="eager"
-            draggable={false}
-          />
-          {/* Subtle Glitch Edge Sheen Overlay */}
-          <div className="ghost-media-sheen" aria-hidden="true" />
         </div>
       </div>
 

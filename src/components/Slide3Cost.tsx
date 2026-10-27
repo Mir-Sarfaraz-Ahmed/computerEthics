@@ -75,20 +75,21 @@ export const Slide3Cost: React.FC<Slide3CostProps> = ({
       aria-hidden={!isCostActive}
       onClick={handleSlideClick}
     >
-      {/* Saturated Ambient Aura Expanding into Letterbox Space */}
-      <div
-        className="cost-ambient-blur-bg"
-        style={{ backgroundImage: `url('/assets/free_at_what_cost.jpg')` }}
-        aria-hidden="true"
-      />
-      
-      {/* Dynamic Split Mood Lighting: Ice Blue (Gamer) vs Blood Red (Developers) */}
-      <div className="cost-mood-lighting" aria-hidden="true">
-        <div className="cost-blue-halo" />
-        <div className="cost-red-halo" />
+      {/* Full Background Stage (No Box, No Blur, Unclipped & Crystal Clear) */}
+      <div className="slide-backdrop-wrap cost-backdrop-wrap">
+        <div
+          ref={mediaWrapRef}
+          className="slide-backdrop cost-fullscreen-bg"
+          style={{ backgroundImage: `url('/assets/free_at_what_cost.jpg')` }}
+          role="img"
+          aria-label="Free For You. But At What Cost?"
+        />
+        <div className="cost-mood-lighting" aria-hidden="true">
+          <div className="cost-blue-halo" />
+          <div className="cost-red-halo" />
+        </div>
+        <div className="slide-vignette" aria-hidden="true" />
       </div>
-
-      <div className="slide-vignette" aria-hidden="true" />
 
       {/* Floating Header Navigation Bar */}
       <div className="slide-floating-nav">
@@ -133,28 +134,6 @@ export const Slide3Cost: React.FC<Slide3CostProps> = ({
         </div>
       </div>
 
-      {/* Main Theatrical Stage Frame */}
-      <div className="cost-stage-frame">
-        <div ref={mediaWrapRef} className="cost-stage-media-wrap">
-          <img
-            src="/assets/free_at_what_cost.jpg"
-            alt="Free For You. But At What Cost? The contrast between player and exhausted creators."
-            className="cost-stage-image"
-            loading="eager"
-            draggable={false}
-          />
-          {/* Subtle Glass Edge Glow Overlay */}
-          <div className="cost-media-sheen" aria-hidden="true" />
-        </div>
-
-        {/* Floating Telemetry Insight Card */}
-        <div className="cost-insight-pill">
-          <span className="cost-pill-dot" />
-          <span className="cost-pill-text">
-            <strong>THE CREATOR PARADOX:</strong> $0 PIRACY ON ONE SCREEN · THOUSANDS OF CRUNCH HOURS ON THE OTHER
-          </span>
-        </div>
-      </div>
 
       {/* Footer Navigation Hint */}
       <div className="slide-footer-hint" id="cost-footer-hint">

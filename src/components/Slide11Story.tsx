@@ -78,20 +78,21 @@ export const Slide11Story: React.FC<Slide11StoryProps> = ({
       aria-hidden={!isStoryActive}
       onClick={handleSlideClick}
     >
-      {/* Saturated Ambient Aura Expanding into Letterbox Space */}
-      <div
-        className="finale-ambient-blur-bg"
-        style={{ backgroundImage: `url('/assets/man_who_saved_the_world.jpg')` }}
-        aria-hidden="true"
-      />
-
-      {/* Dynamic Mood Lighting: Tactical Crimson (Alert) vs Warm Amber/Gold (Petrov) */}
-      <div className="finale-mood-lighting" aria-hidden="true">
-        <div className="finale-red-halo" />
-        <div className="finale-gold-halo" />
+      {/* Full Background Stage (No Box, No Blur, Unclipped & Crystal Clear) */}
+      <div className="slide-backdrop-wrap finale-backdrop-wrap">
+        <div
+          ref={mediaWrapRef}
+          className="slide-backdrop finale-fullscreen-bg"
+          style={{ backgroundImage: `url('/assets/man_who_saved_the_world.jpg')` }}
+          role="img"
+          aria-label="The Man Who Saved The World - September 26, 1983"
+        />
+        <div className="finale-mood-lighting" aria-hidden="true">
+          <div className="finale-red-halo" />
+          <div className="finale-gold-halo" />
+        </div>
+        <div className="slide-vignette" aria-hidden="true" />
       </div>
-
-      <div className="slide-vignette" aria-hidden="true" />
 
       {/* Floating Header Navigation Bar */}
       <div className="slide-floating-nav">
@@ -141,21 +142,6 @@ export const Slide11Story: React.FC<Slide11StoryProps> = ({
               boxShadow: '0 0 10px rgba(245, 158, 11, 0.8)',
             }}
           />
-        </div>
-      </div>
-
-      {/* Main Theatrical Stage Frame */}
-      <div className="finale-stage-frame">
-        <div ref={mediaWrapRef} className="finale-stage-media-wrap">
-          <img
-            src="/assets/man_who_saved_the_world.jpg"
-            alt="The Man Who Saved The World - September 26, 1983. Serpukhov-15 Command Bunker. The Alert, The Protocol, The Decision."
-            className="finale-stage-image"
-            loading="eager"
-            draggable={false}
-          />
-          {/* Subtle Glass Edge Glow Overlay */}
-          <div className="finale-media-sheen" aria-hidden="true" />
         </div>
       </div>
 

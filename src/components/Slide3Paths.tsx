@@ -75,13 +75,34 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
       aria-hidden={!isS3}
       onClick={handleSlideClick}
     >
-      {/* Saturated ambient aura expanding into letterbox space */}
-      <div
-        className="paths-ambient-blur-bg"
-        style={{ backgroundImage: `url('/assets/paths_split_screen.jpg')` }}
-        aria-hidden="true"
-      />
-      <div className="slide-vignette" aria-hidden="true"></div>
+      {/* Full Background Stage (No Box, No Blur, Unclipped & Crystal Clear) */}
+      <div className="slide-backdrop-wrap paths-fullscreen-wrap">
+        <div ref={mediaWrapRef} className="paths-fullscreen-inner">
+          <img
+            src="/assets/paths_split_screen.jpg"
+            alt="Two Paths. One Choice. The Ethical Contract vs The Free Illusion"
+            className="paths-fullscreen-image"
+          />
+
+          {/* Interactive button hotspots mapped over graphic */}
+          <button
+            type="button"
+            className="paths-hotspot-btn paths-hotspot-legal"
+            title="Choose Legal (Path A)"
+            aria-label="Choose Legal"
+            onClick={handleChooseLegal}
+          />
+
+          <button
+            type="button"
+            className="paths-hotspot-btn paths-hotspot-risk"
+            title="Choose Risk (Path B)"
+            aria-label="Choose Risk"
+            onClick={handleChooseRisk}
+          />
+        </div>
+        <div className="slide-vignette" aria-hidden="true" />
+      </div>
 
       {/* Floating Mac Keynote Header */}
       <div className="slide-floating-nav">
@@ -113,41 +134,13 @@ export const Slide3Paths: React.FC<Slide3PathsProps> = ({
           <span
             className="slide-tag-dot"
             style={{ background: '#a78bfa', boxShadow: '0 0 8px #a78bfa' }}
-          ></span>
+          />
           <span>CHAPTER 03 / THE CHOICE</span>
         </div>
 
         <div className="slide-step-indicator" id="slide3-step-indicator">
-          <span className="step-dot active" id="slide3-dot-1"></span>
-          <span className="step-dot" id="slide3-dot-2"></span>
-        </div>
-      </div>
-
-      {/* Responsive Theatrical Stage Frame (unclipped, fits all viewports) */}
-      <div className="paths-stage-frame">
-        <div ref={mediaWrapRef} className="paths-stage-media-wrap">
-          <img
-            src="/assets/paths_split_screen.jpg"
-            alt="Two Paths. One Choice. The Ethical Contract vs The Free Illusion"
-            className="paths-stage-image"
-          />
-
-          {/* Interactive button hotspots mapped over graphic */}
-          <button
-            type="button"
-            className="paths-hotspot-btn paths-hotspot-legal"
-            title="Choose Legal (Path A)"
-            aria-label="Choose Legal"
-            onClick={handleChooseLegal}
-          />
-
-          <button
-            type="button"
-            className="paths-hotspot-btn paths-hotspot-risk"
-            title="Choose Risk (Path B)"
-            aria-label="Choose Risk"
-            onClick={handleChooseRisk}
-          />
+          <span className="step-dot active" id="slide3-dot-1" />
+          <span className="step-dot" id="slide3-dot-2" />
         </div>
       </div>
 

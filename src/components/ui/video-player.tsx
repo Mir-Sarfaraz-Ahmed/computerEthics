@@ -59,6 +59,7 @@ export interface VideoPlayerProps {
   containerClassName?: string;
   autoPlay?: boolean;
   isFullscreen?: boolean;
+  isActive?: boolean;
 }
 
 const VideoPlayer = ({
@@ -67,6 +68,7 @@ const VideoPlayer = ({
   containerClassName,
   autoPlay = false,
   isFullscreen = false,
+  isActive = true,
 }: VideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -79,8 +81,43 @@ const VideoPlayer = ({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  // Handle active state changes & cleanup
   useEffect(() => {
-    if (autoPlay) {
+    if (!isActive) {
+      if (videoRef.current) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+      if (iframeRef.current?.contentWindow) {
+        try {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+            '*'
+          );
+        } catch {}
+      }
+    }
+  }, [isActive]);
+
+  // Pause on unmount
+  useEffect(() => {
+    return () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+      if (iframeRef.current?.contentWindow) {
+        try {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+            '*'
+          );
+        } catch {}
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (autoPlay && isActive) {
       if (videoRef.current) {
         videoRef.current.play().catch(() => {});
         setIsPlaying(true);
@@ -94,7 +131,7 @@ const VideoPlayer = ({
         } catch {}
       }
     }
-  }, [autoPlay]);
+  }, [autoPlay, isActive]);
 
   const togglePlay = () => {
     if (videoRef.current) {

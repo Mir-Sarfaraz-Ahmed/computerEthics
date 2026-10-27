@@ -20,10 +20,12 @@ export type PresentationState =
   | 's7ww3'
   | 's8alert'
   | 's9missiles'
+  | 's9shader'
   | 's10petrov'
   | 's11story'
   | 's12meta'
   | 's12ghost'
-  | 's13video';
+  | 's13video'
+  | 's14conclusion';
 
 export type ThemeMode = 'dark' | 'light';

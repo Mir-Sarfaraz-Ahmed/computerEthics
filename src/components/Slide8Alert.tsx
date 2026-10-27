@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PresentationState } from '../types/presentation';
 import { startNuclearSiren, stopNuclearSiren, resumeAudio } from '../audio/soundEffects';
 
@@ -8,42 +8,39 @@ interface Slide8AlertProps {
   onForward: () => void;
 }
 
+// Exactly the 2 original languages (Russian & English) looping every 1 second
+const ALERT_TRANSLATIONS = [
+  { text: 'РАКЕТНЫЙ УДАР', sub: 'ТРЕВОГА ВЫСШЕЙ КАТЕГОРИИ' },
+  { text: 'MISSILE ATTACK', sub: 'CRITICAL SYSTEM WARNING' },
+];
+
 export const Slide8Alert: React.FC<Slide8AlertProps> = ({
   currentState,
   onBack,
   onForward,
 }) => {
   const isAlertActive = currentState === 's8alert';
-  const [isEnglish, setIsEnglish] = useState<boolean>(false);
-  const transitionTimerRef = useRef<number | null>(null);
+  const [transIndex, setTransIndex] = useState<number>(0);
 
   useEffect(() => {
     if (!isAlertActive) {
       stopNuclearSiren();
-      if (transitionTimerRef.current) {
-        window.clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = null;
-      }
-      setIsEnglish(false);
+      setTransIndex(0);
       return;
     }
 
     // When slide becomes active: resume audio and start emergency siren
     resumeAudio();
     startNuclearSiren();
-    setIsEnglish(false);
 
-    // After 2.6 seconds of intense alarm, smoothly transition to English "MISSILE ATTACK"
-    transitionTimerRef.current = window.setTimeout(() => {
-      setIsEnglish(true);
-    }, 2600);
+    // Loop between Russian and English every 1 second
+    const interval = setInterval(() => {
+      setTransIndex((prev) => (prev + 1) % ALERT_TRANSLATIONS.length);
+    }, 1000);
 
     return () => {
       stopNuclearSiren();
-      if (transitionTimerRef.current) {
-        window.clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = null;
-      }
+      clearInterval(interval);
     };
   }, [isAlertActive]);
 
@@ -54,18 +51,10 @@ export const Slide8Alert: React.FC<Slide8AlertProps> = ({
     ) {
       return;
     }
-
-    // If still in Russian alert, click triggers immediate transition to English
-    if (!isEnglish) {
-      if (transitionTimerRef.current) {
-        window.clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = null;
-      }
-      setIsEnglish(true);
-    } else {
-      onForward();
-    }
+    onForward();
   };
+
+  const currentAlert = ALERT_TRANSLATIONS[transIndex];
 
   return (
     <section
@@ -117,7 +106,7 @@ export const Slide8Alert: React.FC<Slide8AlertProps> = ({
         </div>
       </div>
 
-      {/* Main Center Content: Red Warning Sign & Smooth Transition */}
+      {/* Main Center Content: Red Warning Sign & 2-Language Loop */}
       <div className="alert-content-wrap">
         {/* Red Warning Sign */}
         <div className="alert-sign-container" aria-hidden="true">
@@ -136,31 +125,22 @@ export const Slide8Alert: React.FC<Slide8AlertProps> = ({
           </svg>
         </div>
 
-        {/* Message Container with Smooth Crossfade Transition */}
-        <div className="alert-message-viewport">
-          {/* Russian: РАКЕТНЫЙ УДАР */}
+        {/* Message Container looping between Russian & English every 1 second */}
+        <div className="alert-message-viewport" key={transIndex}>
           <h1
-            className={`alert-hero-title alert-text-russian ${
-              isEnglish ? 'fade-out' : 'fade-in'
-            }`}
+            className="alert-hero-title alert-text-loop"
+            style={{
+              animation: 'alertGlitchFlash 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
           >
-            РАКЕТНЫЙ УДАР
-          </h1>
-
-          {/* English: MISSILE ATTACK */}
-          <h1
-            className={`alert-hero-title alert-text-english ${
-              isEnglish ? 'fade-in' : 'fade-out'
-            }`}
-          >
-            MISSILE ATTACK
+            {currentAlert.text}
           </h1>
         </div>
 
         {/* Tactical Sub-indicator */}
-        <div className="alert-meta-pill" aria-hidden="true">
+        <div className="alert-meta-pill" aria-hidden="true" key={`sub-${transIndex}`}>
           <span className="alert-meta-tag">
-            {isEnglish ? 'CRITICAL SYSTEM WARNING' : 'ТРЕВОГА ВЫСШЕЙ КАТЕГОРИИ'}
+            {currentAlert.sub}
           </span>
         </div>
       </div>
@@ -176,15 +156,7 @@ export const Slide8Alert: React.FC<Slide8AlertProps> = ({
           aria-label="Advance"
           onClick={(e) => {
             e.stopPropagation();
-            if (!isEnglish) {
-              if (transitionTimerRef.current) {
-                window.clearTimeout(transitionTimerRef.current);
-                transitionTimerRef.current = null;
-              }
-              setIsEnglish(true);
-            } else {
-              onForward();
-            }
+            onForward();
           }}
         >
           <span className="kbd-key">Space</span>

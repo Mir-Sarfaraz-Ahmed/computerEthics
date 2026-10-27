@@ -3354,40 +3354,68 @@ body.theme-light .ethics-em-word {
   overflow: hidden;
 }
 
-.missiles-radar-rings {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 900px;
-  height: 900px;
-  border-radius: 50%;
-  border: 1px solid rgba(244, 63, 94, 0.12);
-  box-shadow: 
-    0 0 0 160px rgba(244, 63, 94, 0.05),
-    0 0 0 320px rgba(244, 63, 94, 0.03),
-    0 0 0 480px rgba(244, 63, 94, 0.02);
-}
-
 .missiles-radar-crosshair {
   position: absolute;
   inset: 0;
   background-image: 
-    linear-gradient(rgba(244, 63, 94, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(244, 63, 94, 0.08) 1px, transparent 1px);
-  background-size: 80px 80px;
+    linear-gradient(rgba(244, 63, 94, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244, 63, 94, 0.06) 1px, transparent 1px);
+  background-size: 72px 72px;
 }
+
+.missiles-radar-rings {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(880px, 88vw);
+  height: min(880px, 88vw);
+  border-radius: 50%;
+  border: 1px solid rgba(244, 63, 94, 0.18);
+  box-shadow: 
+    0 0 0 110px rgba(244, 63, 94, 0.04) inset,
+    0 0 0 220px rgba(244, 63, 94, 0.035) inset,
+    0 0 0 330px rgba(244, 63, 94, 0.025) inset;
+}
+
+.radar-range-tag {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: rgba(244, 63, 94, 0.45);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.radar-range-tag.r500 { left: calc(50% + 110px); }
+.radar-range-tag.r1000 { left: calc(50% + 220px); }
+.radar-range-tag.r1500 { left: calc(50% + 330px); }
+.radar-range-tag.r2000 { left: calc(50% + 420px); }
 
 .missiles-radar-sweep-beam {
   position: absolute;
-  top: 50%;
+  top: 52%;
   left: 50%;
-  width: 550px;
-  height: 550px;
-  transform-origin: top left;
-  background: conic-gradient(from 0deg, rgba(244, 63, 94, 0.15) 0deg, transparent 65deg);
+  width: min(880px, 88vw);
+  height: min(880px, 88vw);
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  background: conic-gradient(from 0deg, rgba(244, 63, 94, 0.16) 0deg, rgba(244, 63, 94, 0.05) 30deg, transparent 65deg);
   border-radius: 50%;
-  animation: radarSweepSpin 6.5s linear infinite;
+  animation: radarSweepSpin 7s linear infinite;
+}
+
+.missiles-ambient-glow {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 720px;
+  height: 420px;
+  background: radial-gradient(ellipse at center, rgba(225, 29, 72, 0.12) 0%, rgba(225, 29, 72, 0.03) 55%, transparent 75%);
+  pointer-events: none;
+  filter: blur(48px);
 }
 
 @keyframes radarSweepSpin {
@@ -3649,17 +3677,72 @@ body.theme-light .ethics-em-word {
 
 .target-hud-data {
   position: absolute;
-  top: -16px;
   left: 0;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.62rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   color: #fca5a5;
-  text-shadow: 0 0 6px rgba(244, 63, 94, 0.8);
+  text-shadow: 0 0 8px rgba(244, 63, 94, 0.85);
   white-space: nowrap;
+}
+
+.missile-radar-target-hud.hud-pos-above .target-hud-data {
+  top: -24px;
+}
+
+.missile-radar-target-hud.hud-pos-below .target-hud-data {
+  bottom: -24px;
+}
+
+.target-sep {
+  color: rgba(244, 63, 94, 0.6);
+}
+
+.target-alt {
+  color: #94a3b8;
+}
+
+.telemetry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 16px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  color: #fecdd3;
+  font-weight: 600;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.telemetry-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f43f5e;
+  box-shadow: 0 0 10px #f43f5e;
+  animation: hudDotPulse 0.9s ease-in-out infinite alternate;
+}
+
+.telemetry-lock-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.telemetry-chip.success {
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #a7f3d0;
 }
 
 .target-id {

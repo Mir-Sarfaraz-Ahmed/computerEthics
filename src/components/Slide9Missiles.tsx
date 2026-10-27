@@ -13,67 +13,74 @@ interface MissileData {
   label: string;
   mach: string;
   altitude: string;
-  dx: number; // Offset from chevron apex in px
+  dx: number;
   dy: number;
   scale: number;
   delay: string;
+  hudPos: 'above' | 'below';
 }
 
+// Aerodynamically balanced chevron with zero flame or HUD overlaps
 const MISSILE_FORMATION: MissileData[] = [
   // Wing Apex (Lead Missile - Tip of ">")
   {
     id: 'TRK-01',
-    label: 'LEAD ICBM · OKO-SAT 01',
+    label: 'LEAD ICBM · OKO-01',
     mach: 'MACH 24.2',
     altitude: '182 KM',
-    dx: 120,
+    dx: 140,
     dy: 0,
-    scale: 0.96,
+    scale: 0.94,
     delay: '0.1s',
+    hudPos: 'above',
   },
   // Upper Wing Inner
   {
     id: 'TRK-02',
-    label: 'VECTOR 02 · OKO-SAT 02',
+    label: 'VECTOR 02 · OKO-02',
     mach: 'MACH 24.1',
     altitude: '179 KM',
-    dx: -30,
-    dy: -55,
+    dx: -40,
+    dy: -92,
     scale: 0.86,
     delay: '0.2s',
+    hudPos: 'above',
   },
   // Upper Wing Outer
   {
     id: 'TRK-03',
-    label: 'VECTOR 03 · OKO-SAT 03',
+    label: 'VECTOR 03 · OKO-03',
     mach: 'MACH 24.3',
     altitude: '185 KM',
-    dx: -180,
-    dy: -110,
-    scale: 0.76,
+    dx: -220,
+    dy: -180,
+    scale: 0.78,
     delay: '0.3s',
+    hudPos: 'above',
   },
   // Lower Wing Inner
   {
     id: 'TRK-04',
-    label: 'VECTOR 04 · OKO-SAT 04',
+    label: 'VECTOR 04 · OKO-04',
     mach: 'MACH 24.0',
     altitude: '177 KM',
-    dx: -30,
-    dy: 55,
+    dx: -40,
+    dy: 92,
     scale: 0.86,
     delay: '0.25s',
+    hudPos: 'below',
   },
   // Lower Wing Outer
   {
     id: 'TRK-05',
-    label: 'VECTOR 05 · OKO-SAT 05',
+    label: 'VECTOR 05 · OKO-05',
     mach: 'MACH 24.2',
     altitude: '180 KM',
-    dx: -180,
-    dy: 110,
-    scale: 0.76,
+    dx: -220,
+    dy: 180,
+    scale: 0.78,
     delay: '0.35s',
+    hudPos: 'below',
   },
 ];
 
@@ -117,9 +124,15 @@ export const Slide9Missiles: React.FC<Slide9MissilesProps> = ({
     >
       {/* Tactical Radar Background Grid */}
       <div className="missiles-radar-backdrop" aria-hidden="true">
-        <div className="missiles-radar-rings" />
         <div className="missiles-radar-crosshair" />
+        <div className="missiles-radar-rings">
+          <span className="radar-range-tag r500">500 KM</span>
+          <span className="radar-range-tag r1000">1000 KM</span>
+          <span className="radar-range-tag r1500">1500 KM</span>
+          <span className="radar-range-tag r2000">2000 KM</span>
+        </div>
         <div className="missiles-radar-sweep-beam" />
+        <div className="missiles-ambient-glow" />
         <div className="missiles-ambient-vignette" />
       </div>
 
@@ -161,20 +174,29 @@ export const Slide9Missiles: React.FC<Slide9MissilesProps> = ({
         </div>
       </div>
 
-      {/* Hero Headline: "5 missiles were detected" */}
+      {/* Hero Headline & Telemetry Status */}
       <div className="missile-single-message-wrap">
         <div className="missile-detected-eyebrow">
           <span className="hud-pulse-dot" />
           <span>SERPUKHOV-15 SATELLITE TELEMETRY · OKO SYSTEM CONFIRMATION</span>
         </div>
+
         <h1 className="missile-detected-hero-title">
           <span className="missile-digit-highlight">5</span> MISSILES DETECTED
         </h1>
+
         <div className="missile-accent-glow-line" aria-hidden="true" />
+
         <div className="missile-telemetry-subbar">
-          <span className="telemetry-chip warning">STATUS: AIRBORNE</span>
+          <span className="telemetry-chip warning">
+            <span className="telemetry-live-dot" />
+            STATUS: AIRBORNE
+          </span>
           <span className="telemetry-chip">FORMATION: CHEVRON ( &gt; )</span>
-          <span className="telemetry-chip">RADAR LOCK: 5/5 TRACKS</span>
+          <span className="telemetry-chip success">
+            <span className="telemetry-lock-dot" />
+            RADAR LOCK: 5/5 TRACKS
+          </span>
         </div>
       </div>
 
@@ -194,18 +216,21 @@ export const Slide9Missiles: React.FC<Slide9MissilesProps> = ({
               }}
             >
               {/* Telemetry Bracket Box */}
-              <div className="missile-radar-target-hud">
+              <div className={`missile-radar-target-hud hud-pos-${missile.hudPos}`}>
                 <div className="target-hud-bracket top-left" />
                 <div className="target-hud-bracket top-right" />
                 <div className="target-hud-bracket bottom-left" />
                 <div className="target-hud-bracket bottom-right" />
                 <div className="target-hud-data">
                   <span className="target-id">{missile.id}</span>
+                  <span className="target-sep">·</span>
                   <span className="target-metrics">{missile.mach}</span>
+                  <span className="target-sep">·</span>
+                  <span className="target-alt">{missile.altitude}</span>
                 </div>
               </div>
 
-              {/* Vector SVG Missile Graphic Matching User Model */}
+              {/* Vector SVG Missile Graphic */}
               <img
                 src="/assets/missile.svg?v=301041"
                 alt={`ICBM Missile ${missile.id}`}

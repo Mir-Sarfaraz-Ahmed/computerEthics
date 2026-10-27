@@ -87,6 +87,7 @@ export const Slide3Cost: React.FC<Slide3CostProps> = ({
         <div className="cost-mood-lighting" aria-hidden="true">
           <div className="cost-blue-halo" />
           <div className="cost-red-halo" />
+          <div className="cost-free-spotlight" />
         </div>
         <div className="slide-vignette" aria-hidden="true" />
       </div>

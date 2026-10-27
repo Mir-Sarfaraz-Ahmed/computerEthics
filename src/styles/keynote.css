@@ -1585,7 +1585,7 @@ body.theme-light .btn-enter-presentation {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(0.98) contrast(1.04);
+  filter: brightness(1.1) contrast(1.1) saturate(1.08);
   will-change: transform;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
@@ -1594,6 +1594,37 @@ body.theme-light .btn-enter-presentation {
 .cost-slide .slide-floating-nav {
   background: transparent;
   pointer-events: auto;
+}
+
+.cost-free-spotlight {
+  position: absolute;
+  top: 5%;
+  left: 8%;
+  width: clamp(280px, 30vw, 480px);
+  height: clamp(200px, 22vw, 340px);
+  background: radial-gradient(circle at 45% 45%, rgba(125, 211, 252, 0.65) 0%, rgba(56, 189, 248, 0.35) 40%, transparent 75%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  filter: blur(28px);
+  z-index: 2;
+  animation: pulseFreeGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes pulseFreeGlow {
+  0% {
+    opacity: 0.75;
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.cost-slide .slide-vignette {
+  background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(7, 8, 11, 0.45) 100%);
+  mask-image: radial-gradient(circle at 18% 18%, transparent 22%, black 50%);
+  -webkit-mask-image: radial-gradient(circle at 18% 18%, transparent 22%, black 50%);
 }
 
 .cost-mood-lighting {

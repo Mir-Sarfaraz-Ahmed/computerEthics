@@ -12,7 +12,24 @@ interface Slide14ConclusionProps {
   onRestart: () => void;
 }
 
-const REFERENCES = [
+interface ReferenceItem {
+  name: string;
+  url: string;
+  type:
+    | 'youtube'
+    | 'gfg'
+    | 'google'
+    | 'researchgate'
+    | 'portfolio'
+    | 'github'
+    | 'antigravity'
+    | 'aistudio'
+    | 'claude'
+    | 'chatgpt'
+    | 'gemini';
+}
+
+const REFERENCES: ReferenceItem[] = [
   {
     name: 'YouTube Shorts — Case Archive',
     url: 'https://youtube.com/shorts/a4KF8Ei_gk8',
@@ -34,9 +51,49 @@ const REFERENCES = [
     type: 'youtube',
   },
   {
-    name: 'Review Paper on Computer Ethics and Related Research Models — ResearchGate',
+    name: 'Review Paper on Computer Ethics & Research Models',
     url: 'https://www.researchgate.net/publication/282604875_Review_Paper_on_Computer_Ethics_and_Related_Research_Models',
     type: 'researchgate',
+  },
+  {
+    name: 'mirsarfarazahmed.tech',
+    url: 'https://mirsarfarazahmed.tech',
+    type: 'portfolio',
+  },
+  {
+    name: 'Google',
+    url: 'https://google.com',
+    type: 'google',
+  },
+  {
+    name: 'GitHub',
+    url: 'https://github.com',
+    type: 'github',
+  },
+  {
+    name: 'Antigravity',
+    url: 'https://antigravity.google/',
+    type: 'antigravity',
+  },
+  {
+    name: 'Google AI Studio',
+    url: 'https://aistudio.google.com',
+    type: 'aistudio',
+  },
+  {
+    name: 'Claude',
+    url: 'https://claude.ai',
+    type: 'claude',
+  },
+  {
+    name: 'ChatGPT',
+    url: 'https://chatgpt.com',
+    type: 'chatgpt',
+  },
+  {
+    name: 'Gemini',
+    url: 'https://gemini.google.com',
+    type: 'gemini',
   },
 ];
 
@@ -221,21 +278,21 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '20px 24px',
+          padding: '16px 24px',
           zIndex: 10,
         }}
       >
         <div
           style={{
             width: '100%',
-            maxWidth: '700px',
-            background: 'rgba(15, 23, 42, 0.65)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            maxWidth: '920px',
+            background: 'rgba(15, 23, 42, 0.68)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '20px',
-            padding: '28px 32px',
+            padding: '24px 28px',
             backdropFilter: 'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(56, 189, 248, 0.08)',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(56, 189, 248, 0.08)',
           }}
         >
           {/* Block Header */}
@@ -244,7 +301,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingBottom: '18px',
+              paddingBottom: '14px',
               borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
               marginBottom: '16px',
             }}
@@ -270,22 +327,28 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                   fontFamily: 'var(--font-mono)',
                 }}
               >
-                References
+                References & Tools
               </h2>
             </div>
             <span
               style={{
-                fontSize: '0.75rem',
+                fontSize: '0.74rem',
                 fontFamily: 'var(--font-mono)',
-                color: 'rgba(255, 255, 255, 0.45)',
+                color: 'rgba(255, 255, 255, 0.5)',
               }}
             >
               {REFERENCES.length} Sources
             </span>
           </div>
 
-          {/* Line by Line Links */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          {/* Line by Line Links in 2-Column Responsive Grid */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+              gap: '8px 14px',
+            }}
+          >
             {REFERENCES.map((ref, idx) => (
               <a
                 key={idx}
@@ -296,8 +359,8 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '13px 18px',
-                  borderRadius: '12px',
+                  padding: '9px 14px',
+                  borderRadius: '10px',
                   background: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid rgba(255, 255, 255, 0.06)',
                   textDecoration: 'none',
@@ -308,7 +371,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(56, 189, 248, 0.08)';
                   e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.35)';
-                  e.currentTarget.style.transform = 'translateX(4px)';
+                  e.currentTarget.style.transform = 'translateX(3px)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
@@ -317,23 +380,23 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                 }}
               >
                 {/* Left: Logo & Name */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
                   {/* YouTube Logo */}
                   {ref.type === 'youtube' && (
                     <div
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
                         background: 'rgba(255, 0, 0, 0.12)',
-                        border: '1px solid rgba(255, 0, 0, 0.25)',
+                        border: '1px solid rgba(255, 0, 0, 0.3)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                       }}
                     >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF0000">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="#FF0000">
                         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                       </svg>
                     </div>
@@ -343,9 +406,9 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                   {ref.type === 'gfg' && (
                     <div
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
                         background: 'rgba(47, 141, 70, 0.15)',
                         border: '1px solid rgba(47, 141, 70, 0.35)',
                         display: 'flex',
@@ -358,7 +421,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                         style={{
                           color: '#2F8D46',
                           fontWeight: 900,
-                          fontSize: '0.72rem',
+                          fontSize: '0.68rem',
                           fontFamily: 'var(--font-mono)',
                           letterSpacing: '-0.02em',
                         }}
@@ -368,13 +431,13 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     </div>
                   )}
 
-                  {/* Google / Article Logo */}
+                  {/* Google Logo */}
                   {ref.type === 'google' && (
                     <div
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
                         background: 'rgba(66, 133, 244, 0.12)',
                         border: '1px solid rgba(66, 133, 244, 0.3)',
                         display: 'flex',
@@ -383,7 +446,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                         flexShrink: 0,
                       }}
                     >
-                      <svg width="18" height="18" viewBox="0 0 24 24">
+                      <svg width="15" height="15" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
@@ -396,9 +459,9 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                   {ref.type === 'researchgate' && (
                     <div
                       style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '8px',
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
                         background: 'rgba(0, 204, 187, 0.15)',
                         border: '1px solid rgba(0, 204, 187, 0.35)',
                         display: 'flex',
@@ -411,7 +474,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                         style={{
                           color: '#00CCBB',
                           fontWeight: 900,
-                          fontSize: '0.72rem',
+                          fontSize: '0.68rem',
                           fontFamily: 'var(--font-mono)',
                           letterSpacing: '-0.02em',
                         }}
@@ -421,10 +484,158 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     </div>
                   )}
 
+                  {/* Portfolio Logo (mirsarfarazahmed.tech) */}
+                  {ref.type === 'portfolio' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(56, 189, 248, 0.15)',
+                        border: '1px solid rgba(56, 189, 248, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* GitHub Logo */}
+                  {ref.type === 'github' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(255, 255, 255, 0.1)',
+                        border: '1px solid rgba(255, 255, 255, 0.25)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="#ffffff">
+                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Antigravity Logo */}
+                  {ref.type === 'antigravity' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(168, 85, 247, 0.15)',
+                        border: '1px solid rgba(168, 85, 247, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m18 15-6-6-6 6"/>
+                        <path d="m18 9-6-6-6 6"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Google AI Studio Logo */}
+                  {ref.type === 'aistudio' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(59, 130, 246, 0.15)',
+                        border: '1px solid rgba(59, 130, 246, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Claude Logo */}
+                  {ref.type === 'claude' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(217, 119, 6, 0.15)',
+                        border: '1px solid rgba(217, 119, 6, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <span style={{ color: '#fbbf24', fontWeight: 900, fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>✳</span>
+                    </div>
+                  )}
+
+                  {/* ChatGPT Logo */}
+                  {ref.type === 'chatgpt' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(16, 163, 127, 0.15)',
+                        border: '1px solid rgba(16, 163, 127, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M4.93 19.07 19.07 4.93"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Gemini Logo */}
+                  {ref.type === 'gemini' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'rgba(78, 117, 255, 0.15)',
+                        border: '1px solid rgba(182, 85, 255, 0.4)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="#93c5fd">
+                        <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z"/>
+                      </svg>
+                    </div>
+                  )}
+
                   {/* Name */}
                   <span
                     style={{
-                      fontSize: '0.9rem',
+                      fontSize: '0.86rem',
                       fontWeight: 600,
                       color: '#f1f5f9',
                       whiteSpace: 'nowrap',
@@ -437,10 +648,10 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                 </div>
 
                 {/* Right: External Link Arrow */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'rgba(255, 255, 255, 0.4)', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'rgba(255, 255, 255, 0.35)', flexShrink: 0 }}>
                   <svg
-                    width="14"
-                    height="14"
+                    width="13"
+                    height="13"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -460,7 +671,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
       </div>
 
       {/* Subtle bottom spacing */}
-      <div style={{ height: '32px' }} />
+      <div style={{ height: '24px' }} />
     </section>
   );
 };

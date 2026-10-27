@@ -33,6 +33,11 @@ const REFERENCES = [
     url: 'https://youtu.be/zUPA8kyo0Fo',
     type: 'youtube',
   },
+  {
+    name: 'Review Paper on Computer Ethics and Related Research Models — ResearchGate',
+    url: 'https://www.researchgate.net/publication/282604875_Review_Paper_on_Computer_Ethics_and_Related_Research_Models',
+    type: 'researchgate',
+  },
 ];
 
 export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
@@ -223,7 +228,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
         <div
           style={{
             width: '100%',
-            maxWidth: '680px',
+            maxWidth: '700px',
             background: 'rgba(15, 23, 42, 0.65)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '20px',
@@ -275,7 +280,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                 color: 'rgba(255, 255, 255, 0.45)',
               }}
             >
-              4 Sources
+              {REFERENCES.length} Sources
             </span>
           </div>
 
@@ -291,7 +296,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '14px 18px',
+                  padding: '13px 18px',
                   borderRadius: '12px',
                   background: 'rgba(255, 255, 255, 0.03)',
                   border: '1px solid rgba(255, 255, 255, 0.06)',
@@ -313,7 +318,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
               >
                 {/* Left: Logo & Name */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: 0 }}>
-                  {/* Logo */}
+                  {/* YouTube Logo */}
                   {ref.type === 'youtube' && (
                     <div
                       style={{
@@ -334,6 +339,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     </div>
                   )}
 
+                  {/* GeeksforGeeks Logo */}
                   {ref.type === 'gfg' && (
                     <div
                       style={{
@@ -362,6 +368,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     </div>
                   )}
 
+                  {/* Google / Article Logo */}
                   {ref.type === 'google' && (
                     <div
                       style={{
@@ -385,10 +392,39 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     </div>
                   )}
 
+                  {/* ResearchGate Logo */}
+                  {ref.type === 'researchgate' && (
+                    <div
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        background: 'rgba(0, 204, 187, 0.15)',
+                        border: '1px solid rgba(0, 204, 187, 0.35)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: '#00CCBB',
+                          fontWeight: 900,
+                          fontSize: '0.72rem',
+                          fontFamily: 'var(--font-mono)',
+                          letterSpacing: '-0.02em',
+                        }}
+                      >
+                        RG
+                      </span>
+                    </div>
+                  )}
+
                   {/* Name */}
                   <span
                     style={{
-                      fontSize: '0.92rem',
+                      fontSize: '0.9rem',
                       fontWeight: 600,
                       color: '#f1f5f9',
                       whiteSpace: 'nowrap',

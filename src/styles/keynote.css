@@ -5409,7 +5409,26 @@ body.theme-light .ethics-em-word {
 
 .conclusion-slide {
   background: #04060c;
-  overflow: hidden;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+.references-links-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.references-links-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+}
+
+.references-links-container::-webkit-scrollbar-thumb {
+  background: rgba(56, 189, 248, 0.4);
+  border-radius: 999px;
+}
+
+.references-links-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 189, 248, 0.7);
 }
 
 .conclusion-atmosphere {

@@ -191,7 +191,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
         minHeight: '100vh',
         width: '100%',
         padding: '0',
-        overflow: 'hidden',
+        overflowY: 'auto', overflowX: 'hidden',
         background: '#07080b',
       }}
     >
@@ -341,12 +341,16 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
             </span>
           </div>
 
-          {/* Line by Line Links in 2-Column Responsive Grid */}
+          {/* Line by Line Links in 2-Column Responsive Grid with Scroll Support */}
           <div
+            className="references-links-container"
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
-              gap: '8px 14px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '8px 12px',
+              maxHeight: 'calc(100vh - 220px)',
+              overflowY: 'auto',
+              paddingRight: '6px',
             }}
           >
             {REFERENCES.map((ref, idx) => (

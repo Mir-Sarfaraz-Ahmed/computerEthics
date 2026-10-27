@@ -4700,10 +4700,32 @@ body.theme-light .ethics-em-word {
   background-size: contain;
   background-position: center center;
   background-repeat: no-repeat;
-  filter: brightness(0.98) contrast(1.05);
+  filter: brightness(1.15) contrast(1.16) saturate(1.1);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   will-change: transform;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
+}
+
+.finale-artwork-slide .slide-vignette {
+  display: none !important;
+}
+
+.finale-artwork-slide .slide-floating-nav {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  pointer-events: auto;
+}
+
+.finale-mood-lighting {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0.35;
 }
 
 .finale-mood-lighting {

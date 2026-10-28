@@ -16,7 +16,7 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
   currentState,
   activeStateName = 's2shader',
   backButtonLabel = 'Slide 02',
-  chapterLabel = 'CHAPTER 02 / THE DIGITAL CONSCIENCE',
+  chapterLabel = 'THE DIGITAL CONSCIENCE',
   stepIndicator,
   onBack,
   onForward,

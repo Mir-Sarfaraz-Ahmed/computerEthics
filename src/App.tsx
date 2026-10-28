@@ -386,7 +386,7 @@ export const App: React.FC = () => {
         currentState={currentState}
         activeStateName="s3shader"
         backButtonLabel="The Human Cost"
-        chapterLabel="CHAPTER 03 / THE DIGITAL CONSCIENCE"
+        chapterLabel="THE DIGITAL CONSCIENCE"
         stepIndicator={
           <>
             <span className="step-dot" id="s3shader-dot-1" />
@@ -452,10 +452,12 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide: Shader Ghost / Digital Conscience (After Missiles, exactly same as slide 2) */}
+      {/* Slide: Shader Ghost / Digital Conscience (After Missiles) */}
       <SlideShaderGhost
         currentState={currentState}
         activeStateName="s9shader"
+        backButtonLabel="Missiles"
+        chapterLabel="THE DIGITAL CONSCIENCE"
         onBack={() => setCurrentState('s9missiles')}
         onForward={navigateForward}
       />

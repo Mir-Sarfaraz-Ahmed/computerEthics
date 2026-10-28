@@ -111,9 +111,15 @@ export const App: React.FC = () => {
       setCurrentState('s3shader');
       playSlideWhoosh();
     } else if (currentState === 's3shader') {
-      setCurrentState('s3questions');
+      setCurrentState('s3triad1');
       playSlideWhoosh();
-    } else if (currentState === 's3questions') {
+    } else if (currentState === 's3triad1' || currentState === 's3questions') {
+      setCurrentState('s3triad2');
+      playQuestionRevealChord();
+    } else if (currentState === 's3triad2') {
+      setCurrentState('s3triad3');
+      playQuestionRevealChord();
+    } else if (currentState === 's3triad3') {
       setCurrentState('s4title');
       playSlideWhoosh();
     } else if (currentState === 's4title') {
@@ -204,8 +210,12 @@ export const App: React.FC = () => {
     } else if (currentState === 's4def') {
       setCurrentState('s4title');
     } else if (currentState === 's4title') {
-      setCurrentState('s3questions');
-    } else if (currentState === 's3questions') {
+      setCurrentState('s3triad3');
+    } else if (currentState === 's3triad3') {
+      setCurrentState('s3triad2');
+    } else if (currentState === 's3triad2') {
+      setCurrentState('s3triad1');
+    } else if (currentState === 's3triad1' || currentState === 's3questions') {
       setCurrentState('s3shader');
     } else if (currentState === 's3shader') {
       setCurrentState('s3cost');
@@ -295,7 +305,7 @@ export const App: React.FC = () => {
         } else if (currentState === 's5choice') {
           setCurrentState('s4def');
         } else if (currentState === 's4def' || currentState === 's4title') {
-          setCurrentState('s3questions');
+          setCurrentState('s3triad3');
         } else if (currentState.startsWith('s3')) {
           setCurrentState('s2shader');
         } else if (currentState === 's2shader') {
@@ -389,17 +399,21 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide 3.6: Can I, Am I Allowed, Should I? (The Ethical Triad) */}
+      {/* Slide 3.6: Can I, Am I Allowed, Should I? (The Ethical Triad - 3 Steps) */}
       <Slide3Triad
         currentState={currentState}
-        onBack={() => setCurrentState('s3shader')}
+        onBack={() => {
+          if (currentState === 's3triad3') setCurrentState('s3triad2');
+          else if (currentState === 's3triad2') setCurrentState('s3triad1');
+          else setCurrentState('s3shader');
+        }}
         onForward={navigateForward}
       />
 
       {/* Slide 4: Definition */}
       <Slide4Definition
         currentState={currentState}
-        onBack={() => setCurrentState('s3questions')}
+        onBack={() => setCurrentState('s3triad3')}
         onForward={navigateForward}
       />
 

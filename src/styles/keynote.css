@@ -5796,32 +5796,181 @@ body.theme-light .ethics-em-word {
 .triad-slide {
   background: #08090e;
   overflow: hidden;
-}
-
-.triad-backdrop-wrap {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+.triad-stage-16-9 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 56.25vw; /* 16:9 */
+  max-height: 100vh;
+  max-width: 177.78vh; /* 16:9 */
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.85);
+  background: #05060a;
+  will-change: transform;
 }
 
-.triad-fullscreen-bg {
+.triad-panel {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  background-size: contain;
-  background-position: center center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.triad-panel-inner {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/can_allowed_should.jpg');
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  filter: brightness(1.06) contrast(1.08) saturate(1.06);
-  will-change: transform;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
+  background-position: center;
+  filter: brightness(1.08) contrast(1.08) saturate(1.06);
+}
+
+/* Panel 1: CAN ? */
+.triad-panel-can {
+  clip-path: polygon(0% 0%, 36.5% 0%, 33.2% 30%, 29.5% 60%, 26.5% 100%, 0% 100%);
+  z-index: 2;
+}
+
+.triad-panel-can.revealed {
+  opacity: 1;
+  pointer-events: auto;
+  animation: triadPanelRevealLeft 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Panel 2: AM I ALLOWED ? */
+.triad-panel-allowed {
+  clip-path: polygon(34.5% 0%, 68.8% 0%, 66% 30%, 63% 60%, 60% 100%, 25% 100%, 28% 60%, 31.5% 30%);
+  z-index: 3;
+}
+
+.triad-panel-allowed.revealed {
+  opacity: 1;
+  pointer-events: auto;
+  animation: triadPanelRevealCenter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Panel 3: SHOULD ? */
+.triad-panel-should {
+  clip-path: polygon(67% 0%, 100% 0%, 100% 100%, 58.5% 100%, 61.5% 60%, 64.5% 30%);
+  z-index: 4;
+}
+
+.triad-panel-should.revealed {
+  opacity: 1;
+  pointer-events: auto;
+  animation: triadPanelRevealRight 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes triadPanelRevealLeft {
+  0% {
+    opacity: 0;
+    transform: scale(1.03) translateY(8px);
+    filter: brightness(1.3) contrast(1.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1.08) contrast(1.08);
+  }
+}
+
+@keyframes triadPanelRevealCenter {
+  0% {
+    opacity: 0;
+    transform: scale(1.03) translateY(8px);
+    filter: brightness(1.4) contrast(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1.08) contrast(1.08);
+  }
+}
+
+@keyframes triadPanelRevealRight {
+  0% {
+    opacity: 0;
+    transform: scale(1.03) translateY(8px);
+    filter: brightness(1.5) contrast(1.25);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: brightness(1.08) contrast(1.08);
+  }
+}
+
+/* Category Pill Badges */
+.triad-panel-tag {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.triad-panel-can .triad-panel-tag {
+  left: 0;
+  width: 32%;
+}
+
+.triad-panel-allowed .triad-panel-tag {
+  left: 34%;
+  width: 32%;
+}
+
+.triad-panel-should .triad-panel-tag {
+  left: 68%;
+  width: 32%;
+}
+
+.triad-tag-pill {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(10, 13, 20, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 5px 16px;
+  border-radius: 999px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+}
+
+.triad-panel-can .triad-tag-pill {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.12);
+}
+
+.triad-panel-allowed .triad-tag-pill {
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #7dd3fc;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.25);
+}
+
+.triad-panel-should .triad-tag-pill {
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
 }
 
 .triad-slide .slide-floating-nav {
@@ -5829,12 +5978,22 @@ body.theme-light .ethics-em-word {
   pointer-events: auto;
 }
 
+.hint-label-detail {
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+  margin-left: 8px;
+}
+
+/* Halos */
 .triad-mood-lighting {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 2;
+  z-index: 5;
   overflow: hidden;
+  transition: opacity 0.5s ease;
 }
 
 .triad-left-halo {
@@ -5843,7 +6002,7 @@ body.theme-light .ethics-em-word {
   left: -8%;
   width: 45vw;
   height: 70vh;
-  background: radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
+  background: radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.09) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
   animation: pulseTriadLeft 6s ease-in-out infinite alternate;
 }
 
@@ -5853,7 +6012,7 @@ body.theme-light .ethics-em-word {
   left: 30%;
   width: 40vw;
   height: 70vh;
-  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.09) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 75%);
+  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.12) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 75%);
   animation: pulseTriadCenter 7s ease-in-out infinite alternate;
 }
 
@@ -5863,8 +6022,17 @@ body.theme-light .ethics-em-word {
   right: -8%;
   width: 45vw;
   height: 70vh;
-  background: radial-gradient(circle at 60% 50%, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.04) 50%, transparent 70%);
+  background: radial-gradient(circle at 60% 50%, rgba(239, 68, 68, 0.14) 0%, rgba(220, 38, 38, 0.05) 50%, transparent 70%);
   animation: pulseTriadRight 6.5s ease-in-out infinite alternate;
+}
+
+.triad-mood-lighting.step-1 .triad-center-halo,
+.triad-mood-lighting.step-1 .triad-right-halo {
+  opacity: 0;
+}
+
+.triad-mood-lighting.step-2 .triad-right-halo {
+  opacity: 0;
 }
 
 @keyframes pulseTriadLeft {

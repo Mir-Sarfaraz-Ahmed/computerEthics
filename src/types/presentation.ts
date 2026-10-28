@@ -31,6 +31,7 @@ export type PresentationState =
   | 's12meta'
   | 's12ghost'
   | 's13video'
+  | 's14power'
   | 's14conclusion';
 
 export type ThemeMode = 'dark' | 'light';

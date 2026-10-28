@@ -4,6 +4,7 @@ import {
   playAppleChime,
   playSlideWhoosh,
   playQuestionRevealChord,
+  playHeroRevealChord,
   playChimePositive,
   playChimeWarning,
   resumeAudio,
@@ -29,6 +30,7 @@ import { Slide10Petrov } from './components/Slide10Petrov';
 import { Slide11Story } from './components/Slide11Story';
 import { Slide12Meta } from './components/Slide12Meta';
 import { Slide13Video } from './components/Slide13Video';
+import { SlidePowerQuestion } from './components/SlidePowerQuestion';
 import { Slide14Conclusion } from './components/Slide14Conclusion';
 
 export const App: React.FC = () => {
@@ -160,6 +162,9 @@ export const App: React.FC = () => {
           document.exitFullscreen().catch(() => {});
         }
       }
+      setCurrentState('s14power');
+      playHeroRevealChord();
+    } else if (currentState === 's14power') {
       setCurrentState('s14conclusion');
       playSlideWhoosh();
     } else if (currentState === 's14conclusion') {
@@ -178,6 +183,9 @@ export const App: React.FC = () => {
     }
 
     if (currentState === 's14conclusion') {
+      setCurrentState('s14power');
+      playSlideWhoosh();
+    } else if (currentState === 's14power') {
       setCurrentState('s13video');
       playSlideWhoosh();
     } else if (currentState === 's13video') {
@@ -280,6 +288,8 @@ export const App: React.FC = () => {
         e.preventDefault();
         e.stopPropagation();
         if (currentState === 's14conclusion') {
+          setCurrentState('s14power');
+        } else if (currentState === 's14power') {
           setCurrentState('s13video');
         } else if (currentState === 's13video') {
           if (isVideoFullscreen) {
@@ -493,11 +503,21 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
-      {/* Slide 15: Grand Finale / Conclusion & Moral Horizon */}
-      <Slide14Conclusion
+      {/* Slide 14: The Final Question / Power You Build */}
+      <SlidePowerQuestion
         currentState={currentState}
         onBack={() => {
           setCurrentState('s13video');
+          playSlideWhoosh();
+        }}
+        onForward={navigateForward}
+      />
+
+      {/* Slide 15: Grand Finale / Conclusion & References */}
+      <Slide14Conclusion
+        currentState={currentState}
+        onBack={() => {
+          setCurrentState('s14power');
           playSlideWhoosh();
         }}
         onRestart={() => {

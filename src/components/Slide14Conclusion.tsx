@@ -213,7 +213,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
         <button
           className="slide-nav-back"
           id="btn-conclusion-back"
-          title="Back to Video Screening (Slide 13)"
+          title="Back to The Final Question"
           onClick={(e) => {
             e.stopPropagation();
             onBack();
@@ -231,7 +231,7 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
           >
             <path d="m15 18-6-6 6-6" />
           </svg>
-          <span>Video Case Study</span>
+          <span>The Final Question</span>
         </button>
 
         <div className="slide-chapter-tag" id="conclusion-chapter-tag">

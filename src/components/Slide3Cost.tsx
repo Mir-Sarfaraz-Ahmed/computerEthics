@@ -132,6 +132,7 @@ export const Slide3Cost: React.FC<Slide3CostProps> = ({
         <div className="slide-step-indicator" id="cost-step-indicator">
           <span className="step-dot" id="cost-dot-1" />
           <span className="step-dot active" id="cost-dot-2" />
+          <span className="step-dot" id="cost-dot-3" />
         </div>
       </div>
 

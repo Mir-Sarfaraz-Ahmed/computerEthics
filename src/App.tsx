@@ -18,6 +18,7 @@ import { Slide2Dilemma } from './components/Slide2Dilemma';
 import { SlideShaderGhost } from './components/SlideShaderGhost';
 import { Slide3Paths } from './components/Slide3Paths';
 import { Slide3Cost } from './components/Slide3Cost';
+import { Slide3Triad } from './components/Slide3Triad';
 import { Slide4Definition } from './components/Slide4Definition';
 import { SlideChoice } from './components/SlideChoice';
 import { Slide6Date } from './components/Slide6Date';
@@ -107,6 +108,9 @@ export const App: React.FC = () => {
       setCurrentState('s3cost');
       playSlideWhoosh();
     } else if (currentState === 's3cost') {
+      setCurrentState('s3questions');
+      playSlideWhoosh();
+    } else if (currentState === 's3questions') {
       setCurrentState('s4title');
       playSlideWhoosh();
     } else if (currentState === 's4title') {
@@ -197,6 +201,8 @@ export const App: React.FC = () => {
     } else if (currentState === 's4def') {
       setCurrentState('s4title');
     } else if (currentState === 's4title') {
+      setCurrentState('s3questions');
+    } else if (currentState === 's3questions') {
       setCurrentState('s3cost');
     } else if (currentState === 's3cost') {
       setCurrentState('s3intro');
@@ -284,7 +290,7 @@ export const App: React.FC = () => {
         } else if (currentState === 's5choice') {
           setCurrentState('s4def');
         } else if (currentState === 's4def' || currentState === 's4title') {
-          setCurrentState('s3intro');
+          setCurrentState('s3questions');
         } else if (currentState.startsWith('s3')) {
           setCurrentState('s2shader');
         } else if (currentState === 's2shader') {
@@ -360,10 +366,17 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
+      {/* Slide 3.6: Can I, Am I Allowed, Should I? (The Ethical Triad) */}
+      <Slide3Triad
+        currentState={currentState}
+        onBack={() => setCurrentState('s3cost')}
+        onForward={navigateForward}
+      />
+
       {/* Slide 4: Definition */}
       <Slide4Definition
         currentState={currentState}
-        onBack={() => setCurrentState('s3cost')}
+        onBack={() => setCurrentState('s3questions')}
         onForward={navigateForward}
       />
 

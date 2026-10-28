@@ -5788,3 +5788,100 @@ body.theme-light .ethics-em-word {
 
 
 @keyframes alertGlitchFlash { 0% { opacity: 0.2; transform: scale(0.96); filter: blur(8px); } 50% { opacity: 1; filter: blur(2px) drop-shadow(0 0 50px rgba(239, 68, 68, 1)); } 100% { opacity: 1; transform: scale(1); filter: blur(0px); } }
+
+/* ============================================================ */
+/* SLIDE 3.6: CAN I, AM I ALLOWED, SHOULD I? (THE ETHICAL TRIAD) */
+/* ============================================================ */
+
+.triad-slide {
+  background: #08090e;
+  overflow: hidden;
+}
+
+.triad-backdrop-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.triad-fullscreen-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  filter: brightness(1.06) contrast(1.08) saturate(1.06);
+  will-change: transform;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.triad-slide .slide-floating-nav {
+  background: transparent;
+  pointer-events: auto;
+}
+
+.triad-mood-lighting {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.triad-left-halo {
+  position: absolute;
+  top: 15%;
+  left: -8%;
+  width: 45vw;
+  height: 70vh;
+  background: radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.08) 0%, rgba(56, 189, 248, 0.06) 40%, transparent 70%);
+  animation: pulseTriadLeft 6s ease-in-out infinite alternate;
+}
+
+.triad-center-halo {
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  width: 40vw;
+  height: 70vh;
+  background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.09) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 75%);
+  animation: pulseTriadCenter 7s ease-in-out infinite alternate;
+}
+
+.triad-right-halo {
+  position: absolute;
+  top: 15%;
+  right: -8%;
+  width: 45vw;
+  height: 70vh;
+  background: radial-gradient(circle at 60% 50%, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.04) 50%, transparent 70%);
+  animation: pulseTriadRight 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseTriadLeft {
+  0% { transform: scale(0.96) translate3d(0, 0, 0); opacity: 0.7; }
+  100% { transform: scale(1.04) translate3d(10px, 8px, 0); opacity: 1; }
+}
+
+@keyframes pulseTriadCenter {
+  0% { transform: scale(0.97) translateY(0); opacity: 0.65; }
+  100% { transform: scale(1.03) translateY(-10px); opacity: 0.95; }
+}
+
+@keyframes pulseTriadRight {
+  0% { transform: scale(0.96) translate3d(0, 0, 0); opacity: 0.7; }
+  100% { transform: scale(1.04) translate3d(-10px, 8px, 0); opacity: 1; }
+}
+
+body.theme-light .triad-slide {
+  background: #0b0f17;
+}

@@ -10,6 +10,7 @@ export type PresentationState =
   | 's2plane'
   | 's3intro'
   | 's3cost'
+  | 's3questions'
   | 's3plane'
   | 's4title'
   | 's4def'

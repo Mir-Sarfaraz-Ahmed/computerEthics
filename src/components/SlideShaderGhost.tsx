@@ -7,6 +7,7 @@ interface SlideShaderGhostProps {
   activeStateName?: PresentationState;
   backButtonLabel?: string;
   chapterLabel?: string;
+  stepIndicator?: React.ReactNode;
   onBack: () => void;
   onForward: () => void;
 }
@@ -16,6 +17,7 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
   activeStateName = 's2shader',
   backButtonLabel = 'Slide 02',
   chapterLabel = 'CHAPTER 02 / THE DIGITAL CONSCIENCE',
+  stepIndicator,
   onBack,
   onForward,
 }) => {
@@ -75,8 +77,10 @@ export const SlideShaderGhost: React.FC<SlideShaderGhostProps> = ({
           <span>{chapterLabel}</span>
         </div>
 
-        <div className="slide-step-indicator" id={activeStateName === 's9shader' ? 'shader-step-indicator-missiles' : 'shader-step-indicator'}>
-          <span className="step-dot active" id={activeStateName === 's9shader' ? 'shader-dot-missiles' : 'shader-dot-1'}></span>
+        <div className="slide-step-indicator" id={activeStateName === 's9shader' ? 'shader-step-indicator-missiles' : activeStateName === 's3shader' ? 'shader-step-indicator-cost' : 'shader-step-indicator'}>
+          {stepIndicator || (
+            <span className="step-dot active" id={activeStateName === 's9shader' ? 'shader-dot-missiles' : 'shader-dot-1'}></span>
+          )}
         </div>
       </div>
 

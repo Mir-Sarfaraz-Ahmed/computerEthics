@@ -108,6 +108,9 @@ export const App: React.FC = () => {
       setCurrentState('s3cost');
       playSlideWhoosh();
     } else if (currentState === 's3cost') {
+      setCurrentState('s3shader');
+      playSlideWhoosh();
+    } else if (currentState === 's3shader') {
       setCurrentState('s3questions');
       playSlideWhoosh();
     } else if (currentState === 's3questions') {
@@ -203,6 +206,8 @@ export const App: React.FC = () => {
     } else if (currentState === 's4title') {
       setCurrentState('s3questions');
     } else if (currentState === 's3questions') {
+      setCurrentState('s3shader');
+    } else if (currentState === 's3shader') {
       setCurrentState('s3cost');
     } else if (currentState === 's3cost') {
       setCurrentState('s3intro');
@@ -366,10 +371,28 @@ export const App: React.FC = () => {
         onForward={navigateForward}
       />
 
+      {/* Slide 3.5b: Shader Ghost / Digital Conscience */}
+      <SlideShaderGhost
+        currentState={currentState}
+        activeStateName="s3shader"
+        backButtonLabel="The Human Cost"
+        chapterLabel="CHAPTER 03 / THE DIGITAL CONSCIENCE"
+        stepIndicator={
+          <>
+            <span className="step-dot" id="s3shader-dot-1" />
+            <span className="step-dot" id="s3shader-dot-2" />
+            <span className="step-dot active" id="s3shader-dot-3" />
+            <span className="step-dot" id="s3shader-dot-4" />
+          </>
+        }
+        onBack={() => setCurrentState('s3cost')}
+        onForward={navigateForward}
+      />
+
       {/* Slide 3.6: Can I, Am I Allowed, Should I? (The Ethical Triad) */}
       <Slide3Triad
         currentState={currentState}
-        onBack={() => setCurrentState('s3cost')}
+        onBack={() => setCurrentState('s3shader')}
         onForward={navigateForward}
       />
 

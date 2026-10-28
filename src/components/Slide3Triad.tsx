@@ -99,7 +99,7 @@ export const Slide3Triad: React.FC<Slide3TriadProps> = ({
         <button
           className="slide-nav-back"
           id="btn-triad-back"
-          title="Back to The Human Cost (Slide 3)"
+          title="Back to Digital Conscience"
           onClick={(e) => {
             e.stopPropagation();
             onBack();
@@ -117,7 +117,7 @@ export const Slide3Triad: React.FC<Slide3TriadProps> = ({
           >
             <path d="m15 18-6-6 6-6" />
           </svg>
-          <span>The Human Cost</span>
+          <span>Digital Conscience</span>
         </button>
 
         <div className="slide-chapter-tag" id="triad-chapter-tag">
@@ -134,7 +134,8 @@ export const Slide3Triad: React.FC<Slide3TriadProps> = ({
         <div className="slide-step-indicator" id="triad-step-indicator">
           <span className="step-dot" id="triad-dot-1" />
           <span className="step-dot" id="triad-dot-2" />
-          <span className="step-dot active" id="triad-dot-3" />
+          <span className="step-dot" id="triad-dot-3" />
+          <span className="step-dot active" id="triad-dot-4" />
         </div>
       </div>
 
@@ -158,3 +159,4 @@ export const Slide3Triad: React.FC<Slide3TriadProps> = ({
     </section>
   );
 };
+

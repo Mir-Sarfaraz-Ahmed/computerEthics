@@ -6070,6 +6070,19 @@ body.theme-light .triad-slide {
   justify-content: center;
 }
 
+.power-slide .slide-floating-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: 24px 32px;
+  pointer-events: auto;
+}
+
 .power-atmosphere {
   position: absolute;
   inset: 0;

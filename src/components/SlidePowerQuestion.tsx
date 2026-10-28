@@ -207,7 +207,7 @@ export const SlidePowerQuestion: React.FC<SlidePowerQuestionProps> = ({
 
         <div className="power-sub-badge">
           <span className="power-badge-dot" />
-          <span>CODE CARRIES CONSEQUENCES • THE CHOICE IS ALWAYS YOURS</span>
+          <span>WITH GREAT POWER COMES GREAT RESPONSIBILITIES</span>
         </div>
       </div>
 

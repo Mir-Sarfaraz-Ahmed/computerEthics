@@ -6180,12 +6180,19 @@ body.theme-light .triad-slide {
   flex-wrap: wrap;
 }
 
-.power-gradient-word {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ef4444 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.power-word-power,
+.power-word-build {
+  display: inline-block;
   font-weight: 900;
   letter-spacing: -0.01em;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.power-word-power {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #ef4444 100%);
   filter: drop-shadow(0 0 35px rgba(245, 158, 11, 0.55));
 }
 

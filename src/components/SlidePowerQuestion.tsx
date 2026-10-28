@@ -199,9 +199,9 @@ export const SlidePowerQuestion: React.FC<SlidePowerQuestionProps> = ({
         <h1 className="power-main-heading">
           <span className="power-text-white">What will you do with the</span>
           <span className="power-text-emphasis">
-            <span className="power-gradient-word">POWER</span>
+            <span className="power-word-power">POWER</span>
             <span className="power-text-dim">you</span>
-            <span className="power-gradient-word power-word-build">BUILD?</span>
+            <span className="power-word-build">BUILD?</span>
           </span>
         </h1>
 
@@ -233,3 +233,4 @@ export const SlidePowerQuestion: React.FC<SlidePowerQuestionProps> = ({
   );
 };
 export default SlidePowerQuestion;
+

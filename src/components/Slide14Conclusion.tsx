@@ -26,7 +26,8 @@ interface ReferenceItem {
     | 'aistudio'
     | 'claude'
     | 'chatgpt'
-    | 'gemini';
+    | 'gemini'
+    | 'davinci';
 }
 
 const REFERENCES: ReferenceItem[] = [
@@ -94,6 +95,11 @@ const REFERENCES: ReferenceItem[] = [
     name: 'Gemini',
     url: 'https://gemini.google.com',
     type: 'gemini',
+  },
+  {
+    name: 'DaVinci Resolve',
+    url: 'https://www.blackmagicdesign.com/products/davinciresolve',
+    type: 'davinci',
   },
 ];
 
@@ -632,6 +638,56 @@ export const Slide14Conclusion: React.FC<Slide14ConclusionProps> = ({
                     >
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="#93c5fd">
                         <path d="M12 0C12 6.627 6.627 12 0 12c6.627 0 12 5.373 12 12 0-6.627 5.373-12 12-12-6.627 0-12-5.373-12-12z"/>
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* DaVinci Resolve Logo */}
+                  {ref.type === 'davinci' && (
+                    <div
+                      style={{
+                        width: '28px',
+                        height: '28px',
+                        borderRadius: '7px',
+                        background: 'radial-gradient(circle at center, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95))',
+                        border: '1px solid rgba(255, 255, 255, 0.22)',
+                        boxShadow: '0 0 10px rgba(56, 189, 248, 0.25), 0 0 15px rgba(239, 68, 68, 0.2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <svg width="18" height="18" viewBox="0 0 32 32">
+                        <defs>
+                          <linearGradient id="dvBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#38bdf8" />
+                            <stop offset="100%" stopColor="#2563eb" />
+                          </linearGradient>
+                          <linearGradient id="dvYellow" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#facc15" />
+                            <stop offset="100%" stopColor="#84cc16" />
+                          </linearGradient>
+                          <linearGradient id="dvRed" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#f43f5e" />
+                            <stop offset="100%" stopColor="#e11d48" />
+                          </linearGradient>
+                        </defs>
+                        {/* Top Blue Petal */}
+                        <path
+                          d="M16 4 C13.5 4 12 6.5 13 9.5 C13.8 11.8 16 15 16 15 C16 15 18.2 11.8 19 9.5 C20 6.5 18.5 4 16 4 Z"
+                          fill="url(#dvBlue)"
+                        />
+                        {/* Bottom-left Lime/Yellow Petal */}
+                        <path
+                          d="M6 21.5 C4.8 19.3 6 16.5 9 16 C11.5 15.6 15 16 15 16 C15 16 13 18.8 11.8 20.8 C10.2 23.3 7.3 23.8 6 21.5 Z"
+                          fill="url(#dvYellow)"
+                        />
+                        {/* Bottom-right Coral/Red Petal */}
+                        <path
+                          d="M26 21.5 C24.7 23.8 21.8 23.3 20.2 20.8 C19 18.8 17 16 17 16 C17 16 20.5 15.6 23 16 C26 16.5 27.2 19.3 26 21.5 Z"
+                          fill="url(#dvRed)"
+                        />
                       </svg>
                     </div>
                   )}
